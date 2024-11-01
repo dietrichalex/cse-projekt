@@ -1,6 +1,7 @@
 #custom excludes
 .idea/**
-data/**
+data/*.csv
+data/*.xlsx
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
