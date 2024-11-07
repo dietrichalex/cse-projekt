@@ -1,0 +1,4 @@
+#!/bin/bash
+cd ../../ | tr -d '\r'
+exec powershell.exe -ExecutionPolicy RemoteSigned -File 'config\pre-commit.ps1'
+exit
