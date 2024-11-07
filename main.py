@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def get_data():
     data = pd.read_csv('data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
