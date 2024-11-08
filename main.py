@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 
 def get_data():
@@ -17,25 +18,63 @@ def filter_data(data):
     return data
 
 def plot_player_occurrence_percentage(data):
+    print("Unique Players = ", data['PlayerId'].nunique())
     count = data['PlayerId'].value_counts()
-    count.plot(kind='line', marker='o')
-    plt.xlabel('Amount of Data in Percentage')
-    plt.ylabel('Occurrences of Players')
-    plt.title('Occurrences of Players vs Percentage')
-    xticks = range(0, len(count), max(1, len(count) // 10))
-    xtick_labels = [f"{(i / len(count)) * 100:.0f}%" for i in xticks]
+    count_df = count.reset_index(drop=True)  # Resets index to integers
+
+    # Calculate the cumulative sum of occurrences and convert to percentages
+    cumulative_occurrences = count_df.cumsum()
+    total_occurrences = cumulative_occurrences.iloc[-1]  # Total occurrences at the end of the cumulative sum
+    cumulative_percentages = cumulative_occurrences / total_occurrences * 100  # Convert to percentages
+
+    # Identify indices closest to each 10% increment
+    percent_steps = np.arange(10, 101, 10)  # Array of target percentages: 10%, 20%, ..., 100%
+    xticks = [np.abs(cumulative_percentages - step).idxmin() for step in percent_steps]  # Indices nearest to each 10%
+    xtick_labels = [f"{int(cumulative_percentages.iloc[i])}%" for i in xticks]  # Format as percentage labels
+
+    plt.figure(figsize=(24, 8))
+
+    # Plot the data using integer indices for the x-axis
+    plt.plot(count_df.index, count_df.values, marker='o')
+
+    # Set labels and title
+    plt.xlabel('Cumulative Percentage of Occurrences')
+    plt.ylabel('Occurrences')
+    plt.title('Players')
+
+    # Apply custom ticks and labels on the x-axis
     plt.xticks(xticks, labels=xtick_labels)
+
+    # Display grid and show plot
     plt.grid(True)
     plt.show()
 
 def plot_scout_occurrence_percentage(data):
+    print("Unique Scouts = ", data['ScoutId'].nunique())
     count = data['ScoutId'].value_counts()
-    count.plot(kind='line', marker='o')
-    plt.xlabel('Amount of Data in Percentage')
-    plt.ylabel('Occurrences of Scouts')
-    plt.title('Occurrences of Scouts vs Percentage')
-    xticks = range(0, len(count), max(1, len(count) // 10))
-    xtick_labels = [f"{(i / len(count)) * 100:.0f}%" for i in xticks]
+    count_df = count.reset_index(drop=True)  # Resets index to integers
+
+    # Calculate the cumulative sum of occurrences and convert to percentages
+    cumulative_occurrences = count_df.cumsum()
+    total_occurrences = cumulative_occurrences.iloc[-1]  # Total occurrences at the end of the cumulative sum
+    cumulative_percentages = cumulative_occurrences / total_occurrences * 100  # Convert to percentages
+
+    # Identify indices closest to each 10% increment
+    percent_steps = np.arange(10, 101, 10)  # Array of target percentages: 10%, 20%, ..., 100%
+    xticks = [np.abs(cumulative_percentages - step).idxmin() for step in percent_steps]  # Indices nearest to each 10%
+    xtick_labels = [f"{int(cumulative_percentages.iloc[i])}%" for i in xticks]  # Format as percentage labels
+
+    plt.figure(figsize=(24, 8))
+
+    # Plot the data using integer indices for the x-axis
+    plt.plot(count_df.index, count_df.values, marker='o')
+
+    # Set labels and title
+    plt.xlabel('Cumulative Percentage of Occurrences')
+    plt.ylabel('Occurrences')
+    plt.title('Scouts')
+
+    # Apply custom ticks and labels on the x-axis
     plt.xticks(xticks, labels=xtick_labels)
     plt.grid(True)
     plt.show()
