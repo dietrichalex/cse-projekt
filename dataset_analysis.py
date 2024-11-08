@@ -90,7 +90,7 @@ def plot_scout_occurrence_percentage(data):
     plt.show()
 
 def plot_rating_occurrence_bar(data):
-    count = data['Rating'].value_counts()
+    count = data['Rating'].value_counts().sort_index()
     plt.figure(figsize=(10, 8),dpi=300)
     ax = count.plot(kind='bar')
 
@@ -162,7 +162,7 @@ def plot_length_of_rating_text_occurrence_bar(data):
     # Add labels and title
     plt.xlabel('Word Count')
     plt.ylabel('Occurrences')
-    plt.title('Occurrences in Different Word Count Ranges')
+    plt.title('Occurrences in Different Word Count Ranges (whitespace split)')
     plt.xticks(rotation=45)
 
     # Add annotations for average, min, and max word count
