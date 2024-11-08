@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 
 def get_data():
@@ -21,8 +20,20 @@ def plot_player_occurrence_percentage(data):
     count = data['PlayerId'].value_counts()
     count.plot(kind='line', marker='o')
     plt.xlabel('Amount of Data in Percentage')
-    plt.ylabel('Occurrences')
-    plt.title('Occurrences per Percentage')
+    plt.ylabel('Occurrences of Players')
+    plt.title('Occurrences of Players vs Percentage')
+    xticks = range(0, len(count), max(1, len(count) // 10))
+    xtick_labels = [f"{(i / len(count)) * 100:.0f}%" for i in xticks]
+    plt.xticks(xticks, labels=xtick_labels)
+    plt.grid(True)
+    plt.show()
+
+def plot_scout_occurrence_percentage(data):
+    count = data['ScoutId'].value_counts()
+    count.plot(kind='line', marker='o')
+    plt.xlabel('Amount of Data in Percentage')
+    plt.ylabel('Occurrences of Scouts')
+    plt.title('Occurrences of Scouts vs Percentage')
     xticks = range(0, len(count), max(1, len(count) // 10))
     xtick_labels = [f"{(i / len(count)) * 100:.0f}%" for i in xticks]
     plt.xticks(xticks, labels=xtick_labels)
@@ -32,7 +43,7 @@ def plot_player_occurrence_percentage(data):
 def main():
     data = get_data()
     plot_player_occurrence_percentage(data)
-    data = filter_data(data)
+    plot_scout_occurrence_percentage(data)
 
 
 if __name__ == '__main__':
