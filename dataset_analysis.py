@@ -19,7 +19,7 @@ def filter_data(data):
 
 def plot_player_occurrence_percentage(data):
     unique_players = data['PlayerId'].nunique()
-    count = data['PlayerId'].value_counts()
+    count = data['PlayerId'].fillna("Empty").value_counts()
     count_df = count.reset_index(drop=True)  # Resets index to integers
 
     # Calculate the cumulative sum of occurrences and convert to percentages
@@ -56,7 +56,7 @@ def plot_player_occurrence_percentage(data):
 
 def plot_scout_occurrence_percentage(data):
     unique_scouts  = data['ScoutId'].nunique()
-    count = data['ScoutId'].value_counts()
+    count = data['ScoutId'].fillna("Empty").value_counts()
     count_df = count.reset_index(drop=True)  # Resets index to integers
 
     # Calculate the cumulative sum of occurrences and convert to percentages
@@ -90,7 +90,7 @@ def plot_scout_occurrence_percentage(data):
     plt.show()
 
 def plot_rating_occurrence_bar(data):
-    count = data['Rating'].value_counts().sort_index()
+    count = data['Rating'].fillna(0).value_counts().sort_index()
     plt.figure(figsize=(10, 8),dpi=300)
     ax = count.plot(kind='bar')
 
@@ -104,7 +104,7 @@ def plot_rating_occurrence_bar(data):
     plt.show()
 
 def plot_position_occurrence_bar(data):
-    count = data['Position'].value_counts()
+    count = data['Position'].fillna("Empty").value_counts()
     plt.figure(figsize=(10, 8),dpi=300)
     ax = count.plot(kind='bar')
 
@@ -118,7 +118,7 @@ def plot_position_occurrence_bar(data):
     plt.show()
 
 def plot_exact_position_occurrence_bar(data):
-    count = data['ExactPosition'].value_counts()
+    count = data['ExactPosition'].fillna("Empty").value_counts()
     plt.figure(figsize=(24, 8),dpi=300)
     ax = count.plot(kind='bar')
 

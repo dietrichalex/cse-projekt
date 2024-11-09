@@ -14,6 +14,9 @@ def filter_data(data):
     data = data.drop('ScoutingReportTemplate', axis=1)
     data = data.drop('EventEndDate', axis=1)
     data = data.drop('FilePartition', axis=1)
+    data = data.drop('Age', axis=1)
+    data = data.drop('ScoutingReportId', axis=1)
+    data = data.drop('ChangedAt',axis=1)
 
     #filter players with less than 5 matches
     minimum_match_amount = 5
