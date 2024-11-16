@@ -13,7 +13,7 @@
 + copy both `hook` files and paste them into the `.git/hooks/` folder
 + **❗ Important:** remove `".sample"` ending
 
-##git commands
+## git commands
 PUSHING AND COMMITING: <br>
 + git status -> current status
 + git add -A -> adds all to commit
