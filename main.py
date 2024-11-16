@@ -35,14 +35,14 @@ def print_word_count(data, min_words, max_words, filename):
 
     # Save to a text file
     with open(filename, 'w', encoding='utf-8') as f:
-        for _, row in filtered_data.iterrows():
+        for idx, row in filtered_data.iterrows():
             f.write(f"-------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-            f.write(f"ScoutID: {row['ScoutId']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
+            f.write(f"Line: {idx} ,ScoutID: {row['ScoutId']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
 
 def main():
     data = get_data()
     data = filter_data(data)
-    print_word_count(data,30, 90 ,"filtered_words.txt")
+    print_word_count(data,45, 90 ,"filtered_words.txt")
 
 
 if __name__ == '__main__':
