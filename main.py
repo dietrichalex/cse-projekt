@@ -21,7 +21,7 @@ def filter_data(data):
     #filter players with less than 5 matches
     minimum_match_amount = 5
     id_counts = data['PlayerId'].value_counts()
-    #data = data[data['PlayerId'].isin(id_counts[id_counts >= minimum_match_amount].index)]
+    data = data[data['PlayerId'].isin(id_counts[id_counts >= minimum_match_amount].index)]
 
     return data
 
