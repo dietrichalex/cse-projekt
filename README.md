@@ -13,3 +13,16 @@
 + copy both `hook` files and paste them into the `.git/hooks/` folder
 + **❗ Important:** remove `".sample"` ending
 
+##git commands
+PUSHING AND COMMITING: <br>
++ git status -> current status
++ git add -A -> adds all to commit
++ git commit -m "message" -> commits and adds message to  commit (if you want to change message after already commiting use git commit --amend (💡 USES VIM))
++ git push
+
+FETCHING AND PULLING: <br>
++ git fetch -p
++ git pull
+
+SWITCH BRANCH: <br>
++ git checkout name_of_branch
