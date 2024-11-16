@@ -21,7 +21,7 @@ def filter_data(data):
     #filter players with less than 5 matches
     minimum_match_amount = 5
     id_counts = data['PlayerId'].value_counts()
-    #data = data[data['PlayerId'].isin(id_counts[id_counts >= minimum_match_amount].index)]
+    data = data[data['PlayerId'].isin(id_counts[id_counts >= minimum_match_amount].index)]
 
     return data
 
@@ -37,7 +37,7 @@ def print_word_count(data, min_words, max_words, filename):
     with open(filename, 'w', encoding='utf-8') as f:
         for idx, row in filtered_data.iterrows():
             f.write(f"-------------------------------------------------------------------------------------------------------------------------------------------------------\n")
-            f.write(f"Line: {idx} ,ScoutID: {row['ScoutId']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
+            f.write(f"Line: {idx}, ScoutID: {row['ScoutId']}, PlayerID: {row['PlayerId']}, ExactPosition: {row['ExactPosition']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
 
 def main():
     data = get_data()

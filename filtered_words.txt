@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 2 ,ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4 
+Line: 2, ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4, PlayerID: 6B2FDA107827EF4E9DDCF6BF67F0B43A, ExactPosition: IVZ 
 Comment: ZIV, rechts, Ekto, i.A.
 Durchschnittliches Tempo auf allen Distanzen. Wirkt teilweise etwas unbeweglich.
 Enorme Ruhe im Spielaufbau. Behält auch unter Druck die Übersicht und findet in kleinen Räumen Lösungen. Flacher Aufbau solide. Passspiel hier präzise, Schärfe bei langen hohen Bällen könnte höher sein. Orientiert sich hier im Vorfeld häufig vor.
@@ -8,23 +8,23 @@ Läuft solide ab. Timing beim rausstechen und vorverteidigen nicht immer ganz st
 Word Count: 82
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6 ,ScoutID: 699EBFD2D45BEF429B634166831EB495 
+Line: 6, ScoutID: 699EBFD2D45BEF429B634166831EB495, PlayerID: FC7B0E7B456BD84D85E1BC2391320AC5, ExactPosition: IV 
 Comment: *RF, 194 cm, Organisator der Abwehr, Leader und zuständig für den Spielaufbau mit verikalen langen Bällen hinter Kette auf die Zielstürmer>>ging verletzt in der zweiten Halbzeit aus dem Spiel!!+kopfballstark, geschickt im 1:1 wenn er am Gegenspieler dran ist-Tempo auf Strecke fehlt, sticht raus;dabei fehlt manchmal aber das Timing und er ist zu spät dran, nicht mehr so souverän wie in der Vorsaison 
 Word Count: 62
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 12 ,ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6 
+Line: 12, ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6, PlayerID: 6211EE4D1B14594192A343B3F7DEBA13, ExactPosition: OM 
 Comment: Scouting Status: nicht interessant
 + Assist per Ecke zum 1:2+ ordentliche Standards+ fußballerisch einer der Besseren+ technisch versiert+ ein guter tiefer Ball (56.)+ beidfüßig (dominant rechts)* durchschnittlich bis normal groß* Tempo auf Strecke durchwachsen* solide im Passspiel- nicht präsent genug in den Zweikämpfen- zu viel in der neutralen Zone- kickte zu sehr für die Galerie- verteilte die Bälle nur in die Breite- keine Torgefahr- in dieser Mannschaft gut aufgehoben 
 Word Count: 69
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 16 ,ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32 
+Line: 16, ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32, PlayerID: E67D375142DF3C4CB796AD084E2F25B1, ExactPosition: RV 
 Comment: RV, aus der 2. Mannschaft, nach einigen Kurzeinsätzen heute mit seinem Startelfdebüt, normale Größe, stabiler und trainierter Oberkörper, wirkt fast etwas kompakt, weiter Einwurf, beschränkt sich zum großen Teil auf die Defensive heute, nach vorne kaum Aktionen, teils etwas ungeschickt gegen den schnelle Niemann, insgesamt aber ok, unter Druck kommt schnell der lange Long-Line-Ball 
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 29 ,ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4 
+Line: 29, ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4, PlayerID: 50BFD51DFA2D1646947F3D231C6A2164, ExactPosition: DMR 
 Comment: FC Bayern München 2
 Physische Defizite. Merkt man spürbar im Spiel gegen den Ball. Hier wenig Durchsetzungsvermögen
 Agiert als Aufbauspieler und Strukturgeber. Per Pass meist horizontal, kommt wenig in die nächste Ebene. Defensiv klatschend teils schlampig. 
@@ -33,18 +33,18 @@ Insgesamt aber wenig Wirkung in beide Richtungen.
 Word Count: 47
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 48 ,ScoutID: FD977AED67242C4682AE0A6BEF435F26 
+Line: 48, ScoutID: FD977AED67242C4682AE0A6BEF435F26, PlayerID: 4B44E955064A27449B0F10410B5CA3FF, ExactPosition: STR 
 Comment: bekannt, diese Saison bisher mit 17-4-1, trifft noch nicht so wie in der letzten Spielzeit
 kippt relativ viel nach außen, läuft bei Flanken aber mit Wucht in gefährliche Zonen im 16er ein, technisch durchaus ordentlich, setzt sich im Dribbling mit seiner Wucht durch, lässt dann einmal freistehend mit Fuß und einmal mit Kopf liegen, hat derzeit nicht das Selbstverständnis vor dem Tor, im Zweikampf robust und wuchtig, räumt den Gegner auch mal aus dem Weg 
 Word Count: 75
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 65 ,ScoutID: 46DB233FAC568442937E8755B9D80195 
+Line: 65, ScoutID: 46DB233FAC568442937E8755B9D80195, PlayerID: EE4B65FC17809847A99350D179F4BC3B, ExactPosition: LV 
 Comment: Zeigt als rechter AV erneut seine Art und Weise, wie er diese Position interpretiert. Robust, zweikampfstark, viel Wucht. Macht viel mit Wucht und Power. Keine filigrane Positionstechnik, 1. Kontakt, Ballkontrolle und befreien aus engen Räumen nur durchschnittlich. Positionstaktisch Probleme im Spiel mit Ball (Spielverlagerung, Tempoverschärfung, Pendelbewegung). 
 Word Count: 46
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 91 ,ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4 
+Line: 91, ScoutID: 3C9FFB0D09EE4B5EA7D918B166D6C5A4, PlayerID: 1380A71AB61CB740B307245BEAF8D1AF, ExactPosition: LM 
 Comment: Wuchtig. Physisch stark.
 In großen Räumen solider erster Kontakt.
 Technisch im engen Raum limitiert. Kommt über seine Wucht und Physis. Kein klares 1 vs. 1. Bricht wenig durch. Viele Ballverluste. Wird unter Druck ballfixiert.
@@ -53,62 +53,62 @@ Gegen den Ball solide Bereitschaft. Wirft sich rein.
 Word Count: 46
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 100 ,ScoutID: FD977AED67242C4682AE0A6BEF435F26 
+Line: 100, ScoutID: FD977AED67242C4682AE0A6BEF435F26, PlayerID: 05E0FB621141094A939213F703D634AA, ExactPosition: IVZ 
 Comment: nr, hilft heute als gelernter LV in der ZIV aus, wenig Lösungen am Ball, vertendelt vor dem 3:0 folgenschwer im Aufbau (individueller Fehler), trägt zu einer komplett überforderten Abwehr bei, haut sich immerhin rein, Einsatz und Zweikampfhärte stimmen, bekommt noch mehrfach wichtig einen Fuß dazwischen, in der 2. HZ auf seiner angestammten linken Seite, macht es hier besser als sein Vorgänger, stabilisiert sich 
 Word Count: 63
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 114 ,ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6 
+Line: 114, ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6, PlayerID: 7A1B8CCAABB54B49828E46467494AFBF, ExactPosition: nan 
 Comment: Scouting Status: nicht interessant
 + fußballerisch ansprechend+ technisch versiert+ beweglich und agil+ ordentliche Standards* durchschnittlich groß* normales Tempo* Jahrgang 2000!!!* erst rechter Sechser, nach der Pause (46.) Zehner* nach 55 Minuten ausgewechselt* spielt bei Strömsgodset in Norwegen und ist auch dort geboren- nicht wach genug beim 2:0- von der Physis begrenzt- fehlende Robustheit- Ballverluste unter Druck- naiv im Zweikampfverhalten- Schwächen in der Luft 
 Word Count: 63
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 118 ,ScoutID: FD977AED67242C4682AE0A6BEF435F26 
+Line: 118, ScoutID: FD977AED67242C4682AE0A6BEF435F26, PlayerID: 9AFD5BA4FB570E4B80341BB1E8C593B7, ExactPosition: HR 
 Comment: klarer Starter im letzten Jahr,
 vom Start weg voll auf Fokus und Spannung, geht Box-Box, erzielt das frühe 1:0 nach Sololauf ohne wirkliche Gegenwehr und feinem Lupfer über den Torwart (Torschütze), treibt immer wieder an mit Ball, spielt mehrfach auf Verdacht tief, dazu der Ausgangspunkt zum 2:0, offensiv der gefährlichste Mann, man merkt ihm an dass er heute richtig Lust hat und sich zeigen will, gutes Mindset, geht nach 45min runter 
 Word Count: 71
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 121 ,ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6 
+Line: 121, ScoutID: 74E3CE975E4B374E96E1B06C34E7B2E6, PlayerID: 57F6F7D17942034FAA0859C12A2B5BA4, ExactPosition: MS 
 Comment: + beweglich, dynamisch und agil+ hat schnelle Beine+ hohe Intensität+ lief an und war extrem fleißig+ kompakte Statur* ist sehr klein* 96er Jahrgang* nach 74 Minuten ausgewechselt* Leihspieler von Olympique Lyon- vor dem Tor ohne Ruhe und Klarheit- zu wild und unstrukturiert- kein Kopfballspieler- Ballverluste und Abspielfehler- viel Aufwand, wenig Ertrag 
 Word Count: 51
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 132 ,ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32 
+Line: 132, ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32, PlayerID: 137FC1382C200B4E806CC4A054080289, ExactPosition: nan 
 Comment: kam in der 86. Minute, LA, spielt bei Bröndby, Debüt für die A-Nationalmannschaft, Jahrgang 2000, konnte in der Kürze der Zeit nicht mehr viel zeigen, engagiert, muss physisch noch zulegen und robuster werden, gute Haltung, hat was unbekümmertes, teils noch etwas unreif, läuft dadurch auch mal umsonst, aus früheren Sichtungen auffällig, ordentliche Quote in der Liga (8/4/2) 
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 134 ,ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88 
+Line: 134, ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88, PlayerID: CF44A3ED4AE91F448A81A16C21DD0ADE, ExactPosition: nan 
 Comment: Scouting Status: nicht interessant
 Klein, kompakte Statur. Beweglich und flink. Tritt den Freistoß zum 1:0 durch Losilla (10.) gefühlvoll aus dem Halbfeld zwischen 5er und und 11er Punkt. Bereitet ebenso das 2:0 vor. Schaltet sich offensiv permanent mit ein und ist aktiv dabei. Spielerisch gut. Defensiv zwar nicht immer in der Position und mit Räumen im Rücken, diese wurden jedoch zu selten von den Gästen ausgenutzt. Verteidigt nach vorne und ist stets auf dem Sprung. Wertvoll für den VfL, aber keine Perspektive nach oben.  
 Word Count: 84
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 143 ,ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88 
+Line: 143, ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88, PlayerID: 3751ECDF2913C84F89B0649989DE40BD, ExactPosition: RM 
 Comment: Scouting Status: nicht interessant
 + guter Körper+ ansprechende Größe+ suchte immer wieder die Tiefe und in den Rücken der Verteidiger zu kommen* normales Tempo* weder Fisch noch Fleisch* ausgewechselt in der 82. Minute- fand zu selten in gefährlichen Räumen statt- technisch limitiert- im ersten Kontakt und der Ballan- und Mitnahme im Tempo mit Problemen- half defensiv nicht viel mit 
 Word Count: 59
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 146 ,ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32 
+Line: 146, ScoutID: 33D19D2FCD1C0749B1C185BB4C747E32, PlayerID: 0AA3F958B2ACAB43BC72C6297E188FC6, ExactPosition: TW 
 Comment: Top-Statur für einen TW, spielt auch heute wieder sehr gut mit, bietet sich an, strahlt Ruhe aus, spielt auch unter Druck gut raus, saubere Flugbälle, macht sich groß im 1vs1 und hält so einmal klasse (22.), wach und aufmerksam bei langen Bällen, eine kleine Unsicherheit (61.), muss hier nachfassen, bringt alles mit! 
 Word Count: 52
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 218 ,ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268 
+Line: 218, ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268, PlayerID: 5AFFD5D7CBBCEA40AD7CC7829237C424, ExactPosition: IVL 
 Comment: Groß, schmal, Rechtsfuß als LIV, dreht im Aufbau meist auf den rechten Fuß, wiederholt gute Seitenverlagerungen rechter Fuß auf den AV oder RM, flacher Aufbau ebenfalls sicher und druckvoll, verschuldet den Elfmeter durch unbeabsichtigtes aber unkontrolliertes Handspiel, insgesamt gute Zweikampfquote und wichtige Verteidigungsaktionen, solide bis gute Partie 
 Word Count: 47
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 233 ,ScoutID: 75B510AAC0994F88AC01393EC07498CC 
+Line: 233, ScoutID: 75B510AAC0994F88AC01393EC07498CC, PlayerID: EB0BA3E322C3254FA087E48F88F22492, ExactPosition: IV 
 Comment: IVR, RF ca 183 cm groß, geht kompromislos in den duellen, agressive Haltung , aufmerksam . spielt  gute Bälle ins Zentrum  Schnelligkeit und , tech ok .Aufmerksam im 16er mit Schulter blick, hat immer mal ein fuss dazwischen, kommt noch in den duellen einen tick früher . Teamleader
  
 Word Count: 48
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 255 ,ScoutID: 2F089171B1954721B52BE2BDFFFE6965 
+Line: 255, ScoutID: 2F089171B1954721B52BE2BDFFFE6965, PlayerID: 775575479E533F4692C69DB6B5E247C0, ExactPosition: MS 
 Comment: MS in einem 5-4-1. 
 
 Der große Schleicher und Tiefgänger. 
@@ -121,12 +121,12 @@ Im Kombinationsspiel mit wenig Wirkung und Integration.
 Word Count: 62
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 282 ,ScoutID: F73625439846EC499A0DB26DA58E1000 
+Line: 282, ScoutID: F73625439846EC499A0DB26DA58E1000, PlayerID: 50001222281FDD418A61E605B536AAC9, ExactPosition: RM 
 Comment: Fabi kenne ich aus meiner Zeit auf Schalke, ein guter Junge mit enormen Willen, leider ist seine technische Fertigkeit zu wenig für einen Bundesligaspieler, hatte verletzungsbedingt sogar Bundes- und Euro League Einsätze, hat sogar Probleme in der 2. BL Fuß zu fassen, denke Potential für ganz nach oben nicht vorhanden  
 Word Count: 50
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 297 ,ScoutID: 2F089171B1954721B52BE2BDFFFE6965 
+Line: 297, ScoutID: 2F089171B1954721B52BE2BDFFFE6965, PlayerID: 07F4DFAD6427E94B89AD0C426FC4602E, ExactPosition: IV 
 Comment: ZIV in einem 3-4-3. 
 
 Groß, lange O Beine und ein breites Kreuz. 
@@ -139,12 +139,12 @@ Spielt es viel vertikal auf seine Nebenleute in der 3er Kette. Bespielt zu selte
 Word Count: 70
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 312 ,ScoutID: 46DB233FAC568442937E8755B9D80195 
+Line: 312, ScoutID: 46DB233FAC568442937E8755B9D80195, PlayerID: BF54E2DE61A93447B9F3DC2C5FA4D1E2, ExactPosition: TW 
 Comment: Aus der A Nationalmannschaft zurückgekehrt. Torhüter und Stammspieler von Valencia, 25 Mio. MW, Groß, Wuchtig. Etwas massig. Durchschnittliche Technik am Fuß, weite Bodenabschläge, Präzision und Flugkurve okay. Hält 2 mal gut, Erscheinung im Tor. Sieht bei den Gegentoren nicht perfekt aus. Kommt nicht richtig in die Streckung und den Abdruck.  
 Word Count: 50
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 331 ,ScoutID: 66C0FD8019EA314E800BAFED6F9F435B 
+Line: 331, ScoutID: 66C0FD8019EA314E800BAFED6F9F435B, PlayerID: 4F4DC5FBC481464DAE927FFF1FBAAF68, ExactPosition: LV 
 Comment: 2003, 1.86, drahtig, muss robuster werden, lange Beine, Dynamik, große Schritte, soliden Antritt 
 LF, mit Ball offensiv ausgerichteter LV, 
 gute Laufwege nach vorne, über DP in Tiefe, 
@@ -158,7 +158,7 @@ V: 2024
 Word Count: 66
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 335 ,ScoutID: D139029D6C240C44B7D35058AF909413 
+Line: 335, ScoutID: D139029D6C240C44B7D35058AF909413, PlayerID: 9A743045D6EE3B41BA82772909722352, ExactPosition: LM 
 Comment: 07er; Bayer 04 Leverkusen 
 
 RF; i.A; Ekto.
@@ -168,17 +168,17 @@ Für die Standards verantwortlich; athletischer Eindruck; ist in den engen Räum
 Word Count: 65
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 338 ,ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3 
+Line: 338, ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3, PlayerID: 762E3999C9CC9F41BABB38C8A5C89A2F, ExactPosition: OM 
 Comment: Ca. 1.75m und schmale Statur. Kenne Ihn bereits aus 3 Einzelspielen. Mir fehlt ingesamt die Vorstellungskraft wie er sich in der Bundesliga durchsetzen will. Ist ein technisch guter Spieler, mit einem starken rechten Fuß und guten Standards. Würde aber sein Tempo nur auf durchschnittlich bis gut einschätzen. Körperlich müsste er noch gut zulegen. Ansonsten sind seine Aktionen generell noch zu inkonstant. Ich sehe bei ihm nicht den Sprung in eine Top 5 Liga in den nächsten Jahren.  
 Word Count: 77
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 394 ,ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268 
+Line: 394, ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268, PlayerID: 22EB6E21F0710E4C81FDA0402024FD32, ExactPosition: MS 
 Comment: Groß, kräftiger Oberkörper, Zielspieler, Körper rein Stellen und behaupten gut, solides Tempo MD, Antritt und Aglität mit Abstrichen, wuchtig, viel Wille, keine Technischen Akzente, Treffer zum 3:0 guter Wille - bleibt in Aktionen drin bis zum Schluss - Abstauber, 4:0 Treffer Elfmeter, weitere 1gg1 Aktion auf Torwart frei vergeben, Eindruck kein Killer Instinkt bzw. Abschlusstechnik entsprechend 
 Word Count: 56
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 426 ,ScoutID: 01824876B209BA49B6B412E93265BED6 
+Line: 426, ScoutID: 01824876B209BA49B6B412E93265BED6, PlayerID: 1E372BB9738DEE4C9D12B811984C8505, ExactPosition: MS 
 Comment: -athletisch, muss im Oberkörper noch zulegen, stabiler und durchsetzungsfähiger werden, ordentlicher Antritt u. Tempo auf Mittel- u. Langdistanz
 -technisch durchschnittlich, teilweise einen schwachen ersten Kontakt, ordentliches Dribbling
 -offensiv wenige Aktionen, aber dafür gut, gute 1 gegen 1 Situationen auf dem linken Flügel
@@ -187,13 +187,13 @@ Comment: -athletisch, muss im Oberkörper noch zulegen, stabiler und durchsetzun
 Word Count: 58
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 473 ,ScoutID: 699EBFD2D45BEF429B634166831EB495 
+Line: 473, ScoutID: 699EBFD2D45BEF429B634166831EB495, PlayerID: B964F8CA0C4E0141BB3A37924E1020D6, ExactPosition: RM 
 Comment: Scouting Status: nicht interessant
 *war gegen Mexico nach seiner Einwechslung viel stärker, da war er stark im 1:1 im Dribbling, mit Flanken in die Box, vertikale Pässe flach durch die Nahtstelle, dass alles konnte er gegen einen viel besssere Mannschaft gegen Holland nicht zeigen, da zeigte es sich, dass er taktisch und unter Druck extrem noch überfordert ist, viele Fehlpässe und Ballverluste waren die Folge, Antritt okay, muss sich noch an das Niveau heran arbeiten!!! 
 Word Count: 75
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 489 ,ScoutID: 46DB233FAC568442937E8755B9D80195 
+Line: 489, ScoutID: 46DB233FAC568442937E8755B9D80195, PlayerID: 1A4EC2DAFD658549A34296D11D518AAA, ExactPosition: IV 
 Comment: U 20 Nationalspieler Portugal. Ruhig abgeklärt, auch in den wilden Phasen des Spiels mit souveräner Spieleröffnung unter Druck. 
 Gute Ausbildung im Positionsspiel. Gegen den Ball aufmerksam, auf dem Sprung, seitliche Stellung und aktives Vordecken bei Bällen in den Zwischraum.
 
@@ -203,14 +203,14 @@ Den Weg weiter beobachten.
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 505 ,ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88 
+Line: 505, ScoutID: 46D3BF0304B74741B34DEB1A3F08CA88, PlayerID: 01D4268CDE04404B878055410C943BDF, ExactPosition: MS 
 Comment: Topscorer VVVs. Jahrgang 94. Ordentliche Größe und Statur. Hat keinen wirklichen Topspeed, wirkt im Antritt auch nicht dynamisch und leicht genug. Wandspieler, setzt den Körper ein. Wird in der Luft bei langen Anspielen gesucht. Im Passspiel phasenweise schlampig. Spielt viel mit dem Rücken zum Tor. Holt Freistöße heraus. 
 
 Aktuelle Tormaschine - sehe ihn jedoch nicht zwingend als Spieler für uns. 
 Word Count: 60
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 555 ,ScoutID: 66C0FD8019EA314E800BAFED6F9F435B 
+Line: 555, ScoutID: 66C0FD8019EA314E800BAFED6F9F435B, PlayerID: 544C3F49A667B04DBAE576B71B112078, ExactPosition: LM 
 Comment: 2005, 1.70, Typ Fabian Rieder, klein, kompakt, tiefer Körperschwerpunkt, Dynamik, soliden Antritt 
 mit Ball 8er, 
 sticht mit in Box, kommt an Ball und zu Chancen, 
@@ -221,12 +221,12 @@ ohne Ball giftig, aggressiv,
 Word Count: 50
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 579 ,ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268 
+Line: 579, ScoutID: 95CBCF721F1D8E4B8F5B30C029F91268, PlayerID: 17B5DA9C10F97C48BBB77F5E5BDF26B9, ExactPosition: MZ 
 Comment: U21 Niederlande. In 29 Spielen in der Eredivisie 2 Tore und 4 Assist. Dynamisches Powerhouse auf der 8er Position. Für die defensive 6 im Augsburger Kader aktuell keine Option da noch zu fehlerhaft, für die 8er Position gute Anlagen. Kaderplatz aktuell schon eine Option. Empfehlung auf jeden Fall weiter beobachten, ggf. in Fokus. 
 Word Count: 53
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 582 ,ScoutID: 2F089171B1954721B52BE2BDFFFE6965 
+Line: 582, ScoutID: 2F089171B1954721B52BE2BDFFFE6965, PlayerID: 0ACDAFA4ACEC2B4DA0E45D7D0D0AA8BB, ExactPosition: LM 
 Comment: LFV in einem 3-1-4-2. 
 
 Stagniert in seiner Entwicklung und war in diesem Spiel auch recht inkonstant. 
@@ -238,7 +238,7 @@ In den Umschaltaktionen in beide Richtungen sehr diszipliniert. Schloss hier meh
 Word Count: 72
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 587 ,ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41 
+Line: 587, ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41, PlayerID: A82D58AE6767F840856F44F7F09A3692, ExactPosition: DMZ 
 Comment: R, i.A., K
 Alleiniger 6er in einem 433.
 
@@ -248,17 +248,17 @@ Defensiv gute Präsenz im Mittelfeld. Sehr gutes Gespür für seinen Raum, orien
 Word Count: 58
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 616 ,ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3 
+Line: 616, ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3, PlayerID: F74301681E435F45B4936C6117370D78, ExactPosition: RV 
 Comment: Normale Größe und Statur. Ordentliches Tempo auf alle Distanzen. Für die 3. Liga ein absoluter Top RV. Sehe seine Grenze aber in der 2. Liga. Hat eine gute Ballbehandlung mit beiden Füßen. Gute Übersicht. Gute 1 gegen 1 Verteidigung. Schaltet sich offensiv immer wieder gut ein. Spielt seine Hereingaben mit viel Übersicht. Mir fehlt es physisch bei ihm für die erste Liga und sehe mit seinen 25 Jahren kein großes Entwicklungspotenzial mehr.  
 Word Count: 72
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 729 ,ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3 
+Line: 729, ScoutID: 9330C3D55E34FE4A9E49D9A737AE6DA3, PlayerID: 3CDE8D297A7383468016062641D41A68, ExactPosition: MS 
 Comment: Groß und robuste Statur. Für sein Alter körperlich sehr weit. Macht es für sein Alter generell gut. Ist in der Ballbehandlung und im Passspiel nicht immer ganz sauber. Arbeitet gut mit seinem Körper. Ist fleißig im anlaufen. Hat das 4:1 mit einem tollen direkten Freistoß kurz vor Schluss erzielt.  
 Word Count: 49
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 781 ,ScoutID: 01824876B209BA49B6B412E93265BED6 
+Line: 781, ScoutID: 01824876B209BA49B6B412E93265BED6, PlayerID: CFE370EA905ED841B37B1B6B1A7AF830, ExactPosition: LV 
 Comment: -gute Statur, guter Antritt u. Tempo auf Mitteldistanz
 -technisch durchschnittlich
 -defensiv zweikampfschwach
@@ -267,7 +267,7 @@ Comment: -gute Statur, guter Antritt u. Tempo auf Mitteldistanz
 Word Count: 48
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 793 ,ScoutID: 01824876B209BA49B6B412E93265BED6 
+Line: 793, ScoutID: 01824876B209BA49B6B412E93265BED6, PlayerID: 862CE95BE5BB964B926405E80A9508B4, ExactPosition: MS 
 Comment: -nach Einwechslung (68min) auf dem LF im 4-3-3 gespielt
 -klein, körperlich schwach, gute Athletik
 -sehr stark im Antritt, auch auf Mittel- und Langdistanz enorm schnell, sehr beweglich
@@ -281,7 +281,7 @@ Comment: -nach Einwechslung (68min) auf dem LF im 4-3-3 gespielt
 Word Count: 71
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 894 ,ScoutID: 66C0FD8019EA314E800BAFED6F9F435B 
+Line: 894, ScoutID: 66C0FD8019EA314E800BAFED6F9F435B, PlayerID: E5E0FBDEE2DD324DB8408D0C858492A0, ExactPosition: OM 
 Comment: 2005, 1.75, Typ Marin, durchtrainiert, fällt im Erwachsenen-Fußball körperlich nicht ab, hohe Schrittfrequenz, kurze Beine, guten Antritt auf den ersten Meter 
 mit Ball gute Technik, Ballkontrolle, Dribbling, einfache Finten, Ball vorbei legen und Schnelligkeit ausspielen, tiefe Laufwege, 
 ohne Ball solide, zeigt Anlaufbereitschaft aber geht zu schnell/hektisch hin und wird mit einem Haken aus Spiel genommen 
@@ -289,7 +289,7 @@ Fazit: bekommt Kurzeinsätze, macht es dort nicht schlecht, keine Intensität, k
 Word Count: 69
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 915 ,ScoutID: D139029D6C240C44B7D35058AF909413 
+Line: 915, ScoutID: D139029D6C240C44B7D35058AF909413, PlayerID: F82293455149604CB7BA17F25AEF32CE, ExactPosition: HR 
 Comment: 05er; bekannt aus Leverkusen, jetzt bei Nordsjaelland; vereinzelt Einsätze in der 1.Liga und Conference League
 
 LF; i.A; ekto.
@@ -299,7 +299,7 @@ Variable Lösungen im Zentrum mit beiden Füßen; schmaler Grad zwischen Ruhe am
 Word Count: 87
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 933 ,ScoutID: 239EC7DF5F46B34AB011550BF549E8E8 
+Line: 933, ScoutID: 239EC7DF5F46B34AB011550BF549E8E8, PlayerID: 4A075F1B9B57684580BDA26C2C39D796, ExactPosition: MZ 
 Comment: Man merkt ihm seine fehlende Erfahrung auf Top-Niveau an (ziemlich wild)!
 Eine gewisse Dynamik mit Ball am Fuß ist erkennbar, er bemüht sich um sichere flache Anspiele, seine Schussversuche sind oft überhastet, im ZK dreht er sich geschickt in den Mann rein, fehlende Robustheit lässt ihn häufig zweiter Sieger sein!
 BK? (Ball nicht wirklich gesichert, fehlende Vororientierung, rechter Fuß?)
@@ -311,14 +311,14 @@ Adaptieren dauerhaft auf BL-Niveau möglich?
 Word Count: 66
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 969 ,ScoutID: D139029D6C240C44B7D35058AF909413 
+Line: 969, ScoutID: D139029D6C240C44B7D35058AF909413, PlayerID: CACBE7D4B784BE47A93D4E1D9710E64B, ExactPosition: HL 
 Comment: U17 - Karlsruher SC
 
  RF. Spielführer. Rustikales Zweikampfverhalten Keine klaren Ballgewinne Macht viel über die körperliche Komponente aufgrund seiner Großen Statur. Immer wieder ordentliche Passlösungen unter Druck. Auch unter Druck mutige, technische Lösungen. Immer wieder sehr gute erste Kontakte. Guter Blick für die freien Räume, sehr gute Vororientierung.  
 Word Count: 48
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1200 ,ScoutID: 239EC7DF5F46B34AB011550BF549E8E8 
+Line: 1200, ScoutID: 239EC7DF5F46B34AB011550BF549E8E8, PlayerID: 4F8337901DF0F04FBDC95CC87BCEC6B5, ExactPosition: HL 
 Comment: Schmalbrüstig, schlaksig
 TE+
 Dribbling+
@@ -332,17 +332,17 @@ Verfolgen, ggf. Kontakt aufnehmen und Plan besprechen!!
 Word Count: 61
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1220 ,ScoutID: 699EBFD2D45BEF429B634166831EB495 
+Line: 1220, ScoutID: 699EBFD2D45BEF429B634166831EB495, PlayerID: 3ADBCA15FBD68E4DA8628D1A73C41B00, ExactPosition: MZ 
 Comment: *RF, 189, sehr gutes Spiel gegen Nürnberg, umtriebig in der Offensive wie auch in der Defensive+laufstark und zweikampfstark, torgefährlich mit tiefen Laufwegen in die Box, treibt sich immer wieder auf den Flügeln rum und bewegt sich sehr gut zwischen den Linien, diesmal sehr gutes Spieltempo, zeigte seiner Mannschaft was gegen Nürnberg gefordert war-durchschnittlicher Antritt, im Zweikampf teilweise mit Ball zu langsam>>gutes Gegenpresssing für uns möglich!! 
 Word Count: 65
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1405 ,ScoutID: 6642A551100246BD88B07451B6793285 
+Line: 1405, ScoutID: 6642A551100246BD88B07451B6793285, PlayerID: 800F14887AB93444832E1D1530CFAC82, ExactPosition: OM 
 Comment: Gute Quote für einen offensiven Mittelfeldspieler (32/10/5). Typ Zocker. Schiebt oft ins Zentrum, um dann den direkten Weg zum Tor zu suchen. Heute im letzten Drittel eher unglücklich. Will mit dem Kopf durch die Wand und macht einen Haken zu viel. Geht in der 83 Minute raus.  
 Word Count: 47
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1601 ,ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B 
+Line: 1601, ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B, PlayerID: 4A1317253D25A0479D9002F8B12B745E, ExactPosition: STR 
 Comment: RST, 2.ST, LF, i.A, K/M,
 spielt mit vielen Freiheiten und ist enorm schwer zu greifen, kann selbst Richtung Tor gefährlich werden, findet aber auch geschickte Positionen im 10er Raum und in der Folge schnelle Fortsetzungen tief. 
 Sehr feiner Touch mit LF, starkes Dribbling mit viel Kontrolle, wirklich starke Oberkörperfiniterung, BF angepasst, 
@@ -352,29 +352,29 @@ Ganz zentral für das Mainzer Offensivspiel. Bringt sehr viele gute Anlagen mit,
 Word Count: 72
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1675 ,ScoutID: F73625439846EC499A0DB26DA58E1000 
+Line: 1675, ScoutID: F73625439846EC499A0DB26DA58E1000, PlayerID: B6D8FC46A185CF4F89D77AD91A2FB23C, ExactPosition: IVR 
 Comment: Jg. 97, einziger junger Spieler im Team, Dreierkette IV rechts, kein Gardemaß für einen IV aber ganz ordentlich, erzielt gleich in der 4. Min. nach Standard von links die 1:0 Führung am langen Pfosten mit der Innenseite, blockt Schuss mit allerletzter Konsequenz vor einschussbereiten Stürmer ab 
 Word Count: 46
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1681 ,ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B 
+Line: 1681, ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B, PlayerID: AC78D547575858479415BD48D8AC828A, ExactPosition: TW 
 Comment: Torhüter, RF, Ekto- Mesotyp, 
 zeigte sich als sicherer und zuverlässiger Rückhalt. Spielte auch gut mit, sei es im Herauslaufen als auch im Spielaufbau. Wobei er hier immer das für ihn einfachere Zuspiel in der Regel verzog. Auch zu Lasten  der beiden AV.  Aufgrund seiner körperlichen Präsenz könnte er im 16er bei Standards oder  Flanken mutiger agieren. 
 Word Count: 56
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1706 ,ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1 
+Line: 1706, ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1, PlayerID: 4740BB4BA4DDE244806100CE8BD0A61C, ExactPosition: LA 
 Comment: heute eines seiner schwächeren Spiele, am Ball sehr gut, geht direkt in die BEWE, zeigt sich heute aber zu selten, in den 1gg1 Duellen mit zu wenig Überzeugung, defensiv mäßig, läuft beim 0:1 gut mit und trifft mit dem Nachschuss, Alles in Allem aber ein sehr interessanter Junge !!!  
 Word Count: 49
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 1931 ,ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1 
+Line: 1931, ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1, PlayerID: 3CBC66850553644F8101B6F4B601D13C, ExactPosition: nan 
 Comment: Scouting Status: Fokus / Kontakt
 ua Man of the Match, macht 2 Tore, hatte nicht viele Szenen, jedoch hat es immer Hand und Fuß, spielte gegen die 60 Mio Abwehr Upamecano und Zagadou, Robustheit fehlt ein wenig, Tempo auf Distanz solide, marschiert an, arbeitet fürs Team 
 Word Count: 46
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 2048 ,ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1 
+Line: 2048, ScoutID: 7EAACC3C541A3C4E9EBDCB4E4F3AC1A1, PlayerID: 734070FCEB8AC84DA12E791CFA81C2D6, ExactPosition: DM 
 Comment: + robust   
 + gute Größe, 188cm
 + technisch gut, teils jedoch zu viele Kontakte 
@@ -393,7 +393,7 @@ Fazit: konnte sich diese Saison in Parma nicht durchsetzten. Bringt gute Anlagen
 Word Count: 87
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 2674 ,ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B 
+Line: 2674, ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B, PlayerID: 615A6358283DEE42A4A4283BD60B393C, ExactPosition: LA 
 Comment: LA RF, rtd. K, 03.06
 kleiner wendiger Spieler mit starker Technik, weicht viel von der Position ab, steigert sich in der 2.Hb, viele Anlagen muss insgesamt noch Zielgerichteter agieren.
 
@@ -405,12 +405,12 @@ Im Sommer von Anderlecht zu Ajax gewechselt.
 Word Count: 89
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 2895 ,ScoutID: AA0A1F04D62F3D4994C9DAC116457167 
+Line: 2895, ScoutID: AA0A1F04D62F3D4994C9DAC116457167, PlayerID: 9A270277B5E108409EEEC0CCA736AC9F, ExactPosition: RA 
 Comment: Ekto, unter dem Altersschnitt, RF, rechter Außenstürmer im 4-3-3. Wird körperlich noch zulegen. Sehr gute Schrittfrequenz und und explosiver Antritt auf den ersten Metern, zudem überdurchschnittliche Wendigkeit. In Ballbesitz zu verspielt, baut viele Richtungswechsel und Wendefinten ein. Bleibt aber in seinem Raum und findet keine Lösung in ballferne oder tiefe Räume. Kognitiv beschränkt und gerade unter Gegnerdruck zu kleinteilig.  
 Word Count: 59
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 4097 ,ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B 
+Line: 4097, ScoutID: 599C8BD5875C6D49B2E1D5162867AD8B, PlayerID: F0DAE2AD9A9DC64BA8C58122A164BD7C, ExactPosition: nan 
 Comment: RV RF, 1,80m 02.03, Ekto/Meso schmale Beine
 AW in 6' wieder ausgewechselt in 62'
 
@@ -420,7 +420,7 @@ Anlagen vorhanden, wirkt etwas verhalten
 Word Count: 53
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 4272 ,ScoutID: 239EC7DF5F46B34AB011550BF549E8E8 
+Line: 4272, ScoutID: 239EC7DF5F46B34AB011550BF549E8E8, PlayerID: BBB301C5E79F4F48B323E443554AA6C7, ExactPosition: OMR 
 Comment: Bestätigte seine sehr gute Leistung aus dem letzten Länderspiel!
 Beweglich, dynamisch, ballsicher im Tempo!
 Übersicht, Pässe mit Druck und sehr gutem Timing!
@@ -432,61 +432,61 @@ Richtig geführt, kann er kurzfristig ein Kaderspieler werden! Verpflichten!
 Word Count: 53
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 4781 ,ScoutID: F73625439846EC499A0DB26DA58E1000 
+Line: 4781, ScoutID: F73625439846EC499A0DB26DA58E1000, PlayerID: A645015D9C48654C864C753236DF779E, ExactPosition: RM 
 Comment: 6 Mio, Riad, war an allen 3 Toren in der Vorbereitung beteiligt, guter Fußballer, sehr variabel, technisch top, aber auch geradlinig im 1gg1, verliert beim zwischenzeitlichen 2:2 Ausgleich seinen Gegenspieler defensiv aus den Augen nach Eckball, sehr unglücklich seine gelb-rote Karte in der 85. MIn. und somit wieder Gleichzahl in die Verlängerung. 
 Word Count: 52
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 4997 ,ScoutID: 6642A551100246BD88B07451B6793285 
+Line: 4997, ScoutID: 6642A551100246BD88B07451B6793285, PlayerID: 03A7F7D25230B342A38561409EC077A0, ExactPosition: LV 
 Comment: JG 2005, Admira Wacker Mödling, LF, bereits 13 Spiele in der 2. Liga, verteidigt gut nach vorne, giftig im ZK, gutes Tempo auf MD, gute Haltung und Einstellung, schaltet sich offensiv immer mit ein, tritt offensive Standards, gute Hereingaben, kommt nach Ballverlust direkt ins Gegenpressing, 
 Potenzial zwischen durchschnittlich und gut. Kann man lose weiter verfolgen  
 Word Count: 55
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 5448 ,ScoutID: 75B510AAC0994F88AC01393EC07498CC 
+Line: 5448, ScoutID: 75B510AAC0994F88AC01393EC07498CC, PlayerID: 905E4AB473CA7D4D9BC35501F12D7BB8, ExactPosition: IVL 
 Comment: IVL in de 3 er Kette   Gute Dynamik und ordentliche Schnelligkeit, guten ersten Ball , TW h ok , traut sich nicht viel mit dem Ball , résistant um direkten Zweikampf, macht seine Sache ok , zwanzig noch fehlerhaft, nimmt gehende spät  auf 
 Schwimmt etwa wenn es schnell geht vor allem in de Box , jedoch mutiges nachsetzen und scheut nichts dabei  , reibt sich gerne mit den Stürmern . 
 Word Count: 70
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 5728 ,ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF 
+Line: 5728, ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF, PlayerID: 340F7F2C2787BE419821E80288A4E564, ExactPosition: RA 
 Comment: Scouting Status: weiter beobachten
 + Gutes Tempo, vor allem auf Strecke+ Offensiv immer für eine Aktion gut+ Ruhig am Ball, technisch ordentlich, teilweise fehlt die Anschlussaktion+ Starke Aktion zum 1:1, als er die Kopfballverlängerung von Andersson gut verarbeitet und einschob+ Gefährliche flache Hereingaben hinter die Kette- Wirkt defensiv ohne taktisches Verständnis- Verliert Gegenspieler schnell aus den Augen- Führt defensive Zweikämpfe häufig nur Halbherzig 
 Word Count: 63
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6119 ,ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF 
+Line: 6119, ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF, PlayerID: DE89361B22465F45BBFB101BD1A40686, ExactPosition: LV 
 Comment: Scouting Status: weiter beobachten
 + Technisch stark (Ballannahmen / 1. Kontakt)+ Gute, enge Ballführung+ Dribbelt in freie Räume+ Sauberes Passspiel+ Verschärft das Tempo mit seinem Passspiel* Linksfuß- Beim 1-1 nicht eng genug am Gegenspieler, der dann zum 1:1 einschießen konnte- Wirkt im Antritt und auf Strecke etwas behäbig 
 Word Count: 48
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6341 ,ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA 
+Line: 6341, ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA, PlayerID: D2AB658F43DB3041862E454FD59381A4, ExactPosition: TW 
 Comment: TW, RF, ca. 1,82 m, AKA Tirol.
 
 TW mit ordentlicher Statur, gute Kommunikation und Präsenz. Braucht sehr viel Zeit bei Abschlägen, verschleppt häufig das Tempo. Abschläge sowie Passspiel mit wechselnder Präzision. Gute Reflexe auf der Linie sowie sicheres Abfangen von Flanken. Bei Gegentreffern ohne Schuld, kassiert das 1:1 unglücklich per Abstauber nach Pfostentreffer. In der Strafraumverteidigung konventionell, bleibt eher auf der Linie anstatt proaktiv rauszukommen. 
 Word Count: 65
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6521 ,ScoutID: 6642A551100246BD88B07451B6793285 
+Line: 6521, ScoutID: 6642A551100246BD88B07451B6793285, PlayerID: CEA2C50CB6A756409BB85DC3EED635F8, ExactPosition: DM 
 Comment: Valmiera FC; 
 
 Solide Statur; Fällt in der Defensive ins Zentrum in die 5er Kette. Im Spielaufbau vor der Kette agierend. Dirigiert viel. Im Aufbau wenig Einfluss, dient vor der Kette nur bindend und nicht als Anspieler. Hat aber am Ball sehr wenig Stress und enorme Ruhe. Gute Vororientierung. Gutes Defensivverhalten. Schiebt an den Mann und deckt vor.  
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6641 ,ScoutID: 121C4957C8DF814290EA1E4DC6567221 
+Line: 6641, ScoutID: 121C4957C8DF814290EA1E4DC6567221, PlayerID: DBC292327B82694AB3DFC33992854186, ExactPosition: MS 
 Comment: Scouting Status: nicht finanzierbar
 Ca. 175cm großer Stürmer der eher hängend spielt. Sehr beweglich, wendig und schnell. Bietet immer wieder tiefe Laufwege an läuft sehr intelligent ein. Wenn im Tempo, dann schwer zu verteidigen. Sehr zielstrebig im Abschluss und vor dem Tor gefährlich. Starker, präziser Abschluss. Fazit: Hochinteressanter, kleiner und schmächtiger  Stürmer mit hohem Potenzial. Nicht finanzierbar.  
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 6732 ,ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA 
+Line: 6732, ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA, PlayerID: ED26A71D3E0C2543833387E620E52D25, ExactPosition: OM 
 Comment: ZDM im 4231, eingewechselt in der 59. Minute. Technisch sehr guter Rechtsfuß, körperlich retardiert. Sehr hohe Wendigkeit am Ball, sehr kreatives Offensivpassspiel. Sehr gute Vororientierung auf dem Platz, scannt regelmäßig seine Umgebung. Gute Passschärfe, schnelle und gute Entscheidungsfindung, variantenreiches Passspiel sehr gut von Kurzdistanz bis Flugball. Gutes und enges Dribbling, effektive Fintierungen auf engem Raum. Sehr guter Kombinationsspieler, stets anspielbar und in Bewegung. Gute Spielintelligenz. Defensiv aufgrund des gegnerischen Platzverweises kaum gefordert.  
 Word Count: 72
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 8092 ,ScoutID: AA0A1F04D62F3D4994C9DAC116457167 
+Line: 8092, ScoutID: AA0A1F04D62F3D4994C9DAC116457167, PlayerID: CA868FF675D7EB4E85D4FC16E1E07119, ExactPosition: MZ 
 Comment: Größe ca. 1,75 m, LF. Stiernacken, breite Hüftstellung.
 Mit seinem Gegenspieler auf Top-Niveau komplett überfordert. Gerade im defensiven 1 gegen 1 über längere Distanz chancenlos. Im defensiven 1 gegen 1 im Rücken energisch - sehr gierig, Tendenz zu leichten Foulspielen. 
 Zaghaftes Einschalten nach vorne bis auf Höhe der Mittellinie. 
@@ -495,12 +495,12 @@ Spieleindruck jedoch gegen den absoluten Top-Spieler der Franzosen, hierbei chan
 Word Count: 65
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 8324 ,ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA 
+Line: 8324, ScoutID: CF2D61EA1A31B74FB4B636D455E5BBCA, PlayerID: 35F885681399DB429CF0C1FCF2FB73E8, ExactPosition: MS 
 Comment: LM im 4231. Dynamisch und temporeich auf der Außenbahn. Stets mutig das 1:1 gesucht, anfangs jedoch oft hängengeblieben. Gute Läufe in die Tiefe, torgefährlich, stets sehr aktiv, gutes Tempodribbling, schnelles Umschaltverhalten. Starke Beidfüßigkeit. Ab der 61. Minute auf RM gespielt, dort verbessert: Mehr Durchbrüche im 1:1 geschafft. Erzielte in der 63. Minute das 2:2 per Panenka-Elfmeter. Sehr hohes Selbstbewusstsein auf dem Platz. Wurde in der 84. Minute ausgewechselt. 
 Word Count: 68
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 8341 ,ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078 
+Line: 8341, ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078, PlayerID: 5AB924CAC758B3439F7412C1DAEF260A, ExactPosition: LA 
 Comment: 	• Ausgeprägtes Spielen und Gehen
 	• Durchschnittlich gute Technik
 	• Eher unauffällig HZ1
@@ -516,17 +516,17 @@ Raus dafür 19 Anthony Descotte
 Word Count: 76
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 8406 ,ScoutID: AA0A1F04D62F3D4994C9DAC116457167 
+Line: 8406, ScoutID: AA0A1F04D62F3D4994C9DAC116457167, PlayerID: 0A2CE56EC3B33A468F13E081D67CAA3F, ExactPosition: nan 
 Comment: Endomorph, RF, RIV, deutliches Längen- und Breitenwachstum. Im direkten Infight sehr schwer zu überwinden, da körperliche Vorteile überwiegen. Bewegungsverhalten, insbesondere Beweglichkeit problematisch. Im Spielaufbau unter Druck bzw. bei erhöhter Aktionsschnelligkeit mit einer hohen Quote an unsauberen Aktionen. Auslaufmodell, das aktuell aufgrund Körperlichkeit noch eine erhöhte Wirkung erzielt.  
 Word Count: 47
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 8825 ,ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078 
+Line: 8825, ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078, PlayerID: 4D0F3E0C0939AA41B54C061D007A6524, ExactPosition: IV 
 Comment: eher kleiner IV, anfangs eine Aktion wo er sich pressen lässt und den Ball als letzter Mann verliert, danach starke Leistung eröffnet oft in Dreierkette als zentraler IV, für seine Größe gutes Kopfballspiel, sehr gute Flugbälle Präzision und Schärfe, extreme Aggressivität gegen den Ball, knallhartes Tackling, tendiert leicht drüber zu gehen, daher auch öfters mal Foulspiel, verliert aber keinen Zweikampf 
 Word Count: 60
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 9414 ,ScoutID: DEB34B6F2717446E8FD50595D6CB3E19 
+Line: 9414, ScoutID: DEB34B6F2717446E8FD50595D6CB3E19, PlayerID: 9869D468EFF3A2488B4F1E2C7D176F51, ExactPosition: MS 
 Comment: St, im Altersschnitt, endomorph
 Enorm Torgefährlich. Solider Antritt, stark auf Mitteldistanz, unbeeinflusst vom Gegnerdruck trifft er die richtigen Entscheidungen im richtigen Moment (bereitet das 1:0 mit überragend getimten Pass durch die Schnittstelle in den Vorderfuß des Mitspielers vor). Sein erster Kontakt ist gut überlegt und technisch einwandfrei. Im Dribbling nicht vom Ball zu trennen. Grundtechniken sehr gut. Ist an allen torgefährlichen Aktionen seines Teams direkt beteiligt. 
 Defensiv unbeteiligt.
@@ -536,12 +536,12 @@ Gilt wohl als schüchtern und gut behütet
 Word Count: 90
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 9822 ,ScoutID: 75B510AAC0994F88AC01393EC07498CC 
+Line: 9822, ScoutID: 75B510AAC0994F88AC01393EC07498CC, PlayerID: 7B32A58C2F1A9E46A0D214D5C697BD64, ExactPosition: IVR 
 Comment: IVR, schmaler drahtiger figur, mit  gute handlungschnelligkeit, rückt mit dem ball an und spielt gute pässe  in der Schnittstelle .  Zweikampf ok . Aufmerksame Kontakt Aufnahme im Strafraum , orientiert sich gut im Raum ,hat körperlich noch nicht die notwendige Stabilität , kann aber hinkommen wenn er sich physisch noch entwickelt.. 
 Word Count: 51
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 10054 ,ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC 
+Line: 10054, ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC, PlayerID: 206B880D66DE4D0989E39A72AF85D5D5, ExactPosition: ZO 
 Comment: l, ZOM, i.A., k
 
 durchschnittliche Frequenz, durchschnittlicher Antritt, gut auf lange Distanz, 
@@ -558,12 +558,12 @@ motivierender Teamspieler, kann noch dominanter und lautstarker auftreten
 Word Count: 63
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 10248 ,ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA 
+Line: 10248, ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA, PlayerID: B864DD4DFAAA4F588AAB9E080185AEA9, ExactPosition: MS 
 Comment: spielt 1.HZ. im S-Zentrum, 2.HZ LA, beweglich, viel Laufarbeit, Spiel läuft 1.HZ oft an ihm vorbei, einzige große Torchance- Abschluss alleine aus ca. 12m dem TW in die Hände, 2.HZ am Flügel viel besser im Spiel, öffnet das Spiel seitlich, geht in die Tiefe, gute Flanken und Passpiel, gut im ZK, technisch gut 
 Word Count: 53
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 10768 ,ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078 
+Line: 10768, ScoutID: 1E8E3319FC08AF47B3F532AD5CCA8078, PlayerID: 8A9B3E71D87F024C8CC49AA765AEC702, ExactPosition: MS 
 Comment: 	• Kopfballchance nach Freistoß gutes Timing
 	• Pressing wenig clever läuft alleine in Unterzahl an
 	• Fehlt Körper um Ball festzumachen mit IV im Rücken
@@ -574,12 +574,12 @@ Comment: 	• Kopfballchance nach Freistoß gutes Timing
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 11026 ,ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA 
+Line: 11026, ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA, PlayerID: 2B9E8C147CD64F9087E922FB1E5E64C4, ExactPosition: STR 
 Comment: In diesem Spiel RS, sehr starker Auftritt, Größenmäßig unterlegen, setzt seinen muskulösen Körper aber massiv ein, hart/intensiv im ZK, sehr gute Schusstechnik mit RF, auch mit LF sehr guter Abschluss, schießt aus allen Lagen auf das Tor, Gefährlichkeit der Mannschaft lebt von ihm, geht in den Strafraum und zieht den Elfmeter zum 1:1 Ausgleich 
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 11128 ,ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41 
+Line: 11128, ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41, PlayerID: 88ECBB2F2D085545A717E66B6E12762A, ExactPosition: IVL 
 Comment: L, akz., K/M 
 Zuerst LIV in 5er Kette, in der 2. Hälfte in 4er Kette. Beides
 Tendenziell breite Schultern.
@@ -594,18 +594,18 @@ Interessantes Gesamtpaket aus Physis und Spielerischem.
 Word Count: 55
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 11494 ,ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF 
+Line: 11494, ScoutID: 0F0A9926F1210E4AA2E2075EFBF21CCF, PlayerID: 492353F5067C13479E71C353EC5BADE3, ExactPosition: nan 
 Comment: + Guter 1. Kontakt - machte Bälle gut fest+ Bulliger Körper+ Gute tiefe Laufwege+ Kreativ und mit Spielwitz im 1gegen1 (Tor zum 2-1)+ Starker beidfüßiger Abschluss * Angeblich erst 17 Jahre - wirkt deutlich älter* Spielt in Frankreich für Nimes B- Charakter/Mentalität? Fällt relativ leicht, um sich dann immer zu beschweren und zu reklamieren 
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 12059 ,ScoutID: 121C4957C8DF814290EA1E4DC6567221 
+Line: 12059, ScoutID: 121C4957C8DF814290EA1E4DC6567221, PlayerID: 1F9318A16AD1D3459F565910331FAAC9, ExactPosition: nan 
 Comment: Scouting Status: weiter beobachten
 Spielte rechte Außenbahn und wechselte gelegentlich Position auf anderen Flügel. Deutlich zu wenig ins Spiel eingebunden aufgrund Spielanlage Italiens. Tempo ist überdurchschnittlich. 1 gegen 1 offensiv keine Durchsetzungsfähigkeit und zu wenig Kreativität (Finten, Kappen etc.). Fazit: Wenn im Tempo dann gefährlich, aber kaum Aktionen im Spiel und daher sehr unauffällig.  
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 12715 ,ScoutID: 472639E891661F4082883C4D6FB91BAD 
+Line: 12715, ScoutID: 472639E891661F4082883C4D6FB91BAD, PlayerID: 9C380E05C51F014A9D6D67C51CFE59A6, ExactPosition: LV 
 Comment: sehr fleissig und bemüht auch mit sehr guter läuferischer Arbeit,macht einen fitten Eindruck,
 rechts Fuß auf der linken AV position ,vielleicht auch das der Grund das er gefühlt keine Offensive Aktion/ Flanke  hatte ,
 Defensiv solide seine Seite zu gemacht ,
@@ -615,7 +615,7 @@ hat einen ordentlichen Antritt und Schnelligkeit ,aber keiner der jetzt den Ball
 Word Count: 70
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 13251 ,ScoutID: 472639E891661F4082883C4D6FB91BAD 
+Line: 13251, ScoutID: 472639E891661F4082883C4D6FB91BAD, PlayerID: A3DA7F27F95D284F90249B0FE1ED3598, ExactPosition: RV 
 Comment: fleissig und bemüht ,auch läuferisch viel unterwegs ,laufduell mit pedersen 2. Halbzeit wo man seinen guten Antritt gesehen hat und am ende giftig den Ball noch weg spitzelt ,
 
 viele einfache Ballverluste , wenn mal offensiv die Chance da war :
@@ -628,12 +628,12 @@ gute größe Physis ,macht einen sehr trainierten Eindruck,
 Word Count: 61
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 14380 ,ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA 
+Line: 14380, ScoutID: 006FCD8D248F4402BCD4BBA3509F5BBA, PlayerID: C0FDDFF0F49F4F31B5CB03E0646F7A0D, ExactPosition: OMR 
 Comment: R-offensives Mittelfeld, zu Beginn eher unauffällig, kommt nach ca. 20 besser ins Spiel- bringt Ordnung und Ruhe ins Spiel, zentrale Anspielstation im Zentrum, bewegt sich gut in den Räumen, erkennt die Spielsituation - verteilt die Bälle, kreativ, mutig in allen Aktionen, sauberes Passspiel, intensiv im ZK, sucht den Torabschluss, strahlt in Strafraumnähe Gefahr aus 
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 16685 ,ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B 
+Line: 16685, ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B, PlayerID: BC20E717A2A396499CD0566B6F58ED1F, ExactPosition: IVL 
 Comment: Der am 3.07.2006 geborene Linksfuss ist körperlich normal entwickelt.
 Im Aufbau glänzt er mit gutem Passspiel auch Diagonale Flugbälle schlägt er mit seinem starken Fuss gut. Im Defensivverhalten hat er in Punkto Stellungsspiel und Zwei- kampfführung so seine Probleme.
 Für einen Innenverteidiger sollten diese Eigenschaften allerdings zu den Stärken seines Leistungs- vermögen zählen. Dies ist aber nicht der Fall. Er hat in diesen Bereichen grosse Defizite. 
@@ -642,7 +642,7 @@ Es wird spannend sein zu beobachten, wie lange er noch zum DFB- Team gehören ka
 Word Count: 81
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 16817 ,ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC 
+Line: 16817, ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC, PlayerID: 97EE008ECB05E8419D31DC40ABE29CEC, ExactPosition: MZ 
 Comment: R,LF, ret. 
 
 - guter Antritt, durchschnittliche Endgeschwindigkeit, gute Frequenz, Bewegungstalent 
@@ -652,7 +652,7 @@ Comment: R,LF, ret.
 Word Count: 51
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 17131 ,ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41 
+Line: 17131, ScoutID: ECC9718C1B4A5544B9EE78B783D5BF41, PlayerID: 30D4906893954B18A4B34A831886FCA7, ExactPosition: MZ 
 Comment: ZM, R, akz., K
 Sehr gutes Längen-, ausbaufähiges Breitenwachstum.
 Guter Antritt, vor allem für seine Größe. Durchschnittlich auf MD.
@@ -666,13 +666,13 @@ Sehr spannende Voraussetzungen für einen Box-to-Box Spieler.
 Word Count: 89
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 19333 ,ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77 
+Line: 19333, ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77, PlayerID: E5BF554EF04DAE43AA04A7157997A18C, ExactPosition: nan 
 Comment: Scouting Status: weiter beobachten
 0 0 1 26 168 FC Augsburg 1 1 193 14.0 Normal 0 21 false false false DE JA X-NONE /* Style Definitions */ table.MsoNormalTable {mso-style-name:"Normale Tabelle"; mso-tstyle-rowband-size:0; mso-tstyle-colband-size:0; mso-style-noshow:yes; mso-style-priority:99; mso-style-parent:""; mso-padding-alt:0cm 5.4pt 0cm 5.4pt; mso-para-margin-top:0cm; mso-para-margin-right:0cm; mso-para-margin-bottom:8.0pt; mso-para-margin-left:0cm; line-height:107%; mso-pagination:widow-orphan; font-size:11.0pt; font-family:Calibri; mso-ascii-font-family:Calibri; mso-ascii-theme-font:minor-latin; mso-hansi-font-family:Calibri; mso-hansi-theme-font:minor-latin; mso-fareast-language:EN-US;} - teilweise uncleveres taktisches Verhalten (kommt zu spät in def. Zweikampf) + stämmige, kräftige und robuste Figur, vermutlich ausgewachsen + Abwehrchef und Kapitän. Nimmt diese Rolle gut anbewertet von Alexander Schestak 
 Word Count: 84
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 21533 ,ScoutID: E506F0E51405B74EA16F029313817A13 
+Line: 21533, ScoutID: E506F0E51405B74EA16F029313817A13, PlayerID: FD1CCE80FD883B4CA0BA209D045CF28E, ExactPosition: RV 
 Comment: Rechtsfuß, ca 1.80m, zentrales Mittelfeld oder Halbpositionen (8er oder auch außen)
 
 Spieler hat sehr gute Technik und Ruhe am Ball. Ist immer anspielbar auch unter Druck, fordert viele Bälle und spielt sehr gut von hinten ins vordere Drittel durch gute Pässe. Macht tiefe Laufwege wenn er vorne ist.
@@ -681,13 +681,13 @@ Sein defensives Zweikampfverhalten ist nicht gut. Oft zu aggresiv und dadurch le
 Word Count: 80
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 21848 ,ScoutID: 121C4957C8DF814290EA1E4DC6567221 
+Line: 21848, ScoutID: 121C4957C8DF814290EA1E4DC6567221, PlayerID: 44861E614C9109448E15C2C23534BFB6, ExactPosition: IV 
 Comment: Scouting Status: weiter beobachten
 Kapitän der U18 und Abwehrchef in italienischer 4er Kette. Großer linker Innenverteidiger mit kräftiger Statur. Mit Ball sehr mutig aber risikoreich. Vertikale flache Eröffnung ins Zentrum oder Andribbeln, Binden und 1gg1. Passspiel scharf und präzise. Probleme im Stellungsspiel bei langen Bällen hinter die Kette des Gegners und bei Flanken (verliert Orientierung zum Gegner). Tempo ordentlich aber nicht unterdurchschnittlich. Kognitiv schnell, verteidigt häufig nach vorne. Fazit: Bei Italien der auffälligste. Solider Innenverteidiger mit durchschnittlicher Perspektive.  
 Word Count: 78
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 21853 ,ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E 
+Line: 21853, ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E, PlayerID: 8C6AE9062AA5354AAECC886EE36EBFC3, ExactPosition: RM 
 Comment:  -Rechsflügel, RF, retardiert.
  - Luca hat ein sehr gute spiel gemacht .
  - sehr schnell und sehr gute Antritt  auf KD und LD
@@ -701,7 +701,7 @@ Comment:  -Rechsflügel, RF, retardiert.
 Word Count: 58
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 22454 ,ScoutID: 472639E891661F4082883C4D6FB91BAD 
+Line: 22454, ScoutID: 472639E891661F4082883C4D6FB91BAD, PlayerID: AC78D547575858479415BD48D8AC828A, ExactPosition: TW 
 Comment: normale Statur für einen Torwart ,
 Spielerisch das ein oder andere mal bisschen unsicher ,
 bei den 2 Toren konnte er aus meiner Sicht nichts machen ,
@@ -710,43 +710,43 @@ einmal gut antizipiert und ca.30 Meter vor dem Tor ein Ball geklärt mit dem Fus
 Word Count: 53
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 26727 ,ScoutID: D3C297D361D870419F82763306076755 
+Line: 26727, ScoutID: D3C297D361D870419F82763306076755, PlayerID: 4A5D82B954C8F84DB42CBCF8726D7CCF, ExactPosition: IV 
 Comment: Scouting Status: -
 Anmerkungen: geseh. Spiele: U20 Frankreich vs. Niederlande, vs. Paris FC, SM Caen physis: setzt den körper clever ein!relativ wenig fouls! takt. Verst.: geht gut zum Ball, steht schon beim Anspiel eng am Gegner! Schaltet schnell nach Ballgewinn um und sich mit nach vorne ein! sonstiges: kommt bei Standards NICHT zum Kopfball! wird immer für das eigene Tor gefährlich! Fazit: Perspektivisch interessanter Spieler noch jung und schon einige Spielerfahrung in 2.frz. Liga sowie Jun. Nationalmannschaft, noch bis 6/2023 Vertrag bei Auxerre   
 Word Count: 83
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 27081 ,ScoutID: DEB34B6F2717446E8FD50595D6CB3E19 
+Line: 27081, ScoutID: DEB34B6F2717446E8FD50595D6CB3E19, PlayerID: 4FCE31EC48BC446E9B526E56620BFDF3, ExactPosition: nan 
 Comment: Zentrales Mittelfeld, Im Altersschnitt, endomorph, rechtsfüßig
 
 Sehr lauffreudig bietet er meist eine Anspielstation für seine Mitspieler. Ballsicheres Dribbling, einzig die Passqualität leidet unter Gegnerdruck sehr stark. Ist wachsam gegen den Ball und stellt seine Gegenspieler schnell. Athletisch kleine Nachteile gegenüber sehr dynamischen und Handlungsschnellen Gegnern. Technisch gut, gute Ballkontrolle und akzeptables Passpiel. Gute Kommunikation mit seinen Mitspielern. 
 Word Count: 57
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 27770 ,ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B 
+Line: 27770, ScoutID: B940DE3AAB8AAD47A2CC34725B0C900B, PlayerID: 299331546B50D64ABE42DA06508FAAD0, ExactPosition: STR 
 Comment: RF, Ekto- Mesotyp, der Stürmer agierte auffällig durch seine Einsatzbereitschaft und Zweikampfverhalten. Er geht auch dorthin wo es wehtut. Seine Technik ist gut, er ist aber kein Edeltechniker, an dieser Stelle hat er noch Recouzen, Physisch kann er vor allem in Punkto Muskulatur noch draufpacken. Seine Schnelligkeit ist ok. Perspektivisch ist er als jüngerer Jahrgang ein interessanter Spieler.
 
  
 Word Count: 58
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 28182 ,ScoutID: D3C297D361D870419F82763306076755 
+Line: 28182, ScoutID: D3C297D361D870419F82763306076755, PlayerID: DF531BCB51DFE74ABC17FB5E9B79A997, ExactPosition: RV 
 Comment: Physis: 1,94m sehr muskulös, aber nicht behäbig dadurchTechnik:gutes Kopfballspiel technisch, sowie Kopfballstärke des Kopfballs, Timing tiefe Pässe ins Mittelfeldsehr gutes Passspiel, der Passstärke u. GenauigkeitTaktik:stellt den Gegner zwar gut, jedoch kein Zugriff - nicht griffig/energisch!gute Übersicht beim Passspiel - kluge Pässe für RaumgewinnMentalität: sehr ruhiger Spielerkönnte noch mehr Kommandos gebenFazit: -muss noch mehr aus sich herauskommen und mehr die Spieler vor sich dirigieren aber ansonsten gute Anlagen dabei 
 Word Count: 68
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 39096 ,ScoutID: 5B604EF550186645977BD4272F191418 
+Line: 39096, ScoutID: 5B604EF550186645977BD4272F191418, PlayerID: DB29ACF15C4247418FAB5F2022AFDE3E, ExactPosition: OMR 
 Comment: Normale Größe, Ekto Typ, RF, MF, A /MD /LD ok bis gut, gutes Passspiel, sucht immer wieder die Tiefe mit diesen Bällen, gute Grundtechnik, Ruhe am Ball unter Druck - Spieler hat gute Anlagen, nimmt sich im Spiel mal Pausen, wo er nicht sehr präsent ist  
 Word Count: 46
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 43093 ,ScoutID: D3C297D361D870419F82763306076755 
+Line: 43093, ScoutID: D3C297D361D870419F82763306076755, PlayerID: ACC4EDBB49C0DD4E9BBD865972D87849, ExactPosition: RV 
 Comment: Scouting Status: -
 Anmerkungen: ges. Spiele: Fleetwood Town, U20 Niederlande vs. Frankreich/Polen, Crewe Alexandra, Burton Albionphysis: normaler körperbau/athletisch, stellt den Körper gut in die Zweikämpfe -> zieht Foulssonstiges: Elfmeterschießen; Elfmeter  cool und sicher verwandelt! sonst wenig Zug zum Tor!Fazit: sehr interessant Spieler weil er so unauffällig spielt! sicheres und gutes Passspiel, immer anspielbar! Zu vergleichen mit Daniel Baier! 9/10 Startelfeinsätze! Vertrag läuft nur noch bis 06/2020! 
 Word Count: 66
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 46580 ,ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC 
+Line: 46580, ScoutID: 26200DBF77CA41D6993D1A13C88D0EBC, PlayerID: FD176B74C18F4300957F58C72D7F8986, ExactPosition: LA 
 Comment: R, LF, i.A. 
 - sehr guter Antritt, gute Endgeschwindigkeit, sehr guter Bewegungsablauf, gute Frequenz, gute Wendigkeit
 - gute Ballbehandlung, enges Dribbling, guter 1. Kontakt 
@@ -760,25 +760,25 @@ Talent: 1 v1 Flügel, Bälle Schnittstelle
 Word Count: 64
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 59478 ,ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77 
+Line: 59478, ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77, PlayerID: 543A9FA0970E784C9538F16F60CFB3E1, ExactPosition: LV 
 Comment: Scouting Status: weiter beobachten
 0 0 1 16 101 FC Augsburg 1 1 116 14.0 Normal 0 21 false false false DE JA X-NONE /* Style Definitions */ table.MsoNormalTable {mso-style-name:"Normale Tabelle"; mso-tstyle-rowband-size:0; mso-tstyle-colband-size:0; mso-style-noshow:yes; mso-style-priority:99; mso-style-parent:""; mso-padding-alt:0cm 5.4pt 0cm 5.4pt; mso-para-margin-top:0cm; mso-para-margin-right:0cm; mso-para-margin-bottom:8.0pt; mso-para-margin-left:0cm; line-height:107%; mso-pagination:widow-orphan; font-size:11.0pt; font-family:Calibri; mso-ascii-font-family:Calibri; mso-ascii-theme-font:minor-latin; mso-hansi-font-family:Calibri; mso-hansi-theme-font:minor-latin; mso-fareast-language:EN-US;} + athletische Figur  - hat sicherlich nicht sein ganzes Leistungsvermögen ausgeschöpft  + bisher zwei Profieinsätze bewertet von Alexander Schestak 
 Word Count: 72
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 60379 ,ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77 
+Line: 60379, ScoutID: 0A17CC81DD5E1F47AD3417BFE290FA77, PlayerID: B5E03F18897B5946AB5C6616B30FB338, ExactPosition: IV 
 Comment: Scouting Status: nicht interessant
 0 0 1 19 123 FC Augsburg 1 1 141 14.0 Normal 0 21 false false false DE JA X-NONE /* Style Definitions */ table.MsoNormalTable {mso-style-name:"Normale Tabelle"; mso-tstyle-rowband-size:0; mso-tstyle-colband-size:0; mso-style-noshow:yes; mso-style-priority:99; mso-style-parent:""; mso-padding-alt:0cm 5.4pt 0cm 5.4pt; mso-para-margin-top:0cm; mso-para-margin-right:0cm; mso-para-margin-bottom:8.0pt; mso-para-margin-left:0cm; line-height:107%; mso-pagination:widow-orphan; font-size:11.0pt; font-family:Calibri; mso-ascii-font-family:Calibri; mso-ascii-theme-font:minor-latin; mso-hansi-font-family:Calibri; mso-hansi-theme-font:minor-latin; mso-fareast-language:EN-US;} -  findet keine gezielten Lösungen in Drucksituationen, deshalb im Spielaufbau unterdurchschnittlich + robuste Figur, vermutlich ausgewachsen    bewertet von Alexander Schestak 
 Word Count: 73
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 63021 ,ScoutID: 5B604EF550186645977BD4272F191418 
+Line: 63021, ScoutID: 5B604EF550186645977BD4272F191418, PlayerID: BC786BC952BA454BA2CC0F3AB8519AF6, ExactPosition: LA 
 Comment: Kam gegen einen starken Gegner in den ersten 20 Minuten gut ins Spiel. Je länger die Partie lief, desto weniger waren gute Aktionen dabei. Beim Tor attakierte er im Sprint die 2 Stange und hat sich sehr gut durchgesetzt.
 Hatte einen gleichschnellen Gegenspieler und tat sich im 1:1 schwer. War ständig anspielbar und lauffreudig.  
 Word Count: 54
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 65748 ,ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E 
+Line: 65748, ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E, PlayerID: 97B9ADFEB2061942A2BAE1FB8722D572, ExactPosition: nan 
 Comment: Er spielte linker ST(rechts Fuß) , normale Statur mit Hohe Dynamik und sehr aktiv. Technisch ok, teilweise Fehler bei erste Ballannahme und Passspiel . 
 Taktisch diszipliniert  !
 Defensiv sehr giftig  !
@@ -787,7 +787,7 @@ Insgesamt gutem Potenzial, er kann (in meine Augen) offensiv mehrere Position sp
 Word Count: 48
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 94858 ,ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E 
+Line: 94858, ScoutID: E6C23D641C1DB94E9E98A9E0C56F4F2E, PlayerID: E83318A8D1049F46A47F5F0C25C744B3, ExactPosition: RA 
 Comment: Rechtflügel, RF , Athletische Figur, Ekto,
 Gute Basistechinik, Explosive  Antritt,  Sehr gute erste Ballkontakt in die freien räume , Sehr aktiv in Spiel , schlägt  gute flanke.
 2 Halbzeit in ZM gespielt auch gut gespielt ,erzielt ein Kopfballtor !
@@ -796,31 +796,31 @@ Der Beste Mann auf dem Platz ! Unbedingt ins Probetrainnig einladen.
 Word Count: 56
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 95588 ,ScoutID: 2E6E54C86CFFA84095B7D6C2FA0A8772 
+Line: 95588, ScoutID: 2E6E54C86CFFA84095B7D6C2FA0A8772, PlayerID: 0E0DC009D40F01488146E5AFA9C7D998, ExactPosition: OMR 
 Comment: Paul Ihle, Nr. 10, RF, zMF (6er), bis,
 guter 1. Kontakt, dynamisches Tempodribbling, meist vororientiert, umsichtiges Passspiel, öfters mit dynamischem Zug zum Tor (2 Tore mit links und rechts erzielt), (selten) etw. überhastet bei Gegnerdruck, aber dann sofort wieder im Gegenpressing, Tempo dynamisch, kampfstark im def 1:1 - Probetraining! 
 Word Count: 49
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 106758 ,ScoutID: 5B604EF550186645977BD4272F191418 
+Line: 106758, ScoutID: 5B604EF550186645977BD4272F191418, PlayerID: 1F3A2BDAFAC241EFA9D8404FD2EC15C0, ExactPosition: IVL 
 Comment: Zuerst  als IV und dann als 6er eingesetzt. IV gutes Spiel, Passspiel ok bis gut - viele vertikale Bälle, stark im defensiven 1 :1, als 6er zu leise, aber auch hier gutes Auge für den Raum den er bespeilen oder zustellen muss,  icht so aggressiv gegen den Ball wie als IV 
 Word Count: 51
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 115862 ,ScoutID: DEB34B6F2717446E8FD50595D6CB3E19 
+Line: 115862, ScoutID: DEB34B6F2717446E8FD50595D6CB3E19, PlayerID: B01C5F90FA45104A9E710163501F29B4, ExactPosition: LA 
 Comment: St, rechtsfüßig, im Altersschnitt
 
 Setzt immer wieder seine Schnelligkeit ein und zeigt sich Dribbelstark. Auf engerem Raum zunehmend technische Schwierigkeiten, findet dennoch meisten eine Lösung im 1:1. Nahezu komplett ohne Hilfe seiner Mitspieler allerdings offensiv auf sich allein gestellt. Arbeitet auch defensiv aktiv mit und kommuniziert positiv mit seinen Mitspielern.  
 Word Count: 50
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 138889 ,ScoutID: E3CE3A5FC953234BBCCAA82E2BA03F7B 
+Line: 138889, ScoutID: E3CE3A5FC953234BBCCAA82E2BA03F7B, PlayerID: 5C17AA9D33F3F440B73DDD85384837C5, ExactPosition: MS 
 Comment: Scouting Status: weiter beobachten
 +gross, lang, dünn, drahtig+Antritt ist nicht explosiv, kommt nicht richtig weg!!!+auf Strecke aufgrund seiner Größe ok bis gut, aber nicht top!!!-sehr verhalten heute, keine wirkliches aggressives Anlaufen+Zielspieler, wird gesucht+kann den Ball mit dem Rücken zum Tor annehmen und behaupten+im Zentrum auf Flanken und Hereingaben lauernd+hat Präsenz im Strafraum, geht Richtung 1.Pfosteninsgesamt aber zu wenig, wirkte nicht spritzig, nicht gierig, mit dieser Leistung kein Spieler der uns verstärkt!!! 
 Word Count: 71
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 146504 ,ScoutID: 40023ED106860F4494DC0AD7731CA227 
+Line: 146504, ScoutID: 40023ED106860F4494DC0AD7731CA227, PlayerID: D8D9B6838ED63345A22EAF150B9043DB, ExactPosition: nan 
 Comment: Hat gearbeitet 
 Viele defensive Läufe im hohen Tempo
 Assist gedankenschnell mit 2 Kontakten und guten pass timing
@@ -833,14 +833,14 @@ Muss mehr seine Mitspieler sehen - Beispiel Petkov!
 Word Count: 51
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 167081 ,ScoutID: 9117C4915053AB489631B12CE7087D24 
+Line: 167081, ScoutID: 9117C4915053AB489631B12CE7087D24, PlayerID: 556E38A59FF60E4881B91383EED1BA60, ExactPosition: nan 
 Comment: Bester Spieler auf dem Platz. Rechter Flügel OFF.
 Sehr schnell. Spritzig. Wuchtig und stabil im Zweikampf. Arbeitet extrem gut gegen den Ball. 
 Geht offensiv in 1 gegen 1 Duelle und findet Lösungen. Zug zum Tor. Setzt nach, extrem mannschaftsdienlich. Technik ist ok. Geht gern in die Tiefe. Sehr interessant. 
 Word Count: 49
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 183291 ,ScoutID: 40023ED106860F4494DC0AD7731CA227 
+Line: 183291, ScoutID: 40023ED106860F4494DC0AD7731CA227, PlayerID: 83DE3DC3F2682341AEFEFD61908D9B05, ExactPosition: MS 
 Comment: War bemüht und fleißig
 Elfer verschossen sich aber danach selbst aus dem Tief geholt und sich durch tor belohnt, welches er gut und technisch sauber macht 
 Kopfball spiel gut!
@@ -850,7 +850,7 @@ Interessanter Spieler
 Word Count: 49
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-Line: 186838 ,ScoutID: 9117C4915053AB489631B12CE7087D24 
+Line: 186838, ScoutID: 9117C4915053AB489631B12CE7087D24, PlayerID: A43473FE332C0B479049B1003F6F9A5A, ExactPosition: MS 
 Comment: Erzielte 3 Tore.
 Extrem schnell im Antritt und auf auf Strecke.
 Linksfuß, wuchtig, körperlich sehr stabil.
