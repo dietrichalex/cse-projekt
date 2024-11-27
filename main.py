@@ -1,6 +1,7 @@
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+import requests
+import json
+
 
 def get_data():
     data = pd.read_csv('data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
@@ -39,10 +40,60 @@ def print_word_count(data, min_words, max_words, filename):
             f.write(f"-------------------------------------------------------------------------------------------------------------------------------------------------------\n")
             f.write(f"Line: {idx}, ScoutID: {row['ScoutId']}, PlayerID: {row['PlayerId']}, ExactPosition: {row['ExactPosition']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
 
+def setup_lm_studio():
+    # Define the API URL
+    url = "http://127.0.0.1:1234/v1/chat/completions"
+
+    # Define the request payload
+    payload = {
+        "model": "llama-3.2-1b-instruct",
+        "messages": [
+            {"role": "system", "content": "Always answer in rhymes."},
+            {"role": "user", "content": "Introduce yourself."}
+        ],
+        "temperature": 0.7,
+        "max_tokens": -1,
+        "stream": True
+    }
+
+    # Define the headers
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    # Make the POST request
+    try:
+        with requests.post(url, headers=headers, data=json.dumps(payload), stream=True) as response:
+            response.raise_for_status()  # Raise an HTTPError for bad responses
+            print("Streamed Content:")
+            result = []
+            for line in response.iter_lines():
+                if line:  # Ignore keep-alive new lines or empty lines
+                    try:
+                        # Remove "data: " prefix and parse JSON
+                        line_data = json.loads(line.decode("utf-8").lstrip("data: "))
+                        # Extract the content field if available
+                        choices = line_data.get("choices", [])
+                        if choices:
+                            delta = choices[0].get("delta", {})
+                            content = delta.get("content")
+                            if content:
+                                result.append(content)  # Collect content
+                    except json.JSONDecodeError:
+                        print(f"Non-JSON line received: {line.decode('utf-8')}")
+
+            # Join all collected content into a single string and print it
+            full_content = "".join(result)
+            print(full_content)
+    except requests.exceptions.RequestException as e:
+        print("Error:", e)
+
+
 def main():
     data = get_data()
     data = filter_data(data)
-    print_word_count(data,45, 90 ,"filtered_words.txt")
+    #print_word_count(data,45, 90 ,"filtered_words.txt")
+    setup_lm_studio()
 
 
 if __name__ == '__main__':
