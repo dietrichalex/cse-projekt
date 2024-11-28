@@ -43,11 +43,14 @@ def print_word_count(data, min_words, max_words, filename):
             f.write(f"-------------------------------------------------------------------------------------------------------------------------------------------------------\n")
             f.write(f"Line: {idx}, ScoutID: {row['ScoutId']}, PlayerID: {row['PlayerId']}, ExactPosition: {row['ExactPosition']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
 
-def send_prompt(current_prompt: dict):
+def send_prompt(current_prompt: str):
     global prompt_history
     # Define the API URL
     url = "http://127.0.0.1:1234/v1/chat/completions"
-    message_list = list(itertools.chain(*[[current_prompt], prompt_history]))
+    prompt = {"role": "user",
+              "content": "Stell dir vor, dass du ein Fußballscout bist und dem nachfolgenden Spielerbericht eines Spielers eine Note zwischen 1 und 5 geben musst, wobei 5 die beste Note ist." +
+               "Dies ist der Spielerbericht: "+ current_prompt}
+    message_list = list(itertools.chain(*[[prompt], prompt_history]))
     print("MESSAGE LIST: ", message_list)
 
     # Define the request payload
@@ -98,9 +101,7 @@ def send_prompt(current_prompt: dict):
 def main():
     data = get_data()
     data = filter_data(data)
-    #print_word_count(data,45, 90 ,"filtered_words.txt")
-    send_prompt({"role": "user", "content": "Introduce yourself."})
-    send_prompt({"role": "user", "content": "When were you developed?"})
+    send_prompt(data.iloc[0]['Comment'])
 
 
 if __name__ == '__main__':
