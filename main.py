@@ -1,6 +1,9 @@
 import pandas as pd
 import requests
 import json
+import itertools
+
+prompt_history = []
 
 
 def get_data():
@@ -40,17 +43,17 @@ def print_word_count(data, min_words, max_words, filename):
             f.write(f"-------------------------------------------------------------------------------------------------------------------------------------------------------\n")
             f.write(f"Line: {idx}, ScoutID: {row['ScoutId']}, PlayerID: {row['PlayerId']}, ExactPosition: {row['ExactPosition']} \nComment: {row['Comment']} \nWord Count: {row['word_count']}\n\n")
 
-def setup_lm_studio():
+def send_prompt(current_prompt: dict):
+    global prompt_history
     # Define the API URL
     url = "http://127.0.0.1:1234/v1/chat/completions"
+    message_list = list(itertools.chain(*[[current_prompt], prompt_history]))
+    print("MESSAGE LIST: ", message_list)
 
     # Define the request payload
     payload = {
         "model": "llama-3.2-1b-instruct",
-        "messages": [
-            {"role": "system", "content": "Always answer in rhymes."},
-            {"role": "user", "content": "Introduce yourself."}
-        ],
+        "messages": message_list,
         "temperature": 0.7,
         "max_tokens": -1,
         "stream": True
@@ -88,12 +91,16 @@ def setup_lm_studio():
     except requests.exceptions.RequestException as e:
         print("Error:", e)
 
+    prompt_history = message_list
+    print("PROMPT_HISTORY: ",prompt_history)
+
 
 def main():
     data = get_data()
     data = filter_data(data)
     #print_word_count(data,45, 90 ,"filtered_words.txt")
-    setup_lm_studio()
+    send_prompt({"role": "user", "content": "Introduce yourself."})
+    send_prompt({"role": "user", "content": "When were you developed?"})
 
 
 if __name__ == '__main__':
