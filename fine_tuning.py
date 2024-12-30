@@ -2,7 +2,7 @@ import torch, pandas as pd
 from datasets import load_dataset
 from transformers import (
     LlamaForCausalLM,
-    LlamaTokenizer,
+    AutoTokenizer,
     Trainer,
     TrainingArguments
 )
@@ -28,7 +28,7 @@ LOGGING_DIR = "./logs"  # Directory for logging
 # ===============================
 print("Loading model and tokenizer from Hugging Face...")
 
-tokenizer = LlamaTokenizer.from_pretrained(MODEL_NAME)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 model = LlamaForCausalLM.from_pretrained(MODEL_NAME)
 
 # ===============================
