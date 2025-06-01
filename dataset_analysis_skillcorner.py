@@ -1,12 +1,39 @@
 import pandas as pd
-#import numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.metrics.pairwise import cosine_similarity
 
 def get_data():
     data = pd.read_csv('data/2013352_dynamic_events_exp.csv', encoding="utf8", delimiter=';')
     data['player_name'] = data['player_name'].str.replace(r'[\x00-\x1F\x7F-\x9F]', '', regex=True)
     return data
+
+def get_sim_score(data, player_id_1, player_id_2):
+    # Number of actions
+    player_1_nof_actions = get_nof_actions(data, player_id_1)
+    player_2_nof_actions = get_nof_actions(data, player_id_2)
+    # Plot Heatmaps
+    plot_heatmap(data, player_id_1)
+    plot_heatmap(data, player_id_2)
+    # Analyse passing
+    player_1_pass_range, player_1_pass_direction, player_1_avg_poss, player_1_pass_accuracy = analyse_passing(data, player_id_1)
+    player_2_pass_range, player_2_pass_direction, player_2_avg_poss, player_2_pass_accuracy = analyse_passing(data, player_id_2)
+    # Timeline
+    timeline(data, player_id_1)
+    timeline(data, player_id_2)
+
+    # Calculate similarity score
+    player_1 = np.array([player_1_nof_actions, player_1_pass_range, player_1_pass_direction, player_1_avg_poss, player_1_pass_accuracy])
+    player_2 = np.array([player_2_nof_actions, player_2_pass_range, player_2_pass_direction, player_2_avg_poss, player_2_pass_accuracy])
+    sim_score = cosine_similarity(player_1.reshape(1, -1), player_2.reshape(1, -1))[0][0]
+    print(f"Similarity score (0–1): {sim_score:.3f}")
+    return sim_score
+
+def get_nof_actions(data, player_id):
+    player_data = data[data['player_id'] == player_id]
+    nof_actions = len(player_data)
+    return nof_actions
 
 def plot_nof_actions(data, nof_players):
     # only player_possession
@@ -36,7 +63,7 @@ def plot_heatmap(data, player_id):
 
     plt.figure(figsize=(10, 7))
     sns.kdeplot(x=x, y=y, fill=True, cmap="YlOrRd", thresh=0.05, levels=100)
-    plt.title("Heatmap")
+    plt.title(f"Heatmap for {player_id}")
     plt.xlim(-55, 55)
     plt.ylim(-35, 35)
     plt.xlabel("")
@@ -74,27 +101,32 @@ def analyse_passing(data, player_id):
     print(f"{player_id} has a Pass Accuracy of {pass_accuracy:.2f}% with {total_passes} Passes")
     # Only successful pass are included in this column
     pass_range = player_passes_data['pass_range'].value_counts()
+    pass_range_value = player_passes_data['pass_distance'].mean()/100
 
     plt.figure(figsize=(10, 6))
     sns.barplot(x=pass_range.values, y=pass_range.index, hue=pass_range.index, palette="Blues_d", legend=False)
     plt.xlabel("Number of Passes")
     plt.ylabel("Pass Range")
-    plt.title("Pass Range Value Counts")
+    plt.title(f"Pass Range Value Counts for {player_id}")
     plt.grid(axis='x', linestyle='--', alpha=0.6)
     plt.tight_layout()
     plt.show()
 
     # Only successful pass are included in this column
     pass_direction = player_passes_data['pass_direction'].value_counts()
+    pass_direction_value = player_passes_data['pass_angle'].mean()
 
     plt.figure(figsize=(10, 6))
     sns.barplot(x=pass_direction.values, y=pass_direction.index, hue=pass_direction.index, palette="Blues_d", legend=False)
     plt.xlabel("Number of Passes")
     plt.ylabel("Pass Direction")
-    plt.title("Pass Direction Value Counts")
+    plt.title(f"Pass Direction Value Counts for {player_id}")
     plt.grid(axis='x', linestyle='--', alpha=0.6)
     plt.tight_layout()
     plt.show()
+
+    return pass_range_value, pass_direction_value, avg_poss, pass_accuracy
+
 
 
 def timeline(data, player_id):
@@ -121,12 +153,11 @@ def main():
     data = get_data()
     #print(data)
     plot_nof_actions(data, 20)
-    # select player to analyse
-    curr_player = 19175
-    # analyse player
-    plot_heatmap(data, curr_player)
-    analyse_passing(data, curr_player)
-    timeline(data, curr_player)
+    # select players to analyse
+    player_1 = 12484
+    player_2 = 4888
+    # analyse players
+    sim_score = get_sim_score(data, player_1, player_2)
 
 if __name__ == '__main__':
     main()
