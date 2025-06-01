@@ -73,13 +73,25 @@ def analyse_passing(data, player_id):
 
     print(f"{player_id} has a Pass Accuracy of {pass_accuracy:.2f}% with {total_passes} Passes")
     # Only successful pass are included in this column
-    pass_type = player_passes_data['pass_range'].value_counts()
+    pass_range = player_passes_data['pass_range'].value_counts()
 
     plt.figure(figsize=(10, 6))
-    sns.barplot(x=pass_type.values, y=pass_type.index, hue=pass_type.index, palette="Blues_d", legend=False)
+    sns.barplot(x=pass_range.values, y=pass_range.index, hue=pass_range.index, palette="Blues_d", legend=False)
     plt.xlabel("Number of Passes")
-    plt.ylabel("Pass Type")
-    plt.title("Pass Type Value Counts")
+    plt.ylabel("Pass Range")
+    plt.title("Pass Range Value Counts")
+    plt.grid(axis='x', linestyle='--', alpha=0.6)
+    plt.tight_layout()
+    plt.show()
+
+    # Only successful pass are included in this column
+    pass_direction = player_passes_data['pass_direction'].value_counts()
+
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=pass_direction.values, y=pass_direction.index, hue=pass_direction.index, palette="Blues_d", legend=False)
+    plt.xlabel("Number of Passes")
+    plt.ylabel("Pass Direction")
+    plt.title("Pass Direction Value Counts")
     plt.grid(axis='x', linestyle='--', alpha=0.6)
     plt.tight_layout()
     plt.show()
@@ -110,7 +122,7 @@ def main():
     #print(data)
     plot_nof_actions(data, 20)
     # select player to analyse
-    curr_player = 11757
+    curr_player = 19175
     # analyse player
     plot_heatmap(data, curr_player)
     analyse_passing(data, curr_player)
