@@ -51,7 +51,7 @@ def plot_nof_actions(data, nof_players):
     plt.tight_layout()
     plt.show()
 
-def plot_heatmap(data, player_id):
+def plot_heatmap(data, player_id, flg_plot):
     # first and second half in one plot, because it seems like coordinates get inverted at halftime
 
     player_data = data[data['player_id'] == player_id]
@@ -61,19 +61,20 @@ def plot_heatmap(data, player_id):
     x = player_data['x_start']/100
     y = player_data['y_start']/100
 
-    plt.figure(figsize=(10, 7))
-    sns.kdeplot(x=x, y=y, fill=True, cmap="YlOrRd", thresh=0.05, levels=100)
-    plt.title(f"Heatmap for {player_id}")
-    plt.xlim(-55, 55)
-    plt.ylim(-35, 35)
-    plt.xlabel("")
-    plt.ylabel("")
-    #plt.gca().set_facecolor('green')
-    plt.grid(False)
-    plt.show()
+    if flg_plot:
+        plt.figure(figsize=(10, 7))
+        sns.kdeplot(x=x, y=y, fill=True, cmap="YlOrRd", thresh=0.05, levels=100)
+        plt.title(f"Heatmap for {player_id}")
+        plt.xlim(-55, 55)
+        plt.ylim(-35, 35)
+        plt.xlabel("")
+        plt.ylabel("")
+        #plt.gca().set_facecolor('green')
+        plt.grid(False)
+        plt.show()
 
 
-def analyse_passing(data, player_id):
+def analyse_passing(data, player_id, flg_plot):
     player_data = data[data['player_id'] == player_id]
 
     # calculate the avg possession time
@@ -85,7 +86,8 @@ def analyse_passing(data, player_id):
     else:
         avg_poss = 0
 
-    print(f"{player_id} has a average Possession time of {avg_poss:.2f}s with {nof_poss} Possessions")
+    if flg_plot:
+        print(f"{player_id} has a average Possession time of {avg_poss:.2f}s with {nof_poss} Possessions")
 
     # Count total and successful passes
     player_passes_data = player_data[player_data['end_type_id'] == 1]
@@ -98,54 +100,66 @@ def analyse_passing(data, player_id):
     else:
         pass_accuracy = 0.0
 
-    print(f"{player_id} has a Pass Accuracy of {pass_accuracy:.2f}% with {total_passes} Passes")
+    if flg_plot:
+        print(f"{player_id} has a Pass Accuracy of {pass_accuracy:.2f}% with {total_passes} Passes")
     # Only successful pass are included in this column
     pass_range = player_passes_data['pass_range'].value_counts()
     pass_range_value = player_passes_data['pass_distance'].mean()/100
 
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x=pass_range.values, y=pass_range.index, hue=pass_range.index, palette="Blues_d", legend=False)
-    plt.xlabel("Number of Passes")
-    plt.ylabel("Pass Range")
-    plt.title(f"Pass Range Value Counts for {player_id}")
-    plt.grid(axis='x', linestyle='--', alpha=0.6)
-    plt.tight_layout()
-    plt.show()
+    if flg_plot:
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x=pass_range.values, y=pass_range.index, hue=pass_range.index, palette="Blues_d", legend=False)
+        plt.xlabel("Number of Passes")
+        plt.ylabel("Pass Range")
+        plt.title(f"Pass Range Value Counts for {player_id}")
+        plt.grid(axis='x', linestyle='--', alpha=0.6)
+        plt.tight_layout()
+        plt.show()
 
     # Only successful pass are included in this column
     pass_direction = player_passes_data['pass_direction'].value_counts()
     pass_direction_value = player_passes_data['pass_angle'].mean()
 
-    plt.figure(figsize=(10, 6))
-    sns.barplot(x=pass_direction.values, y=pass_direction.index, hue=pass_direction.index, palette="Blues_d", legend=False)
-    plt.xlabel("Number of Passes")
-    plt.ylabel("Pass Direction")
-    plt.title(f"Pass Direction Value Counts for {player_id}")
-    plt.grid(axis='x', linestyle='--', alpha=0.6)
-    plt.tight_layout()
-    plt.show()
+    if flg_plot:
+        plt.figure(figsize=(10, 6))
+        sns.barplot(x=pass_direction.values, y=pass_direction.index, hue=pass_direction.index, palette="Blues_d", legend=False)
+        plt.xlabel("Number of Passes")
+        plt.ylabel("Pass Direction")
+        plt.title(f"Pass Direction Value Counts for {player_id}")
+        plt.grid(axis='x', linestyle='--', alpha=0.6)
+        plt.tight_layout()
+        plt.show()
 
     return pass_range_value, pass_direction_value, avg_poss, pass_accuracy
 
 
 
-def timeline(data, player_id):
+def timeline(data, player_id, flg_plot):
     player_data = data[data['player_id'] == player_id]
 
     # Sort by time
     player_data = player_data.sort_values(by=["period","time_start"])
 
     # Plot
-    plt.figure(figsize=(12, 4))
+    if flg_plot:
+        plt.figure(figsize=(12, 4))
 
-    plt.scatter(player_data["time_start"], player_data["event_type"], c='blue', alpha=0.6)
+        plt.scatter(player_data["time_start"], player_data["event_type"], c='blue', alpha=0.6)
 
-    plt.title(f"Event Timeline for {player_id}")
-    plt.xlabel("Time")
-    plt.ylabel("Event Type")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
+        plt.title(f"Event Timeline for {player_id}")
+        plt.xlabel("Time")
+        plt.ylabel("Event Type")
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+
+def create_mydata(data):
+    players = data['player_id'].unique()
+    for player in players:
+        get_nof_actions(data, player)
+        analyse_passing(data, player, False)
+
 
 
 def main():
@@ -155,7 +169,7 @@ def main():
     plot_nof_actions(data, 20)
     # select players to analyse
     player_1 = 12484
-    player_2 = 4888
+    player_2 = 4047
     # analyse players
     sim_score = get_sim_score(data, player_1, player_2)
 
