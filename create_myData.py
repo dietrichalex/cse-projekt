@@ -30,7 +30,25 @@ def get_passing_data(data):
     pass_direction_value = passes_data['pass_angle'].mean()
     pass_range_value = passes_data['pass_distance'].mean() / 100
 
-    return nof_passes, pass_accuracy, pass_direction_value, pass_range_value
+    # Calculate dangerous accuracy
+    dangerous_passes_data = passes_data[passes_data['player_targeted_dangerous'] == 'WAHR']
+    nof_dangerous_passes = len(dangerous_passes_data)
+    successful_dangerous_passes = len(dangerous_passes_data[dangerous_passes_data['pass_outcome'] == 'successful'])
+    if nof_dangerous_passes > 0:
+        dangerous_pass_accuracy = (successful_dangerous_passes / nof_dangerous_passes) * 100
+    else:
+        dangerous_pass_accuracy = 0.0
+
+    # Calculate difficult accuracy
+    difficult_passes_data = passes_data[passes_data['player_targeted_difficult_pass_target'] == 'WAHR']
+    nof_difficult_passes = len(difficult_passes_data)
+    successful_difficult_passes = len(difficult_passes_data[difficult_passes_data['pass_outcome'] == 'successful'])
+    if nof_difficult_passes > 0:
+        difficult_pass_accuracy = (successful_difficult_passes / nof_difficult_passes) * 100
+    else:
+        difficult_pass_accuracy = 0.0
+
+    return nof_passes, pass_accuracy, pass_direction_value, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy
 
 def get_poss_duration(data):
     # calculate the avg possession time
@@ -44,6 +62,16 @@ def get_poss_duration(data):
 
     return avg_poss
 
+def get_nof_chances_created(data):
+    # Without filtering after possession, for example off_ball_runs would also count
+    possession_data = data[data['event_type_id'] == 8]
+    return len(possession_data[possession_data['lead_to_shot'] == 'WAHR'])
+
+def get_nof_goal_created(data):
+    # Without filtering after possession, for example off_ball_runs would also count
+    possession_data = data[data['event_type_id'] == 8]
+    return len(possession_data[possession_data['lead_to_goal'] == 'WAHR'])
+
 def create_mydata(data):
     players = data['player_id'].unique()
     counter = 1
@@ -53,14 +81,18 @@ def create_mydata(data):
         print(f"Analysing {player} ({counter}/{max_counter})")
         player_data = data[data['player_id'] == player]
         player_name = player_data['player_name'].iloc[0]
+        player_position = player_data['player_position'].iloc[0]
         nof_games = get_nof_games(player_data)
         nof_actions = get_nof_actions(player_data)
-        nof_passes, pass_accuracy, pass_direction_value, pass_range_value = get_passing_data(player_data)
+        nof_passes, pass_accuracy, pass_direction_value, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy = get_passing_data(player_data)
         avg_poss = get_poss_duration(player_data)
+        nof_chances_created = get_nof_chances_created(player_data)
+        nof_goal_created = get_nof_goal_created(player_data)
 
         counter += 1
         mydata.append({"player_name": player_name,
                        "player_id": player,
+                       "player_position": player_position,
                        "number_of_games": nof_games,
                        "avg_number_of_actions_per_game": nof_actions/nof_games,
                        "avg_number_of_passes_per_game": nof_passes/nof_games,
@@ -68,6 +100,12 @@ def create_mydata(data):
                        "avg_pass_range_m": pass_range_value,
                        "avg_pass_direction": pass_direction_value,
                        "avg_poss_duration_s": avg_poss,
+                       "avg_number_of_dangerous_passes_per_game": nof_dangerous_passes/nof_games,
+                       "dangerous_pass_accuracy_%": dangerous_pass_accuracy,
+                       "avg_number_of_difficult_passes_per_game": nof_difficult_passes/nof_games,
+                       "difficult_pass_accuracy_%": difficult_pass_accuracy,
+                       "number_of_possession_lead_to_shot": nof_chances_created/nof_games,
+                       "number_of_possession_lead_to_goal": nof_goal_created/nof_games,
                        })
 
     df = pd.DataFrame(mydata)
