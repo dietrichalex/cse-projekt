@@ -14,14 +14,14 @@ def get_sim_score(data, player_id_1, player_id_2):
     player_1_nof_actions = get_nof_actions(data, player_id_1)
     player_2_nof_actions = get_nof_actions(data, player_id_2)
     # Plot Heatmaps
-    plot_heatmap(data, player_id_1)
-    plot_heatmap(data, player_id_2)
+    plot_heatmap(data, player_id_1, False)
+    plot_heatmap(data, player_id_2, False)
     # Analyse passing
-    player_1_pass_range, player_1_pass_direction, player_1_avg_poss, player_1_pass_accuracy = analyse_passing(data, player_id_1)
-    player_2_pass_range, player_2_pass_direction, player_2_avg_poss, player_2_pass_accuracy = analyse_passing(data, player_id_2)
+    player_1_pass_range, player_1_pass_direction, player_1_avg_poss, player_1_pass_accuracy = analyse_passing(data, player_id_1, False)
+    player_2_pass_range, player_2_pass_direction, player_2_avg_poss, player_2_pass_accuracy = analyse_passing(data, player_id_2, False)
     # Timeline
-    timeline(data, player_id_1)
-    timeline(data, player_id_2)
+    timeline(data, player_id_1, False)
+    timeline(data, player_id_2, False)
 
     # Calculate similarity score
     player_1 = np.array([player_1_nof_actions, player_1_pass_range, player_1_pass_direction, player_1_avg_poss, player_1_pass_accuracy])
@@ -152,14 +152,6 @@ def timeline(data, player_id, flg_plot):
         plt.grid(True)
         plt.tight_layout()
         plt.show()
-
-
-def create_mydata(data):
-    players = data['player_id'].unique()
-    for player in players:
-        get_nof_actions(data, player)
-        analyse_passing(data, player, False)
-
 
 
 def main():
