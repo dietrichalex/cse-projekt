@@ -1,0 +1,87 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics.pairwise import cosine_similarity
+
+def get_data():
+    data = pd.read_csv('data/2013352_dynamic_events_exp.csv', encoding="utf8", delimiter=';')
+    data['player_name'] = data['player_name'].str.replace(r'[\x00-\x1F\x7F-\x9F]', '', regex=True)
+    return data
+
+def get_nof_actions(data):
+    return len(data)
+
+def get_nof_games(data):
+    return len(data['match_id'].unique())
+
+def get_passing_data(data):
+    # Count total and successful passes
+    passes_data = data[data['end_type_id'] == 1]
+    nof_passes = len(passes_data)
+    successful_passes = len(passes_data[passes_data['pass_outcome'] == 'successful'])
+    # Calculate accuracy
+    if nof_passes > 0:
+        pass_accuracy = (successful_passes / nof_passes) * 100
+    else:
+        pass_accuracy = 0.0
+
+    # Only successful pass are included in this column
+    pass_direction_value = passes_data['pass_angle'].mean()
+    pass_range_value = passes_data['pass_distance'].mean() / 100
+
+    return nof_passes, pass_accuracy, pass_direction_value, pass_range_value
+
+def get_poss_duration(data):
+    # calculate the avg possession time
+    posstime_data = data[data['event_type_id'] == 8]
+    nof_poss = len(posstime_data)
+    sum_duration = posstime_data['duration'].sum()
+    if nof_poss > 0:
+        avg_poss = sum_duration / nof_poss
+    else:
+        avg_poss = 0
+
+    return avg_poss
+
+def create_mydata(data):
+    players = data['player_id'].unique()
+    counter = 1
+    max_counter = len(players)
+    mydata = []
+    for player in players:
+        print(f"Analysing {player} ({counter}/{max_counter})")
+        player_data = data[data['player_id'] == player]
+        player_name = player_data['player_name'].iloc[0]
+        nof_games = get_nof_games(player_data)
+        nof_actions = get_nof_actions(player_data)
+        nof_passes, pass_accuracy, pass_direction_value, pass_range_value = get_passing_data(player_data)
+        avg_poss = get_poss_duration(player_data)
+
+        counter += 1
+        mydata.append({"player_name": player_name,
+                       "player_id": player,
+                       "number_of_games": nof_games,
+                       "avg_number_of_actions_per_game": nof_actions/nof_games,
+                       "avg_number_of_passes_per_game": nof_passes/nof_games,
+                       "pass_accuracy_%": pass_accuracy,
+                       "avg_pass_range_m": pass_range_value,
+                       "avg_pass_direction": pass_direction_value,
+                       "avg_poss_duration_s": avg_poss,
+                       })
+
+    df = pd.DataFrame(mydata)
+    df.to_csv("data/mydata.csv",
+              sep=";",
+              index=False,
+              float_format="%.3f",
+              encoding="utf-8"
+              )
+
+def main():
+    # get data
+    data = get_data()
+    create_mydata(data)
+
+if __name__ == '__main__':
+    main()
