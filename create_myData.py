@@ -4,9 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics.pairwise import cosine_similarity
 
-def get_data():
-    data = pd.read_csv('data/2013352_dynamic_events_exp.csv', encoding="utf8", delimiter=';')
+def get_player_data(path):
+    data = pd.read_csv(path, encoding="utf8", delimiter=';')
     data['player_name'] = data['player_name'].str.replace(r'[\x00-\x1F\x7F-\x9F]', '', regex=True)
+    return data
+
+def get_my_data(path):
+    data = pd.read_csv(path, encoding="utf8", delimiter=';')
     return data
 
 def get_nof_actions(data):
@@ -27,7 +31,11 @@ def get_passing_data(data):
         pass_accuracy = 0.0
 
     # Only successful pass are included in this column
-    pass_direction_value = passes_data['pass_angle'].mean()
+    #pass_direction_value = passes_data['pass_angle'].mean()
+    passes_forward = len(passes_data[passes_data['pass_direction'] == 'forward'])/nof_passes*100
+    passes_backward = len(passes_data[passes_data['pass_direction'] == 'backward'])/nof_passes*100
+    passes_left = len(passes_data[passes_data['pass_direction'] == 'sideway_left'])/nof_passes*100
+    passes_right = len(passes_data[passes_data['pass_direction'] == 'sideway_right'])/nof_passes*100
     pass_range_value = passes_data['pass_distance'].mean() / 100
 
     # Calculate dangerous accuracy
@@ -48,7 +56,7 @@ def get_passing_data(data):
     else:
         difficult_pass_accuracy = 0.0
 
-    return nof_passes, pass_accuracy, pass_direction_value, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy
+    return nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy
 
 def get_poss_duration(data):
     # calculate the avg possession time
@@ -84,7 +92,7 @@ def create_mydata(data):
         player_position = player_data['player_position'].iloc[0]
         nof_games = get_nof_games(player_data)
         nof_actions = get_nof_actions(player_data)
-        nof_passes, pass_accuracy, pass_direction_value, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy = get_passing_data(player_data)
+        nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy = get_passing_data(player_data)
         avg_poss = get_poss_duration(player_data)
         nof_chances_created = get_nof_chances_created(player_data)
         nof_goal_created = get_nof_goal_created(player_data)
@@ -98,7 +106,10 @@ def create_mydata(data):
                        "avg_number_of_passes_per_game": nof_passes/nof_games,
                        "pass_accuracy_%": pass_accuracy,
                        "avg_pass_range_m": pass_range_value,
-                       "avg_pass_direction": pass_direction_value,
+                       "passes_forward_%": passes_forward,
+                       "passes_backward_%": passes_backward,
+                       "passes_right_%": passes_right,
+                       "passes_left_%": passes_left,
                        "avg_poss_duration_s": avg_poss,
                        "avg_number_of_dangerous_passes_per_game": nof_dangerous_passes/nof_games,
                        "dangerous_pass_accuracy_%": dangerous_pass_accuracy,
@@ -116,10 +127,34 @@ def create_mydata(data):
               encoding="utf-8"
               )
 
+def calc_similarity_score(data):
+    filtered_data = data.iloc[:, 3:]
+    n = filtered_data.shape[0]
+    out = np.zeros((n, n))
+    for i in range(len(filtered_data)):
+        row_i_array = filtered_data.iloc[i].to_numpy()
+        for j in range(i,len(filtered_data)):
+            row_j_array = filtered_data.iloc[j].to_numpy()
+            print(f"Calculating Similarity-Score of {i} to {j}")
+            sim_score = cosine_similarity(row_i_array.reshape(1, -1), row_j_array.reshape(1, -1))[0][0]
+            out[i, j] = sim_score
+            out[j, i] = sim_score
+
+    df = pd.DataFrame(out)
+    df.to_csv("data/similarity_score_matrix.csv",
+              index=False,
+              header=False,
+              sep=";",
+              float_format="%.3f",
+              encoding="utf-8",
+              )
+
 def main():
     # get data
-    data = get_data()
+    data = get_player_data('data/2013352_dynamic_events_exp.csv')
     create_mydata(data)
+    mydata = get_my_data('data/mydata.csv')
+    calc_similarity_score(mydata)
 
 if __name__ == '__main__':
     main()
