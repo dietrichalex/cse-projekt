@@ -10,7 +10,7 @@ def get_player_data(path):
     return data
 
 def get_my_data(path):
-    data = pd.read_csv(path, encoding="utf8", delimiter=';')
+    data = pd.read_csv(path, encoding="utf8", delimiter=';', decimal=',')
     return data
 
 def get_nof_actions(data):
@@ -56,9 +56,14 @@ def get_passing_data(data):
     else:
         difficult_pass_accuracy = 0.0
 
-    return nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy
+    # successful linebreak passes
+    nof_succesful_first_linebreakpasses = len(passes_data[(passes_data['first_line_break'] == 'WAHR')])
+    nof_succesful_secondlast_linebreakpasses = len(passes_data[(passes_data['second_last_line_break'] == 'WAHR')])
+    nof_succesful_last_linebreakpasses = len(passes_data[(passes_data['last_line_break'] == 'WAHR')])
 
-def get_poss_duration(data):
+    return nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy, nof_succesful_first_linebreakpasses, nof_succesful_secondlast_linebreakpasses, nof_succesful_last_linebreakpasses
+
+def get_possession_data(data):
     # calculate the avg possession time
     posstime_data = data[data['event_type_id'] == 8]
     nof_poss = len(posstime_data)
@@ -68,7 +73,9 @@ def get_poss_duration(data):
     else:
         avg_poss = 0
 
-    return avg_poss
+    nof_carrys = len(posstime_data[posstime_data['carry'] == 'WAHR'])
+
+    return avg_poss, nof_carrys
 
 def get_nof_chances_created(data):
     # Without filtering after possession, for example off_ball_runs would also count
@@ -92,8 +99,8 @@ def create_mydata(data):
         player_position = player_data['player_position'].iloc[0]
         nof_games = get_nof_games(player_data)
         nof_actions = get_nof_actions(player_data)
-        nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy = get_passing_data(player_data)
-        avg_poss = get_poss_duration(player_data)
+        nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy, nof_succesful_first_linebreakpasses, nof_succesful_secondlast_linebreakpasses, nof_succesful_last_linebreakpasses = get_passing_data(player_data)
+        avg_poss, nof_carrys = get_possession_data(player_data)
         nof_chances_created = get_nof_chances_created(player_data)
         nof_goal_created = get_nof_goal_created(player_data)
 
@@ -115,11 +122,18 @@ def create_mydata(data):
                        "dangerous_pass_accuracy_%": dangerous_pass_accuracy,
                        "avg_number_of_difficult_passes_per_game": nof_difficult_passes/nof_games,
                        "difficult_pass_accuracy_%": difficult_pass_accuracy,
-                       "number_of_possession_lead_to_shot": nof_chances_created/nof_games,
-                       "number_of_possession_lead_to_goal": nof_goal_created/nof_games,
+                       "number_of_possession_lead_to_shot_per_game": nof_chances_created/nof_games,
+                       "number_of_possession_lead_to_goal_per_game": nof_goal_created/nof_games,
+                       "number_of_successful_first_linebreakpasses_per_game": nof_succesful_first_linebreakpasses/nof_games,
+                       "number_of_successful_secondlast_linebreakpasses_per_game": nof_succesful_secondlast_linebreakpasses/nof_games,
+                       "number_of_successful_last_linebreakpasses_per_game": nof_succesful_last_linebreakpasses/nof_games,
+                       "number_of_carrys_per_game": nof_carrys/nof_games,
                        })
 
     df = pd.DataFrame(mydata)
+    # Convert float columns to string with comma decimal separator
+    float_cols = df.select_dtypes(include='float').columns
+    df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
     df.to_csv("data/mydata.csv",
               sep=";",
               index=False,
@@ -141,6 +155,9 @@ def calc_similarity_score(data):
             out[j, i] = sim_score
 
     df = pd.DataFrame(out)
+    # Convert float columns to string with comma decimal separator
+    float_cols = df.select_dtypes(include='float').columns
+    df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
     df.to_csv("data/similarity_score_matrix.csv",
               index=False,
               header=False,
