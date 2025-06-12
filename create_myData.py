@@ -87,6 +87,12 @@ def get_nof_goal_created(data):
     possession_data = data[data['event_type_id'] == 8]
     return len(possession_data[possession_data['lead_to_goal'] == 'WAHR'])
 
+def get_nof_being_pass_option(data):
+    return len(data[data['event_type_id'] == 7])
+
+def get_nof_off_ball_runs(data):
+    return len(data[data['event_type_id'] == 1])
+
 def create_mydata(data):
     players = data['player_id'].unique()
     counter = 1
@@ -103,6 +109,8 @@ def create_mydata(data):
         avg_poss, nof_carrys = get_possession_data(player_data)
         nof_chances_created = get_nof_chances_created(player_data)
         nof_goal_created = get_nof_goal_created(player_data)
+        nof_being_pass_opt = get_nof_being_pass_option(player_data)
+        nof_off_ball_runs = get_nof_off_ball_runs(player_data)
 
         counter += 1
         mydata.append({"player_name": player_name,
@@ -128,6 +136,8 @@ def create_mydata(data):
                        "number_of_successful_secondlast_linebreakpasses_per_game": nof_succesful_secondlast_linebreakpasses/nof_games,
                        "number_of_successful_last_linebreakpasses_per_game": nof_succesful_last_linebreakpasses/nof_games,
                        "number_of_carrys_per_game": nof_carrys/nof_games,
+                       "number_of_being_passing_option_per_game": nof_being_pass_opt,
+                       "number_of_off_ball_runs_per_game": nof_off_ball_runs,
                        })
 
     df = pd.DataFrame(mydata)
