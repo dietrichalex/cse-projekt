@@ -143,12 +143,13 @@ def create_mydata(data):
 
 def calc_similarity_score(data):
     filtered_data = data.iloc[:, 3:]
-    n = filtered_data.shape[0]
+    scaled_filtered_data = filtered_data/filtered_data.max()
+    n = scaled_filtered_data.shape[0]
     out = np.zeros((n, n))
-    for i in range(len(filtered_data)):
-        row_i_array = filtered_data.iloc[i].to_numpy()
-        for j in range(i,len(filtered_data)):
-            row_j_array = filtered_data.iloc[j].to_numpy()
+    for i in range(len(scaled_filtered_data)):
+        row_i_array = scaled_filtered_data.iloc[i].to_numpy()
+        for j in range(i,len(scaled_filtered_data)):
+            row_j_array = scaled_filtered_data.iloc[j].to_numpy()
             print(f"Calculating Similarity-Score of {i} to {j}")
             sim_score = cosine_similarity(row_i_array.reshape(1, -1), row_j_array.reshape(1, -1))[0][0]
             out[i, j] = sim_score
