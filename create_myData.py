@@ -141,6 +141,36 @@ def create_mydata(data):
                        })
 
     df = pd.DataFrame(mydata)
+    filtered_data = df.iloc[:, 3:]
+    scaled_filtered_data = filtered_data / filtered_data.max()
+    # calculate the categories
+    passing_parameters = ["avg_number_of_passes_per_game",
+                          "pass_accuracy_%",
+                          "avg_pass_range_m",
+                          "passes_forward_%",
+                          "passes_backward_%",
+                          "passes_right_%",
+                          "passes_left_%",
+                          "avg_number_of_dangerous_passes_per_game",
+                          "dangerous_pass_accuracy_%",
+                          "avg_number_of_difficult_passes_per_game",
+                          "difficult_pass_accuracy_%",
+                          "number_of_successful_first_linebreakpasses_per_game",
+                          "number_of_successful_secondlast_linebreakpasses_per_game",
+                          "number_of_successful_last_linebreakpasses_per_game",]
+    posession_parameters = ["avg_number_of_actions_per_game",
+                            "avg_poss_duration_s",
+                            "number_of_possession_lead_to_shot_per_game",
+                            "number_of_possession_lead_to_goal_per_game",]
+    off_ball_parameters = ["number_of_being_passing_option_per_game",]
+    defensive_parameters = []
+    physical_parameters = ["number_of_carrys_per_game",
+                           "number_of_off_ball_runs_per_game",]
+    df["passing_parameters"] = scaled_filtered_data[passing_parameters].mean(axis=1)
+    df["posession_parameters"] = scaled_filtered_data[posession_parameters].mean(axis=1)
+    df["off_ball_parameters"] = scaled_filtered_data[off_ball_parameters].mean(axis=1)
+    df["defensive_parameters"] = scaled_filtered_data[defensive_parameters].mean(axis=1)
+    df["physical_parameters"] = scaled_filtered_data[physical_parameters].mean(axis=1)
     # Convert float columns to string with comma decimal separator
     float_cols = df.select_dtypes(include='float').columns
     df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
@@ -153,6 +183,7 @@ def create_mydata(data):
 
 def calc_similarity_score(data):
     filtered_data = data.iloc[:, 3:]
+    filtered_data = filtered_data.iloc[:, :-5]
     scaled_filtered_data = filtered_data/filtered_data.max()
     n = scaled_filtered_data.shape[0]
     out = np.zeros((n, n))
