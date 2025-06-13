@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
+
+import cursor
 import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import numpy as np
+import mplcursors
 
 
 # === Konfiguration: Dateipfade ===
@@ -129,20 +132,31 @@ def draw_radar_chart():
     fig, ax = plt.subplots(figsize=(4, 4), subplot_kw=dict(polar=True))
 
     ax.plot(angles, values1, color='blue', linewidth=2, label=matched_rows_tree_select['player_name'])
+    line1, = ax.plot(angles, values1, color='blue', linewidth=2)
     ax.fill(angles, values1, color='skyblue', alpha=0.3)
 
     ax.plot(angles, values2, color='red', linewidth=2, label=matched_rows_matrix_tree_select['player_name'])
+    line2, = ax.plot(angles, values2, color='red', linewidth=2)
     ax.fill(angles, values2, color='salmon', alpha=0.3)
+
+    cursor = mplcursors.cursor([line1, line2], hover=True)
 
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(labels)
     ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+
 
     # In Tkinter anzeigen
     global radar_canvas
     radar_canvas = FigureCanvasTkAgg(fig, master=diagram_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+
+    @cursor.connect("add")
+    def on_add(sel):
+        radius = sel.target[1]  # [0]=angle, [1]=radius
+        sel.annotation.set_text(f"{radius:.2f}")
 
 
 # === GUI ===
