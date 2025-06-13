@@ -93,6 +93,15 @@ def get_nof_being_pass_option(data):
 def get_nof_off_ball_runs(data):
     return len(data[data['event_type_id'] == 1])
 
+def get_nof_shots(data):
+    return len(data[data['end_type_id'] == 2])
+
+def get_nof_goals(data):
+    return len(data[(data['end_type_id'] == 2) & (data['lead_to_goal'] == 'WAHR')])
+
+def get_max_avg_speed(data):
+    return  data["speed_avg"].max()/100
+
 def create_mydata(data):
     players = data['player_id'].unique()
     counter = 1
@@ -111,6 +120,9 @@ def create_mydata(data):
         nof_goal_created = get_nof_goal_created(player_data)
         nof_being_pass_opt = get_nof_being_pass_option(player_data)
         nof_off_ball_runs = get_nof_off_ball_runs(player_data)
+        nof_shots = get_nof_shots(player_data)
+        nof_goals = get_nof_goals(player_data)
+        max_avg_speed = get_max_avg_speed(player_data)
 
         counter += 1
         mydata.append({"player_name": player_name,
@@ -138,6 +150,9 @@ def create_mydata(data):
                        "number_of_carrys_per_game": nof_carrys/nof_games,
                        "number_of_being_passing_option_per_game": nof_being_pass_opt,
                        "number_of_off_ball_runs_per_game": nof_off_ball_runs,
+                       "number_of_shots_per_game": nof_shots/nof_games,
+                       "number_of_goals_per_game": nof_goals/nof_games,
+                       "maximum_average_speed_kmh": max_avg_speed,
                        })
 
     df = pd.DataFrame(mydata)
@@ -161,16 +176,20 @@ def create_mydata(data):
     posession_parameters = ["avg_number_of_actions_per_game",
                             "avg_poss_duration_s",
                             "number_of_possession_lead_to_shot_per_game",
-                            "number_of_possession_lead_to_goal_per_game",]
+                            "number_of_possession_lead_to_goal_per_game",
+                            "number_of_shots_per_game",
+                            "number_of_goals_per_game",]
     off_ball_parameters = ["number_of_being_passing_option_per_game",]
     defensive_parameters = []
     physical_parameters = ["number_of_carrys_per_game",
-                           "number_of_off_ball_runs_per_game",]
+                           "number_of_off_ball_runs_per_game",
+                           "maximum_average_speed_kmh"]
     df["passing_parameters"] = scaled_filtered_data[passing_parameters].mean(axis=1)
     df["posession_parameters"] = scaled_filtered_data[posession_parameters].mean(axis=1)
     df["off_ball_parameters"] = scaled_filtered_data[off_ball_parameters].mean(axis=1)
     df["defensive_parameters"] = scaled_filtered_data[defensive_parameters].mean(axis=1)
     df["physical_parameters"] = scaled_filtered_data[physical_parameters].mean(axis=1)
+    df = df.fillna(0)
     # Convert float columns to string with comma decimal separator
     float_cols = df.select_dtypes(include='float').columns
     df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
