@@ -1,0 +1,238 @@
+import tkinter as tk
+from tkinter import ttk
+import pandas as pd
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# === Konfiguration: Dateipfade ===
+mydata_path = "data/mydata.csv"
+sim_score_matrix_path = "data/similarity_score_matrix.csv"
+
+# === Daten-Variablen ===
+mydata = pd.DataFrame()
+sim_score_matrix = pd.DataFrame()
+sort_state = {}
+matrix_sort_state = {}
+matched_rows_tree_select = pd.DataFrame()
+matched_rows_matrix_tree_select = pd.DataFrame()
+radar_canvas = None
+
+
+
+def update_table(df):
+    tree.delete(*tree.get_children())
+
+    tree["columns"] = list(df.columns)
+    tree["show"] = "headings"
+
+    for col in df.columns:
+        tree.heading(col, text=col, command=lambda _col=col: sort_column(_col))
+        tree.column(col, anchor="w", width=150, stretch=False)
+
+    for _, row in df.iterrows():
+        tree.insert("", "end", values=list(row))
+
+
+def sort_column(col):
+    global mydata
+    ascending = sort_state.get(col, True)
+    mydata_sorted = mydata.sort_values(by=col, ascending=ascending)
+    sort_state[col] = not ascending
+    update_table(mydata_sorted)
+
+
+def sort_matrix_column(col):
+    items = [(matrix_tree.set(k, col), k) for k in matrix_tree.get_children('')]
+
+    # Automatisch erkennen ob Zahl oder Text
+    try:
+        items.sort(key=lambda t: float(t[0]), reverse=matrix_sort_state.get(col, False))
+    except ValueError:
+        items.sort(key=lambda t: t[0], reverse=matrix_sort_state.get(col, False))
+
+    for index, (_, k) in enumerate(items):
+        matrix_tree.move(k, '', index)
+
+    matrix_sort_state[col] = not matrix_sort_state.get(col, False)
+
+def update_matrix_view(index):
+    matrix_tree.delete(*matrix_tree.get_children())
+    col = sim_score_matrix[index].drop(index)
+    for i, val in col.items():
+        matrix_tree.insert("", "end", values=(mydata.loc[i, 'player_name'], round(val, 4)))
+
+def on_row_select(event):
+    global matched_rows_tree_select
+    global radar_canvas
+    if radar_canvas is not None:
+        radar_canvas.get_tk_widget().destroy()
+        radar_canvas = None
+    selected_item = tree.focus()
+    values = tree.item(selected_item, 'values')
+
+    if not values or len(values) < 2:
+        return  # Kein valider Eintrag ausgewählt
+
+    try:
+        # Spieler anhand der ID suchen
+        player_id = int(values[1])  # Sicherstellen, dass das wirklich 'player_id' ist
+        matched_rows_tree_select = mydata[mydata['player_id'] == player_id]
+        if not matched_rows_tree_select.empty:
+            update_matrix_view(matched_rows_tree_select.index[0])
+    except Exception as e:
+        print("Fehler bei Auswahl:", e)
+
+
+def on_row_select_matrix_tree(event):
+    global matched_rows_matrix_tree_select
+    global radar_canvas
+    if radar_canvas is not None:
+        radar_canvas.get_tk_widget().destroy()
+        radar_canvas = None
+    selected_item = matrix_tree.focus()
+    values = matrix_tree.item(selected_item, 'values')
+
+    if not values or len(values) < 2:
+        return  # Kein valider Eintrag ausgewählt
+
+    try:
+        # Spieler anhand des Namens suchen
+        player_name = values[0]  # Sicherstellen, dass das wirklich 'player_name' ist
+        matched_rows_matrix_tree_select = mydata[mydata['player_name'] == player_name]
+        if not matched_rows_matrix_tree_select.empty:
+            draw_radar_chart()
+    except Exception as e:
+        print("Fehler bei Auswahl:", e)
+
+def draw_radar_chart():
+    for widget in right_panel.winfo_children():
+        if isinstance(widget, FigureCanvasTkAgg):
+            widget.get_tk_widget().destroy()
+
+    # Angenommen: df ist dein DataFrame
+    labels = matched_rows_tree_select.columns[-5:].tolist()
+    num_vars = len(labels)
+    angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
+    angles += angles[:1]
+
+    # Werte für Spieler 1
+    values1 = matched_rows_tree_select.iloc[:, -5:].values.flatten().tolist()
+    values1 += values1[:1]
+
+    # Werte für Spieler 2
+    values2 = matched_rows_matrix_tree_select.iloc[:, -5:].values.flatten().tolist()
+    values2 += values2[:1]
+
+    # Plot erstellen
+    fig, ax = plt.subplots(figsize=(4, 4), subplot_kw=dict(polar=True))
+
+    ax.plot(angles, values1, color='blue', linewidth=2, label=matched_rows_tree_select['player_name'])
+    ax.fill(angles, values1, color='skyblue', alpha=0.3)
+
+    ax.plot(angles, values2, color='red', linewidth=2, label=matched_rows_matrix_tree_select['player_name'])
+    ax.fill(angles, values2, color='salmon', alpha=0.3)
+
+    ax.set_xticks(angles[:-1])
+    ax.set_xticklabels(labels)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+
+    # In Tkinter anzeigen
+    global radar_canvas
+    radar_canvas = FigureCanvasTkAgg(fig, master=diagram_frame)
+    radar_canvas.draw()
+    radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+
+# === GUI ===
+root = tk.Tk()
+root.title("Similarity Score")
+root.geometry("1000x600")
+
+# === Fenster in 2 Zeilen aufteilen (je 50%) ===
+root.grid_rowconfigure(0, weight=1)  # obere Hälfte
+root.grid_rowconfigure(1, weight=1)  # untere Hälfte
+root.grid_columnconfigure(0, weight=1)
+
+# === Obere Hälfte mit Tabelle ===
+top_half = tk.Frame(root)
+top_half.grid(row=0, column=0, sticky="nsew")
+
+top_frame = tk.Frame(top_half)
+top_frame.pack(fill=tk.X, padx=10, pady=5)
+label = tk.Label(top_frame, text="myData:")
+label.pack(side=tk.LEFT)
+
+table_frame = tk.Frame(top_half)
+table_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
+
+vsb = tk.Scrollbar(table_frame, orient="vertical")
+hsb = tk.Scrollbar(table_frame, orient="horizontal")
+
+tree = ttk.Treeview(table_frame, yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+vsb.config(command=tree.yview)
+hsb.config(command=tree.xview)
+
+tree.grid(row=0, column=0, sticky='nsew')
+vsb.grid(row=0, column=1, sticky='ns')
+hsb.grid(row=1, column=0, sticky='ew')
+table_frame.grid_rowconfigure(0, weight=1)
+table_frame.grid_columnconfigure(0, weight=1)
+
+
+tree.bind("<<TreeviewSelect>>", on_row_select)
+
+# === Untere Hälfte in zwei Spalten aufteilen ===
+bottom_half = tk.Frame(root)
+bottom_half.grid(row=1, column=0, sticky="nsew")
+bottom_half.grid_rowconfigure(0, weight=1)
+bottom_half.grid_columnconfigure(0, weight=1)
+bottom_half.grid_columnconfigure(1, weight=5)
+
+# Linke Seite
+left_panel = tk.Frame(bottom_half, bg="#f0f0f0", padx=10, pady=10)
+left_panel.grid(row=0, column=0, sticky="nsew")
+
+left_label = tk.Label(left_panel, text="Similarity Score of selected player", bg="#f0f0f0")
+left_label.grid(row=0, column=0, sticky="nw")
+
+matrix_frame = tk.Frame(left_panel)
+matrix_frame.grid(row=1, column=0, sticky="nsew")
+
+left_panel.grid_rowconfigure(1, weight=1)
+left_panel.grid_columnconfigure(0, weight=1)
+
+matrix_scrollbar = tk.Scrollbar(matrix_frame, orient="vertical")
+matrix_tree = ttk.Treeview(matrix_frame, columns=("name", "score"), show="headings", yscrollcommand=matrix_scrollbar.set)
+matrix_scrollbar.config(command=matrix_tree.yview)
+
+matrix_tree.heading("name", text="Name", command=lambda: sort_matrix_column("name"))
+matrix_tree.heading("score", text="Score", command=lambda: sort_matrix_column("score"))
+
+matrix_tree.grid(row=0, column=0, sticky="nsew")
+matrix_scrollbar.grid(row=0, column=1, sticky="ns")
+
+matrix_frame.grid_rowconfigure(0, weight=1)
+matrix_frame.grid_columnconfigure(0, weight=1)
+
+matrix_tree.bind("<<TreeviewSelect>>", on_row_select_matrix_tree)
+
+# Rechte Seite
+right_panel = tk.Frame(bottom_half, bg="#f0f0f0", padx=10, pady=10, width=400)
+right_panel.grid(row=0, column=1, sticky="nsew")
+right_panel.grid_propagate(False)  # Verhindert automatische Größenanpassung
+
+diagram_frame = tk.Frame(right_panel, width=400, height=400)
+diagram_frame.pack_propagate(False)  # Inhalt bestimmt nicht die Größe
+diagram_frame.pack(fill=tk.BOTH, expand=True)
+
+# === CSV-Dateien beim Start laden ===
+try:
+    mydata = pd.read_csv(mydata_path, encoding="utf8", delimiter=';', decimal=',')
+    sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',', header=None)
+    update_table(mydata)
+except Exception as e:
+    print("Fehler beim Laden der CSV-Dateien:", e)
+
+root.mainloop()
