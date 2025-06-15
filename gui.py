@@ -22,6 +22,7 @@ matrix_sort_state = {}
 matched_rows_tree_select = pd.DataFrame()
 matched_rows_matrix_tree_select = pd.DataFrame()
 radar_canvas = None
+current_weights = None
 
 
 
@@ -289,16 +290,22 @@ matrix_tree.bind("<<TreeviewSelect>>", on_row_select_matrix_tree)
 
 # === Button für Gewichtungs-Array ===
 def open_weight_popup():
+    global current_weights
+
     index = matched_rows_tree_select.index[0] if not matched_rows_tree_select.empty else None
     if index is None:
         return
-
 
     filtered_data = mydata.iloc[:, 3:]
     filtered_data = filtered_data.iloc[:, :-5]
     labels = filtered_data.columns.tolist()
     num_entries = filtered_data.shape[1]
-    weight_array = np.ones((num_entries,))  # mit Einsen initialisiert
+
+    # Wenn aktuelle Gewichte existieren, verwende sie. Sonst mit Einsen initialisieren
+    if current_weights is not None and len(current_weights) == num_entries:
+        weight_array = current_weights
+    else:
+        weight_array = np.ones((num_entries,))
 
     popup = tk.Toplevel(root)
     popup.title("Change Weights")
@@ -307,10 +314,9 @@ def open_weight_popup():
     container = tk.Frame(popup)
     container.pack(fill="both", expand=True)
 
-    # Canvas + Scrollbar
     canvas = tk.Canvas(container)
     scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
-    scrollable_frame = tk.Frame(canvas, height=400)  # oder z.B. height=300
+    scrollable_frame = tk.Frame(canvas)
 
     scrollable_frame.bind(
         "<Configure>",
@@ -325,21 +331,29 @@ def open_weight_popup():
 
     entries = []
 
-
     def save_weights():
+        nonlocal weight_array
         new_weights = []
         try:
             for entry in entries:
                 val = float(entry.get())
                 new_weights.append(val)
+            weight_array = np.array(new_weights)
+            global current_weights
+            current_weights = weight_array  # Gewichte merken
+
             calc_similarity_score(filtered_data, new_weights, True)
             global sim_score_matrix
-            sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',',
-                                           header=None)
+            sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',', header=None)
             update_matrix_view(matched_rows_tree_select.index[0])
             popup.destroy()
         except ValueError:
             error_label.config(text="Not a valid number!")
+
+    def reset_weights():
+        for entry in entries:
+            entry.delete(0, tk.END)
+            entry.insert(0, "1.0")
 
     for i in range(num_entries):
         row = tk.Frame(scrollable_frame)
@@ -354,8 +368,14 @@ def open_weight_popup():
     error_label = tk.Label(scrollable_frame, text="", fg="red")
     error_label.pack(pady=(10, 0))
 
-    save_button = tk.Button(scrollable_frame, text="Save", command=save_weights)
-    save_button.pack(pady=10)
+    button_frame = tk.Frame(scrollable_frame)
+    button_frame.pack(pady=10)
+
+    save_button = tk.Button(button_frame, text="Save", command=save_weights)
+    save_button.pack(side="left", padx=5)
+
+    reset_button = tk.Button(button_frame, text="Reset", command=reset_weights)
+    reset_button.pack(side="left", padx=5)
 
 
 
