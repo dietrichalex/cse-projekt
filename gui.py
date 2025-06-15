@@ -64,7 +64,7 @@ def update_matrix_view(index):
     matrix_tree.delete(*matrix_tree.get_children())
     col = sim_score_matrix[index].drop(index)
     for i, val in col.items():
-        matrix_tree.insert("", "end", values=(mydata.loc[i, 'player_name'], round(val, 4)))
+        matrix_tree.insert("", "end", values=(mydata.loc[i, 'player_name'], mydata.loc[i, 'player_position'], round(val, 4)))
 
 def on_row_select(event):
     global matched_rows_tree_select
@@ -176,6 +176,25 @@ top_half.grid(row=0, column=0, sticky="nsew")
 top_frame = tk.Frame(top_half)
 top_frame.pack(fill=tk.X, padx=10, pady=5)
 label = tk.Label(top_frame, text="myData:")
+
+filter_var = tk.StringVar()
+
+filter_entry = tk.Entry(top_frame, textvariable=filter_var, width=30)
+filter_entry.pack(side=tk.RIGHT, padx=(10, 0))
+
+def on_filter_change(*args):
+    query = filter_var.get().lower()
+    if query == "":
+        update_table(mydata)
+    else:
+        filtered_df = mydata[mydata.apply(lambda row: row.astype(str).str.lower().str.contains(query).any(), axis=1)]
+        update_table(filtered_df)
+
+filter_var.trace_add("write", on_filter_change)
+
+reset_button = tk.Button(top_frame, text="Reset", command=lambda: filter_var.set(""))
+reset_button.pack(side=tk.RIGHT, padx=(5, 0))
+
 label.pack(side=tk.LEFT)
 
 table_frame = tk.Frame(top_half)
@@ -211,17 +230,52 @@ left_panel.grid(row=0, column=0, sticky="nsew")
 left_label = tk.Label(left_panel, text="Similarity Score of selected player", bg="#f0f0f0")
 left_label.grid(row=0, column=0, sticky="nw")
 
-matrix_frame = tk.Frame(left_panel)
-matrix_frame.grid(row=1, column=0, sticky="nsew")
+matrix_filter_var = tk.StringVar()
 
-left_panel.grid_rowconfigure(1, weight=1)
-left_panel.grid_columnconfigure(0, weight=1)
+matrix_filter_frame = tk.Frame(left_panel, bg="#f0f0f0")
+matrix_filter_frame.grid(row=1, column=0, sticky="ew", pady=(2, 0))
+
+matrix_filter_entry = tk.Entry(matrix_filter_frame, textvariable=matrix_filter_var, width=30)
+matrix_filter_entry.pack(side=tk.RIGHT, padx=(5, 0))
+
+matrix_reset_button = tk.Button(matrix_filter_frame, text="Reset", command=lambda: matrix_filter_var.set(""))
+matrix_reset_button.pack(side=tk.RIGHT)
+
+def on_matrix_filter_change(*args):
+    query = matrix_filter_var.get().lower()
+    index = matched_rows_tree_select.index[0] if not matched_rows_tree_select.empty else None
+    if index is None:
+        return
+    col = sim_score_matrix[index].drop(index)
+    filtered = []
+    for i, val in col.items():
+        name = mydata.loc[i, 'player_name']
+        position = mydata.loc[i, 'player_position']
+        score = round(val, 4)
+        if (query in name.lower()) or (query in position.lower()) or (query in str(score)):
+            filtered.append((name, position, score))
+
+    matrix_tree.delete(*matrix_tree.get_children())
+    for row in filtered:
+        matrix_tree.insert("", "end", values=row)
+
+matrix_filter_var.trace_add("write", on_matrix_filter_change)
+
+matrix_frame = tk.Frame(left_panel)
+matrix_frame.grid(row=2, column=0, sticky="nsew")
+
+
+left_panel.grid_rowconfigure(0, weight=0)  # Label
+left_panel.grid_rowconfigure(1, weight=0)  # Filter input
+left_panel.grid_rowconfigure(2, weight=1)  # Matrix view (main content area)
+
 
 matrix_scrollbar = tk.Scrollbar(matrix_frame, orient="vertical")
-matrix_tree = ttk.Treeview(matrix_frame, columns=("name", "score"), show="headings", yscrollcommand=matrix_scrollbar.set)
+matrix_tree = ttk.Treeview(matrix_frame, columns=("name", "position", "score"), show="headings", yscrollcommand=matrix_scrollbar.set)
 matrix_scrollbar.config(command=matrix_tree.yview)
 
 matrix_tree.heading("name", text="Name", command=lambda: sort_matrix_column("name"))
+matrix_tree.heading("position", text="Position", command=lambda: sort_matrix_column("position"))
 matrix_tree.heading("score", text="Score", command=lambda: sort_matrix_column("score"))
 
 matrix_tree.grid(row=0, column=0, sticky="nsew")
