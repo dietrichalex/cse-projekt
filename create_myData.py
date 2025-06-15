@@ -200,20 +200,21 @@ def create_mydata(data):
               encoding="utf-8"
               )
 
-def calc_similarity_score(data):
-    filtered_data = data.iloc[:, 3:]
-    filtered_data = filtered_data.iloc[:, :-5]
-    scaled_filtered_data = filtered_data/filtered_data.max()
-    n = scaled_filtered_data.shape[0]
+def calc_similarity_score(data, weights):
+    scaled_data = data/data.max()
+    n = scaled_data.shape[0]
     out = np.zeros((n, n))
-    for i in range(len(scaled_filtered_data)):
-        row_i_array = scaled_filtered_data.iloc[i].to_numpy()
-        for j in range(i,len(scaled_filtered_data)):
-            row_j_array = scaled_filtered_data.iloc[j].to_numpy()
+    for i in range(len(scaled_data)):
+        row_i_array = scaled_data.iloc[i].to_numpy()
+        for j in range(i,len(scaled_data)):
+            sim_score = 0
+            row_j_array = scaled_data.iloc[j].to_numpy()
             print(f"Calculating Similarity-Score of {i} to {j}")
-            sim_score = cosine_similarity(row_i_array.reshape(1, -1), row_j_array.reshape(1, -1))[0][0]
-            out[i, j] = sim_score
-            out[j, i] = sim_score
+            for k in range(len(row_i_array)):
+                sim_score += weights[k] * abs(row_i_array[k] - row_j_array[k])
+            sim_score = sim_score / np.sum(weights)
+            out[i, j] = 1 - sim_score
+            out[j, i] = 1 - sim_score
 
     df = pd.DataFrame(out)
     # Convert float columns to string with comma decimal separator
@@ -232,7 +233,10 @@ def main():
     data = get_player_data('data/2013352_dynamic_events_exp.csv')
     create_mydata(data)
     mydata = get_my_data('data/mydata.csv')
-    calc_similarity_score(mydata)
+    filtered_data = mydata.iloc[:, 3:]
+    filtered_data = filtered_data.iloc[:, :-5]
+    weights = np.ones(filtered_data.shape[1],)
+    calc_similarity_score(filtered_data, weights)
 
 if __name__ == '__main__':
     main()
