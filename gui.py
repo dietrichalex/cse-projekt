@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import mplcursors
 
+from create_myData import calc_similarity_score
 
 # === Konfiguration: Dateipfade ===
 mydata_path = "data/mydata.csv"
@@ -285,6 +286,83 @@ matrix_frame.grid_rowconfigure(0, weight=1)
 matrix_frame.grid_columnconfigure(0, weight=1)
 
 matrix_tree.bind("<<TreeviewSelect>>", on_row_select_matrix_tree)
+
+# === Button für Gewichtungs-Array ===
+def open_weight_popup():
+    index = matched_rows_tree_select.index[0] if not matched_rows_tree_select.empty else None
+    if index is None:
+        return
+
+
+    filtered_data = mydata.iloc[:, 3:]
+    filtered_data = filtered_data.iloc[:, :-5]
+    labels = filtered_data.columns.tolist()
+    num_entries = filtered_data.shape[1]
+    weight_array = np.ones((num_entries,))  # mit Einsen initialisiert
+
+    popup = tk.Toplevel(root)
+    popup.title("Change Weights")
+    popup.geometry("600x700")
+
+    container = tk.Frame(popup)
+    container.pack(fill="both", expand=True)
+
+    # Canvas + Scrollbar
+    canvas = tk.Canvas(container)
+    scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas, height=400)  # oder z.B. height=300
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
+
+    entries = []
+
+
+    def save_weights():
+        new_weights = []
+        try:
+            for entry in entries:
+                val = float(entry.get())
+                new_weights.append(val)
+            calc_similarity_score(filtered_data, new_weights, True)
+            global sim_score_matrix
+            sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',',
+                                           header=None)
+            update_matrix_view(matched_rows_tree_select.index[0])
+            popup.destroy()
+        except ValueError:
+            error_label.config(text="Not a valid number!")
+
+    for i in range(num_entries):
+        row = tk.Frame(scrollable_frame)
+        row.pack(fill="x", padx=10, pady=2)
+        label = tk.Label(row, text=f"{labels[i]}:", width=50, anchor="w")
+        label.pack(side="left")
+        entry = tk.Entry(row)
+        entry.insert(0, str(weight_array[i]))
+        entry.pack(side="left", fill="x", expand=True)
+        entries.append(entry)
+
+    error_label = tk.Label(scrollable_frame, text="", fg="red")
+    error_label.pack(pady=(10, 0))
+
+    save_button = tk.Button(scrollable_frame, text="Save", command=save_weights)
+    save_button.pack(pady=10)
+
+
+
+# Button under similarity score
+weight_button = tk.Button(left_panel, text="change weights", command=open_weight_popup)
+weight_button.grid(row=3, column=0, sticky="ew", pady=(10, 0))
+
 
 # Rechte Seite
 right_panel = tk.Frame(bottom_half, bg="#f0f0f0", padx=10, pady=10, width=400)

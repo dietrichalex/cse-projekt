@@ -200,7 +200,7 @@ def create_mydata(data):
               encoding="utf-8"
               )
 
-def calc_similarity_score(data, weights):
+def calc_similarity_score(data, weights, flg_default):
     scaled_data = data/data.max()
     n = scaled_data.shape[0]
     out = np.zeros((n, n))
@@ -220,13 +220,22 @@ def calc_similarity_score(data, weights):
     # Convert float columns to string with comma decimal separator
     float_cols = df.select_dtypes(include='float').columns
     df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
-    df.to_csv("data/similarity_score_matrix.csv",
-              index=False,
-              header=False,
-              sep=";",
-              float_format="%.3f",
-              encoding="utf-8",
-              )
+    if flg_default:
+        df.to_csv("data/similarity_score_matrix.csv",
+                  index=False,
+                  header=False,
+                  sep=";",
+                  float_format="%.3f",
+                  encoding="utf-8",
+                  )
+    else:
+        df.to_csv("data/similarity_score_matrix_weights.csv",
+                  index=False,
+                  header=False,
+                  sep=";",
+                  float_format="%.3f",
+                  encoding="utf-8",
+                  )
 
 def main():
     # get data
@@ -236,7 +245,7 @@ def main():
     filtered_data = mydata.iloc[:, 3:]
     filtered_data = filtered_data.iloc[:, :-5]
     weights = np.ones(filtered_data.shape[1],)
-    calc_similarity_score(filtered_data, weights)
+    calc_similarity_score(filtered_data, weights, True)
 
 if __name__ == '__main__':
     main()
