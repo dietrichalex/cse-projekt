@@ -1,5 +1,6 @@
-import tkinter as tk
+import customtkinter as ctk
 from tkinter import ttk
+import tkinter as tk
 
 import cursor
 import pandas as pd
@@ -9,6 +10,10 @@ import numpy as np
 import mplcursors
 
 from create_myData import calc_similarity_score
+
+# Set appearance mode and color theme
+ctk.set_appearance_mode("light")  # "dark", "light", or "system"
+ctk.set_default_color_theme("blue")  # "blue", "green", or "dark-blue"
 
 # === Konfiguration: Dateipfade ===
 mydata_path = "data/mydata.csv"
@@ -23,7 +28,6 @@ matched_rows_tree_select = pd.DataFrame()
 matched_rows_matrix_tree_select = pd.DataFrame()
 radar_canvas = None
 current_weights = None
-
 
 
 def update_table(df):
@@ -147,13 +151,11 @@ def draw_radar_chart():
     ax.set_xticklabels(labels)
     ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
 
-
     # In Tkinter anzeigen
     global radar_canvas
     radar_canvas = FigureCanvasTkAgg(fig, master=diagram_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
 
     @cursor.connect("add")
     def on_add(sel):
@@ -162,7 +164,7 @@ def draw_radar_chart():
 
 
 # === GUI ===
-root = tk.Tk()
+root = ctk.CTk()
 root.title("Similarity Score")
 root.geometry("1000x600")
 
@@ -172,16 +174,16 @@ root.grid_rowconfigure(1, weight=1)  # untere Hälfte
 root.grid_columnconfigure(0, weight=1)
 
 # === Obere Hälfte mit Tabelle ===
-top_half = tk.Frame(root)
+top_half = ctk.CTkFrame(root)
 top_half.grid(row=0, column=0, sticky="nsew")
 
-top_frame = tk.Frame(top_half)
+top_frame = ctk.CTkFrame(top_half)
 top_frame.pack(fill=tk.X, padx=10, pady=5)
-label = tk.Label(top_frame, text="myData:")
+label = ctk.CTkLabel(top_frame, text="myData:")
 
 filter_var = tk.StringVar()
 
-filter_entry = tk.Entry(top_frame, textvariable=filter_var, width=30)
+filter_entry = ctk.CTkEntry(top_frame, textvariable=filter_var, width=300)
 filter_entry.pack(side=tk.RIGHT, padx=(10, 0))
 
 def on_filter_change(*args):
@@ -194,14 +196,15 @@ def on_filter_change(*args):
 
 filter_var.trace_add("write", on_filter_change)
 
-reset_button = tk.Button(top_frame, text="Reset", command=lambda: filter_var.set(""))
+reset_button = ctk.CTkButton(top_frame, text="Reset", command=lambda: filter_var.set(""), width=80)
 reset_button.pack(side=tk.RIGHT, padx=(5, 0))
 
 label.pack(side=tk.LEFT)
 
-table_frame = tk.Frame(top_half)
+table_frame = ctk.CTkFrame(top_half)
 table_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
+# Using tkinter Scrollbar and Treeview since CustomTkinter doesn't have direct equivalents
 vsb = tk.Scrollbar(table_frame, orient="vertical")
 hsb = tk.Scrollbar(table_frame, orient="horizontal")
 
@@ -215,33 +218,33 @@ hsb.grid(row=1, column=0, sticky='ew')
 table_frame.grid_rowconfigure(0, weight=1)
 table_frame.grid_columnconfigure(0, weight=1)
 
-
 tree.bind("<<TreeviewSelect>>", on_row_select)
 
 # === Untere Hälfte in zwei Spalten aufteilen ===
-bottom_half = tk.Frame(root)
+bottom_half = ctk.CTkFrame(root)
 bottom_half.grid(row=1, column=0, sticky="nsew")
 bottom_half.grid_rowconfigure(0, weight=1)
 bottom_half.grid_columnconfigure(0, weight=1)
 bottom_half.grid_columnconfigure(1, weight=5)
 
 # Linke Seite
-left_panel = tk.Frame(bottom_half, bg="#f0f0f0", padx=10, pady=10)
-left_panel.grid(row=0, column=0, sticky="nsew")
+left_panel = ctk.CTkFrame(bottom_half)
+left_panel.grid(row=0, column=0, sticky="nsew", padx=(10, 5), pady=10)
 
-left_label = tk.Label(left_panel, text="Similarity Score of selected player", bg="#f0f0f0")
-left_label.grid(row=0, column=0, sticky="nw")
+left_label = ctk.CTkLabel(left_panel, text="Similarity Score of selected player")
+left_label.grid(row=0, column=0, sticky="nw", padx=10, pady=10)
 
 matrix_filter_var = tk.StringVar()
 
-matrix_filter_frame = tk.Frame(left_panel, bg="#f0f0f0")
-matrix_filter_frame.grid(row=1, column=0, sticky="ew", pady=(2, 0))
+matrix_filter_frame = ctk.CTkFrame(left_panel)
+matrix_filter_frame.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 10))
+matrix_filter_frame.grid_columnconfigure(0, weight=1)
 
-matrix_filter_entry = tk.Entry(matrix_filter_frame, textvariable=matrix_filter_var, width=30)
-matrix_filter_entry.pack(side=tk.RIGHT, padx=(5, 0))
+matrix_filter_entry = ctk.CTkEntry(matrix_filter_frame, textvariable=matrix_filter_var, width=150)
+matrix_filter_entry.grid(row=0, column=0, sticky="ew", padx=(0, 5))
 
-matrix_reset_button = tk.Button(matrix_filter_frame, text="Reset", command=lambda: matrix_filter_var.set(""))
-matrix_reset_button.pack(side=tk.RIGHT)
+matrix_reset_button = ctk.CTkButton(matrix_filter_frame, text="Reset", command=lambda: matrix_filter_var.set(""), width=80)
+matrix_reset_button.grid(row=0, column=1, sticky="e")
 
 def on_matrix_filter_change(*args):
     query = matrix_filter_var.get().lower()
@@ -263,14 +266,13 @@ def on_matrix_filter_change(*args):
 
 matrix_filter_var.trace_add("write", on_matrix_filter_change)
 
-matrix_frame = tk.Frame(left_panel)
-matrix_frame.grid(row=2, column=0, sticky="nsew")
-
+matrix_frame = ctk.CTkFrame(left_panel)
+matrix_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
 left_panel.grid_rowconfigure(0, weight=0)  # Label
 left_panel.grid_rowconfigure(1, weight=0)  # Filter input
 left_panel.grid_rowconfigure(2, weight=1)  # Matrix view (main content area)
-
+left_panel.grid_columnconfigure(0, weight=1)
 
 matrix_scrollbar = tk.Scrollbar(matrix_frame, orient="vertical")
 matrix_tree = ttk.Treeview(matrix_frame, columns=("name", "position", "score"), show="headings", yscrollcommand=matrix_scrollbar.set)
@@ -307,16 +309,17 @@ def open_weight_popup():
     else:
         weight_array = np.ones((num_entries,))
 
-    popup = tk.Toplevel(root)
+    popup = ctk.CTkToplevel(root)
     popup.title("Change Weights")
     popup.geometry("600x700")
 
-    container = tk.Frame(popup)
+    container = ctk.CTkFrame(popup)
     container.pack(fill="both", expand=True)
 
+    # Using tkinter Canvas for scrollable frame since CTk doesn't have direct equivalent
     canvas = tk.Canvas(container)
     scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
-    scrollable_frame = tk.Frame(canvas)
+    scrollable_frame = ctk.CTkFrame(canvas)
 
     scrollable_frame.bind(
         "<Configure>",
@@ -348,7 +351,7 @@ def open_weight_popup():
             update_matrix_view(matched_rows_tree_select.index[0])
             popup.destroy()
         except ValueError:
-            error_label.config(text="Not a valid number!")
+            error_label.configure(text="Not a valid number!")
 
     def reset_weights():
         for entry in entries:
@@ -356,42 +359,39 @@ def open_weight_popup():
             entry.insert(0, "1.0")
 
     for i in range(num_entries):
-        row = tk.Frame(scrollable_frame)
+        row = ctk.CTkFrame(scrollable_frame)
         row.pack(fill="x", padx=10, pady=2)
-        label = tk.Label(row, text=f"{labels[i]}:", width=50, anchor="w")
+        label = ctk.CTkLabel(row, text=f"{labels[i]}:", width=300, anchor="w")
         label.pack(side="left")
-        entry = tk.Entry(row)
+        entry = ctk.CTkEntry(row)
         entry.insert(0, str(weight_array[i]))
-        entry.pack(side="left", fill="x", expand=True)
+        entry.pack(side="left", fill="x", expand=True, padx=(10, 0))
         entries.append(entry)
 
-    error_label = tk.Label(scrollable_frame, text="", fg="red")
+    error_label = ctk.CTkLabel(scrollable_frame, text="", text_color="red")
     error_label.pack(pady=(10, 0))
 
-    button_frame = tk.Frame(scrollable_frame)
+    button_frame = ctk.CTkFrame(scrollable_frame)
     button_frame.pack(pady=10)
 
-    save_button = tk.Button(button_frame, text="Save", command=save_weights)
+    save_button = ctk.CTkButton(button_frame, text="Save", command=save_weights)
     save_button.pack(side="left", padx=5)
 
-    reset_button = tk.Button(button_frame, text="Reset", command=reset_weights)
+    reset_button = ctk.CTkButton(button_frame, text="Reset", command=reset_weights)
     reset_button.pack(side="left", padx=5)
 
-
-
 # Button under similarity score
-weight_button = tk.Button(left_panel, text="change weights", command=open_weight_popup)
-weight_button.grid(row=3, column=0, sticky="ew", pady=(10, 0))
-
+weight_button = ctk.CTkButton(left_panel, text="change weights", command=open_weight_popup)
+weight_button.grid(row=3, column=0, sticky="ew", padx=10, pady=(0, 10))
 
 # Rechte Seite
-right_panel = tk.Frame(bottom_half, bg="#f0f0f0", padx=10, pady=10, width=400)
-right_panel.grid(row=0, column=1, sticky="nsew")
+right_panel = ctk.CTkFrame(bottom_half)
+right_panel.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
 right_panel.grid_propagate(False)  # Verhindert automatische Größenanpassung
 
-diagram_frame = tk.Frame(right_panel, width=400, height=400)
+diagram_frame = ctk.CTkFrame(right_panel, width=400, height=400)
 diagram_frame.pack_propagate(False)  # Inhalt bestimmt nicht die Größe
-diagram_frame.pack(fill=tk.BOTH, expand=True)
+diagram_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
 # === CSV-Dateien beim Start laden ===
 try:
