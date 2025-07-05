@@ -102,6 +102,7 @@ def get_nof_goals(data):
 def get_max_avg_speed(data):
     return  data["speed_avg"].max()/100
 
+
 def create_mydata(data):
     players = data['player_id'].unique()
     counter = 1
@@ -114,7 +115,8 @@ def create_mydata(data):
         player_position = player_data['player_position'].iloc[0]
         nof_games = get_nof_games(player_data)
         nof_actions = get_nof_actions(player_data)
-        nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy, nof_succesful_first_linebreakpasses, nof_succesful_secondlast_linebreakpasses, nof_succesful_last_linebreakpasses = get_passing_data(player_data)
+        nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy, nof_succesful_first_linebreakpasses, nof_succesful_secondlast_linebreakpasses, nof_succesful_last_linebreakpasses = get_passing_data(
+            player_data)
         avg_poss, nof_carrys = get_possession_data(player_data)
         nof_chances_created = get_nof_chances_created(player_data)
         nof_goal_created = get_nof_goal_created(player_data)
@@ -129,8 +131,8 @@ def create_mydata(data):
                        "player_id": player,
                        "player_position": player_position,
                        "number_of_games": nof_games,
-                       "avg_number_of_actions_per_game": nof_actions/nof_games,
-                       "avg_number_of_passes_per_game": nof_passes/nof_games,
+                       "avg_number_of_actions_per_game": nof_actions / nof_games,
+                       "avg_number_of_passes_per_game": nof_passes / nof_games,
                        "pass_accuracy_%": pass_accuracy,
                        "avg_pass_range_m": pass_range_value,
                        "passes_forward_%": passes_forward,
@@ -138,20 +140,20 @@ def create_mydata(data):
                        "passes_right_%": passes_right,
                        "passes_left_%": passes_left,
                        "avg_poss_duration_s": avg_poss,
-                       "avg_number_of_dangerous_passes_per_game": nof_dangerous_passes/nof_games,
+                       "avg_number_of_dangerous_passes_per_game": nof_dangerous_passes / nof_games,
                        "dangerous_pass_accuracy_%": dangerous_pass_accuracy,
-                       "avg_number_of_difficult_passes_per_game": nof_difficult_passes/nof_games,
+                       "avg_number_of_difficult_passes_per_game": nof_difficult_passes / nof_games,
                        "difficult_pass_accuracy_%": difficult_pass_accuracy,
-                       "number_of_possession_lead_to_shot_per_game": nof_chances_created/nof_games,
-                       "number_of_possession_lead_to_goal_per_game": nof_goal_created/nof_games,
-                       "number_of_successful_first_linebreakpasses_per_game": nof_succesful_first_linebreakpasses/nof_games,
-                       "number_of_successful_secondlast_linebreakpasses_per_game": nof_succesful_secondlast_linebreakpasses/nof_games,
-                       "number_of_successful_last_linebreakpasses_per_game": nof_succesful_last_linebreakpasses/nof_games,
-                       "number_of_carrys_per_game": nof_carrys/nof_games,
+                       "number_of_possession_lead_to_shot_per_game": nof_chances_created / nof_games,
+                       "number_of_possession_lead_to_goal_per_game": nof_goal_created / nof_games,
+                       "number_of_successful_first_linebreakpasses_per_game": nof_succesful_first_linebreakpasses / nof_games,
+                       "number_of_successful_secondlast_linebreakpasses_per_game": nof_succesful_secondlast_linebreakpasses / nof_games,
+                       "number_of_successful_last_linebreakpasses_per_game": nof_succesful_last_linebreakpasses / nof_games,
+                       "number_of_carrys_per_game": nof_carrys / nof_games,
                        "number_of_being_passing_option_per_game": nof_being_pass_opt,
                        "number_of_off_ball_runs_per_game": nof_off_ball_runs,
-                       "number_of_shots_per_game": nof_shots/nof_games,
-                       "number_of_goals_per_game": nof_goals/nof_games,
+                       "number_of_shots_per_game": nof_shots / nof_games,
+                       "number_of_goals_per_game": nof_goals / nof_games,
                        "maximum_average_speed_kmh": max_avg_speed,
                        })
 
@@ -172,14 +174,14 @@ def create_mydata(data):
                           "difficult_pass_accuracy_%",
                           "number_of_successful_first_linebreakpasses_per_game",
                           "number_of_successful_secondlast_linebreakpasses_per_game",
-                          "number_of_successful_last_linebreakpasses_per_game",]
+                          "number_of_successful_last_linebreakpasses_per_game", ]
     posession_parameters = ["avg_number_of_actions_per_game",
                             "avg_poss_duration_s",
                             "number_of_possession_lead_to_shot_per_game",
                             "number_of_possession_lead_to_goal_per_game",
                             "number_of_shots_per_game",
-                            "number_of_goals_per_game",]
-    off_ball_parameters = ["number_of_being_passing_option_per_game",]
+                            "number_of_goals_per_game", ]
+    off_ball_parameters = ["number_of_being_passing_option_per_game", ]
     defensive_parameters = []
     physical_parameters = ["number_of_carrys_per_game",
                            "number_of_off_ball_runs_per_game",
@@ -190,23 +192,29 @@ def create_mydata(data):
     df["defensive_parameters"] = scaled_filtered_data[defensive_parameters].mean(axis=1)
     df["physical_parameters"] = scaled_filtered_data[physical_parameters].mean(axis=1)
     df = df.fillna(0)
+
+    # Round all numeric columns to 3 decimal places BEFORE converting to string
+    numeric_cols = df.select_dtypes(include=[np.number]).columns
+    df[numeric_cols] = df[numeric_cols].round(3)
+
     # Convert float columns to string with comma decimal separator
     float_cols = df.select_dtypes(include='float').columns
-    df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
+    df[float_cols] = df[float_cols].map(lambda x: f"{x:.3f}".replace('.', ','))
+
     df.to_csv("data/mydata.csv",
               sep=";",
               index=False,
-              float_format="%.3f",
               encoding="utf-8"
               )
 
+
 def calc_similarity_score(data, weights, flg_default):
-    scaled_data = data/data.max()
+    scaled_data = data / data.max()
     n = scaled_data.shape[0]
     out = np.zeros((n, n))
     for i in range(len(scaled_data)):
         row_i_array = scaled_data.iloc[i].to_numpy()
-        for j in range(i,len(scaled_data)):
+        for j in range(i, len(scaled_data)):
             sim_score = 0
             row_j_array = scaled_data.iloc[j].to_numpy()
             print(f"Calculating Similarity-Score of {i} to {j}")
@@ -217,15 +225,19 @@ def calc_similarity_score(data, weights, flg_default):
             out[j, i] = 1 - sim_score
 
     df = pd.DataFrame(out)
+
+    # Round all values to 3 decimal places BEFORE converting to string
+    df = df.round(3)
+
     # Convert float columns to string with comma decimal separator
     float_cols = df.select_dtypes(include='float').columns
-    df[float_cols] = df[float_cols].map(lambda x: str(x).replace('.', ','))
+    df[float_cols] = df[float_cols].map(lambda x: f"{x:.3f}".replace('.', ','))
+
     if flg_default:
         df.to_csv("data/similarity_score_matrix.csv",
                   index=False,
                   header=False,
                   sep=";",
-                  float_format="%.3f",
                   encoding="utf-8",
                   )
     else:
@@ -233,7 +245,6 @@ def calc_similarity_score(data, weights, flg_default):
                   index=False,
                   header=False,
                   sep=";",
-                  float_format="%.3f",
                   encoding="utf-8",
                   )
 
