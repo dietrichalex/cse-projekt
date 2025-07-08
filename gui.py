@@ -199,7 +199,7 @@ top_half.grid(row=0, column=0, sticky="nsew")
 
 top_frame = ctk.CTkFrame(top_half, fg_color=LIGHT_GRAY)
 top_frame.pack(fill=tk.X, padx=10, pady=5)
-label = ctk.CTkLabel(top_frame, text="myData:", text_color=DARK_GRAY, font=("Arial", 14, "bold"))
+label = ctk.CTkLabel(top_frame, text="Player Data:", text_color=DARK_GRAY, font=("Arial", 14, "bold"))
 label.pack(side=tk.LEFT)
 
 filter_var = tk.StringVar()
