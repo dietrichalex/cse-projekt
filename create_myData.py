@@ -3,6 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics.pairwise import cosine_similarity
+import time
+
+
+class Timer:
+    def __init__(self):
+        self.times = {}
+
+    def start(self, name):
+        self.times[name] = time.perf_counter()
+
+    def stop(self, name):
+        if name not in self.times:
+            print(f"Timer '{name}' was never started")
+            return None
+
+        elapsed = time.perf_counter() - self.times[name]
+        print(f"{name}: {elapsed:.4f} seconds")
+        return elapsed
+
+    def get_summary(self):
+        print("\n--- Timing Summary ---")
+        for name, start_time in self.times.items():
+            print(f"{name}: Started but not stopped")
 
 def get_player_data(path):
     data = pd.read_csv(path, encoding="utf8", delimiter=';')
@@ -102,6 +125,15 @@ def get_nof_goals(data):
 def get_max_avg_speed(data):
     return  data["speed_avg"].max()/100
 
+def get_nof_interceptions(data):
+    return len(data[data['start_type_id'] == 2]), len(data[data['start_type_id'] == 6]), len(data[data['start_type_id'] == 10]), len(data[data['start_type_id'] == 12])
+
+def get_nof_clearences(data):
+    return len(data[data['end_type_id'] == 3])
+
+def get_nof_recoverys(data):
+    return len(data[data['start_type_id'] == 4])
+
 
 def create_mydata(data):
     players = data['player_id'].unique()
@@ -125,6 +157,9 @@ def create_mydata(data):
         nof_shots = get_nof_shots(player_data)
         nof_goals = get_nof_goals(player_data)
         max_avg_speed = get_max_avg_speed(player_data)
+        nof_pass_interceptions, nof_freekick_interceptions, nof_goalkick_interceptions, nof_corner_interceptions = get_nof_interceptions(player_data)
+        nof_clearences = get_nof_clearences(player_data)
+        nof_recoverys = get_nof_recoverys(player_data)
 
         counter += 1
         mydata.append({"player_name": player_name,
@@ -155,6 +190,12 @@ def create_mydata(data):
                        "number_of_shots_per_game": nof_shots / nof_games,
                        "number_of_goals_per_game": nof_goals / nof_games,
                        "maximum_average_speed_kmh": max_avg_speed,
+                       "number_of_pass_interceptions_per_game": nof_pass_interceptions / nof_games,
+                       "number_of_freekick_interceptions_per_game": nof_freekick_interceptions / nof_games,
+                       "number_of_goalkick_interceptions_per_game": nof_goalkick_interceptions / nof_games,
+                       "number_of_corner_interceptions_per_game": nof_corner_interceptions / nof_games,
+                       "number_of_clearences_per_game": nof_clearences / nof_games,
+                       "number_of_recoverys_per_game": nof_recoverys / nof_games,
                        })
 
     df = pd.DataFrame(mydata)
@@ -181,8 +222,13 @@ def create_mydata(data):
                             "number_of_possession_lead_to_goal_per_game",
                             "number_of_shots_per_game",
                             "number_of_goals_per_game", ]
-    off_ball_parameters = ["number_of_being_passing_option_per_game", ]
-    defensive_parameters = []
+    off_ball_parameters = ["number_of_being_passing_option_per_game",
+                           "number_of_recoverys_per_game",]
+    defensive_parameters = ["number_of_pass_interceptions_per_game",
+                            "number_of_freekick_interceptions_per_game",
+                            "number_of_goalkick_interceptions_per_game",
+                            "number_of_corner_interceptions_per_game",
+                            "number_of_clearences_per_game",]
     physical_parameters = ["number_of_carrys_per_game",
                            "number_of_off_ball_runs_per_game",
                            "maximum_average_speed_kmh"]
@@ -249,14 +295,26 @@ def calc_similarity_score(data, weights, flg_default):
                   )
 
 def main():
+    timer = Timer()
+
     # get data
+    timer.start("Data Loading")
     data = get_player_data('data/2013352_dynamic_events_exp.csv')
+    timer.stop("Data Loading")
+
+    # create myData
+    timer.start("Create myData")
     create_mydata(data)
+    timer.stop("Create myData")
+
+    # create SimScoreMatrix
+    timer.start("Calculate Similarity Score")
     mydata = get_my_data('data/mydata.csv')
     filtered_data = mydata.iloc[:, 3:]
     filtered_data = filtered_data.iloc[:, :-5]
     weights = np.ones(filtered_data.shape[1],)
     calc_similarity_score(filtered_data, weights, True)
+    timer.stop("Calculate Similarity Score")
 
 if __name__ == '__main__':
     main()
