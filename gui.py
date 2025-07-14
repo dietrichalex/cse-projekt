@@ -27,6 +27,7 @@ matrix_sort_state = {}
 matched_rows_tree_select = pd.DataFrame()
 matched_rows_matrix_tree_select = pd.DataFrame()
 radar_canvas = None
+bar_canvas = None
 current_weights = None
 
 # === Color Scheme ===
@@ -36,8 +37,46 @@ ALTERNATE_GRAY = "#E9ECEF"  # More distinct alternating color
 DARK_GRAY = "#6C757D"
 RED_ACCENT = "#DC3545"
 GREEN_ACCENT = "#198754"
+BLUE_ACCENT = "#0D6EFD"
 LIGHT_RED = "#F8D7DA"
 LIGHT_GREEN = "#D1E7DD"
+
+
+def clear_all_charts():
+    """Clear all charts and show placeholder messages"""
+    global radar_canvas, bar_canvas
+
+    # Clear radar chart
+    radar_frame = tabview.tab("Radar Chart")
+    for widget in radar_frame.winfo_children():
+        widget.destroy()
+    radar_placeholder = ctk.CTkLabel(radar_frame, text="Select two players to view radar chart comparison",
+                                     text_color=DARK_GRAY, font=("Arial", 14))
+    radar_placeholder.pack(expand=True)
+
+    # Clear bar chart
+    bar_frame = tabview.tab("Bar Chart")
+    for widget in bar_frame.winfo_children():
+        widget.destroy()
+    bar_placeholder = ctk.CTkLabel(bar_frame, text="Select two players to view bar chart comparison",
+                                   text_color=DARK_GRAY, font=("Arial", 14))
+    bar_placeholder.pack(expand=True)
+
+    # Clear statistics
+    stats_frame = tabview.tab("Statistics")
+    for widget in stats_frame.winfo_children():
+        widget.destroy()
+    stats_placeholder = ctk.CTkLabel(stats_frame, text="Select two players to view statistical comparison",
+                                     text_color=DARK_GRAY, font=("Arial", 14))
+    stats_placeholder.pack(expand=True)
+
+    radar_canvas = None
+    bar_canvas = None
+
+
+def clear_matrix_view():
+    """Clear the similarity matrix view"""
+    matrix_tree.delete(*matrix_tree.get_children())
 
 
 def update_table(df):
@@ -86,11 +125,8 @@ def update_matrix_view(index):
 
 
 def on_row_select(event):
-    global matched_rows_tree_select
-    global radar_canvas
-    if radar_canvas is not None:
-        radar_canvas.get_tk_widget().destroy()
-        radar_canvas = None
+    global matched_rows_tree_select, matched_rows_matrix_tree_select
+
     selected_item = tree.focus()
     values = tree.item(selected_item, 'values')
 
@@ -101,6 +137,16 @@ def on_row_select(event):
         # Spieler anhand der ID suchen
         player_id = int(values[1])  # Sicherstellen, dass das wirklich 'player_id' ist
         matched_rows_tree_select = mydata[mydata['player_id'] == player_id]
+
+        # Clear second player selection when first player changes
+        matched_rows_matrix_tree_select = pd.DataFrame()
+
+        # Clear matrix tree selection
+        matrix_tree.selection_remove(matrix_tree.selection())
+
+        # Clear all charts since we only have one player selected
+        clear_all_charts()
+
         if not matched_rows_tree_select.empty:
             update_matrix_view(matched_rows_tree_select.index[0])
     except Exception as e:
@@ -109,10 +155,7 @@ def on_row_select(event):
 
 def on_row_select_matrix_tree(event):
     global matched_rows_matrix_tree_select
-    global radar_canvas
-    if radar_canvas is not None:
-        radar_canvas.get_tk_widget().destroy()
-        radar_canvas = None
+
     selected_item = matrix_tree.focus()
     values = matrix_tree.item(selected_item, 'values')
 
@@ -123,16 +166,35 @@ def on_row_select_matrix_tree(event):
         # Spieler anhand des Namens suchen
         player_name = values[0]  # Sicherstellen, dass das wirklich 'player_name' ist
         matched_rows_matrix_tree_select = mydata[mydata['player_name'] == player_name]
-        if not matched_rows_matrix_tree_select.empty:
-            draw_radar_chart()
+
+        # Only update charts if we have both players selected
+        if not matched_rows_tree_select.empty and not matched_rows_matrix_tree_select.empty:
+            # Update the currently selected tab
+            current_tab = tabview.get()
+            if current_tab == "Radar Chart":
+                draw_radar_chart()
+            elif current_tab == "Bar Chart":
+                draw_bar_chart()
+            elif current_tab == "Statistics":
+                update_statistics()
     except Exception as e:
         print("Fehler bei Auswahl:", e)
 
 
 def draw_radar_chart():
-    for widget in right_panel.winfo_children():
-        if isinstance(widget, FigureCanvasTkAgg):
-            widget.get_tk_widget().destroy()
+    global radar_canvas
+
+    if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
+        return
+
+    # Get the radar chart frame
+    radar_frame = tabview.tab("Radar Chart")
+
+    # Clear ALL existing widgets in the frame (including placeholders)
+    for widget in radar_frame.winfo_children():
+        widget.destroy()
+
+    radar_canvas = None  # Reset canvas reference
 
     # Angenommen: df ist dein DataFrame
     labels = matched_rows_tree_select.columns[-5:].tolist()
@@ -153,11 +215,12 @@ def draw_radar_chart():
     fig.patch.set_facecolor('white')
     ax.set_facecolor('white')
 
-    ax.plot(angles, values1, color=RED_ACCENT, linewidth=2, label=matched_rows_tree_select['player_name'])
+    ax.plot(angles, values1, color=RED_ACCENT, linewidth=2, label=matched_rows_tree_select['player_name'].iloc[0])
     line1, = ax.plot(angles, values1, color=RED_ACCENT, linewidth=2)
     ax.fill(angles, values1, color=RED_ACCENT, alpha=0.2)
 
-    ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2, label=matched_rows_matrix_tree_select['player_name'])
+    ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2,
+            label=matched_rows_matrix_tree_select['player_name'].iloc[0])
     line2, = ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2)
     ax.fill(angles, values2, color=GREEN_ACCENT, alpha=0.2)
 
@@ -168,8 +231,7 @@ def draw_radar_chart():
     ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
 
     # In Tkinter anzeigen
-    global radar_canvas
-    radar_canvas = FigureCanvasTkAgg(fig, master=diagram_frame)
+    radar_canvas = FigureCanvasTkAgg(fig, master=radar_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
@@ -179,10 +241,184 @@ def draw_radar_chart():
         sel.annotation.set_text(f"{radius:.2f}")
 
 
+def draw_bar_chart():
+    global bar_canvas
+
+    if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
+        return
+
+    # Get the bar chart frame
+    bar_frame = tabview.tab("Bar Chart")
+
+    # Clear ALL existing widgets in the frame (including placeholders)
+    for widget in bar_frame.winfo_children():
+        widget.destroy()
+
+    bar_canvas = None  # Reset canvas reference
+
+    # Get the last 5 columns (stats)
+    labels = matched_rows_tree_select.columns[-5:].tolist()
+    values1 = matched_rows_tree_select.iloc[:, -5:].values.flatten()
+    values2 = matched_rows_matrix_tree_select.iloc[:, -5:].values.flatten()
+
+    # Create bar chart
+    fig, ax = plt.subplots(figsize=(6, 4))
+    fig.patch.set_facecolor('white')
+    ax.set_facecolor('white')
+
+    x = np.arange(len(labels))
+    width = 0.35
+
+    bars1 = ax.bar(x - width / 2, values1, width, label=matched_rows_tree_select['player_name'].iloc[0],
+                   color=RED_ACCENT, alpha=0.8)
+    bars2 = ax.bar(x + width / 2, values2, width, label=matched_rows_matrix_tree_select['player_name'].iloc[0],
+                   color=GREEN_ACCENT, alpha=0.8)
+
+    ax.set_xlabel('Statistics')
+    ax.set_ylabel('Values')
+    ax.set_title('Player Comparison')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels, rotation=45, ha='right')
+    ax.legend()
+
+    # Add value labels on bars
+    for bar in bars1:
+        height = bar.get_height()
+        ax.annotate(f'{height:.2f}',
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=8)
+
+    for bar in bars2:
+        height = bar.get_height()
+        ax.annotate(f'{height:.2f}',
+                    xy=(bar.get_x() + bar.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=8)
+
+    plt.tight_layout()
+
+    # Display in Tkinter
+    bar_canvas = FigureCanvasTkAgg(fig, master=bar_frame)
+    bar_canvas.draw()
+    bar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
+
+
+def update_statistics():
+    # Get the statistics frame
+    stats_frame = tabview.tab("Statistics")
+
+    # Clear existing content
+    for widget in stats_frame.winfo_children():
+        widget.destroy()
+
+    if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
+        no_data_label = ctk.CTkLabel(stats_frame, text="Select two players to compare statistics",
+                                     text_color=DARK_GRAY, font=("Arial", 14))
+        no_data_label.pack(expand=True)
+        return
+
+    # Create scrollable frame for statistics
+    stats_scroll_frame = ctk.CTkScrollableFrame(stats_frame, fg_color=WHITE)
+    stats_scroll_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+    # Player names
+    player1_name = matched_rows_tree_select['player_name'].iloc[0]
+    player2_name = matched_rows_matrix_tree_select['player_name'].iloc[0]
+
+    # Title
+    title_label = ctk.CTkLabel(stats_scroll_frame, text=f"Statistical Comparison",
+                               text_color=DARK_GRAY, font=("Arial", 16, "bold"))
+    title_label.pack(pady=(0, 20))
+
+    # Player names header
+    names_frame = ctk.CTkFrame(stats_scroll_frame, fg_color=LIGHT_GRAY)
+    names_frame.pack(fill=tk.X, pady=(0, 10))
+
+    ctk.CTkLabel(names_frame, text="Statistic", text_color=DARK_GRAY, font=("Arial", 12, "bold")).grid(row=0, column=0,
+                                                                                                       padx=10, pady=5,
+                                                                                                       sticky="w")
+    ctk.CTkLabel(names_frame, text=player1_name, text_color=RED_ACCENT, font=("Arial", 12, "bold")).grid(row=0,
+                                                                                                         column=1,
+                                                                                                         padx=10,
+                                                                                                         pady=5)
+    ctk.CTkLabel(names_frame, text=player2_name, text_color=GREEN_ACCENT, font=("Arial", 12, "bold")).grid(row=0,
+                                                                                                           column=2,
+                                                                                                           padx=10,
+                                                                                                           pady=5)
+    ctk.CTkLabel(names_frame, text="Difference", text_color=DARK_GRAY, font=("Arial", 12, "bold")).grid(row=0, column=3,
+                                                                                                        padx=10, pady=5)
+
+    # Get last 5 columns (stats)
+    stats_columns = matched_rows_tree_select.columns[-5:].tolist()
+
+    for i, stat in enumerate(stats_columns):
+        value1 = matched_rows_tree_select[stat].iloc[0]
+        value2 = matched_rows_matrix_tree_select[stat].iloc[0]
+        difference = value1 - value2
+
+        # Alternate row colors
+        row_color = WHITE if i % 2 == 0 else ALTERNATE_GRAY
+        row_frame = ctk.CTkFrame(stats_scroll_frame, fg_color=row_color)
+        row_frame.pack(fill=tk.X, pady=1)
+
+        ctk.CTkLabel(row_frame, text=stat, text_color=DARK_GRAY, font=("Arial", 11)).grid(row=0, column=0, padx=10,
+                                                                                          pady=5, sticky="w")
+        ctk.CTkLabel(row_frame, text=f"{value1:.2f}", text_color=RED_ACCENT, font=("Arial", 11)).grid(row=0, column=1,
+                                                                                                      padx=10, pady=5)
+        ctk.CTkLabel(row_frame, text=f"{value2:.2f}", text_color=GREEN_ACCENT, font=("Arial", 11)).grid(row=0, column=2,
+                                                                                                        padx=10, pady=5)
+
+        # Color code the difference
+        diff_color = GREEN_ACCENT if difference > 0 else RED_ACCENT if difference < 0 else DARK_GRAY
+        diff_text = f"+{difference:.2f}" if difference > 0 else f"{difference:.2f}"
+        ctk.CTkLabel(row_frame, text=diff_text, text_color=diff_color, font=("Arial", 11)).grid(row=0, column=3,
+                                                                                                padx=10, pady=5)
+
+
+def on_tab_change():
+    """Handle tab change events"""
+    current_tab = tabview.get()
+
+    if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
+        return
+
+    if current_tab == "Radar Chart":
+        draw_radar_chart()
+    elif current_tab == "Bar Chart":
+        draw_bar_chart()
+    elif current_tab == "Statistics":
+        update_statistics()
+
+
+def reset_all_selections():
+    """Reset all selections and clear all views"""
+    global matched_rows_tree_select, matched_rows_matrix_tree_select
+
+    # Clear dataframes
+    matched_rows_tree_select = pd.DataFrame()
+    matched_rows_matrix_tree_select = pd.DataFrame()
+
+    # Clear tree selections
+    tree.selection_remove(tree.selection())
+    matrix_tree.selection_remove(matrix_tree.selection())
+
+    # Clear matrix view
+    clear_matrix_view()
+
+    # Clear all charts
+    clear_all_charts()
+
+    # Reset filter
+    filter_var.set("")
+
+
 # === GUI ===
 root = ctk.CTk()
 root.title("Similarity Score")
-root.geometry("1000x600")
+root.geometry("1200x700")  # Slightly larger to accommodate tabs
 root.configure(fg_color=WHITE)
 
 # Set custom window icon
@@ -213,7 +449,8 @@ filter_entry = ctk.CTkEntry(top_frame, textvariable=filter_var, width=300,
                             placeholder_text="Search in all columns...")
 filter_entry.pack(side=tk.LEFT, padx=(0, 5))
 
-reset_button = ctk.CTkButton(top_frame, text="Reset", command=lambda: filter_var.set(""), width=80,
+# Updated reset button to reset all selections
+reset_button = ctk.CTkButton(top_frame, text="Reset", command=reset_all_selections, width=80,
                              fg_color=RED_ACCENT, hover_color="#B02A30", text_color=WHITE)
 reset_button.pack(side=tk.LEFT, padx=(5, 0))
 
@@ -454,14 +691,42 @@ weight_button = ctk.CTkButton(left_panel, text="change weights", command=open_we
                               fg_color=GREEN_ACCENT, hover_color="#146C43", text_color=WHITE)
 weight_button.grid(row=3, column=0, sticky="ew", padx=10, pady=(0, 10))
 
-# Rechte Seite
+# === Rechte Seite mit Tabs ===
 right_panel = ctk.CTkFrame(bottom_half, fg_color=WHITE, border_width=2, border_color=LIGHT_GRAY)
 right_panel.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
-right_panel.grid_propagate(False)  # Verhindert automatische Größenanpassung
 
-diagram_frame = ctk.CTkFrame(right_panel, width=400, height=400, fg_color=WHITE)
-diagram_frame.pack_propagate(False)  # Inhalt bestimmt nicht die Größe
-diagram_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+# Create tabbed view
+tabview = ctk.CTkTabview(right_panel, fg_color=WHITE, text_color=DARK_GRAY,
+                         segmented_button_fg_color=LIGHT_GRAY,
+                         segmented_button_selected_color=BLUE_ACCENT,
+                         segmented_button_selected_hover_color="#0B5ED7")
+tabview.pack(fill="both", expand=True, padx=10, pady=10)
+
+# Add tabs
+tabview.add("Radar Chart")
+tabview.add("Bar Chart")
+tabview.add("Statistics")
+
+# Set command for tab changes
+tabview.configure(command=on_tab_change)
+
+# Add placeholder content for each tab
+radar_tab = tabview.tab("Radar Chart")
+bar_tab = tabview.tab("Bar Chart")
+stats_tab = tabview.tab("Statistics")
+
+# Add initial placeholder labels
+radar_placeholder = ctk.CTkLabel(radar_tab, text="Select two players to view radar chart comparison",
+                                 text_color=DARK_GRAY, font=("Arial", 14))
+radar_placeholder.pack(expand=True)
+
+bar_placeholder = ctk.CTkLabel(bar_tab, text="Select two players to view bar chart comparison",
+                               text_color=DARK_GRAY, font=("Arial", 14))
+bar_placeholder.pack(expand=True)
+
+stats_placeholder = ctk.CTkLabel(stats_tab, text="Select two players to view statistical comparison",
+                                 text_color=DARK_GRAY, font=("Arial", 14))
+stats_placeholder.pack(expand=True)
 
 # === CSV-Dateien beim Start laden ===
 try:
