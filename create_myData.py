@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics.pairwise import cosine_similarity
 import time
+import os
+import glob
+from pathlib import Path
 
 
 class Timer:
@@ -24,45 +27,120 @@ class Timer:
 
     def get_summary(self):
         print("\n--- Timing Summary ---")
-        for name, start_time in self.times.items():
-            print(f"{name}: Started but not stopped")
+        for name, elapsed in self.times.items():
+            print(f"{name}: {elapsed:.4f} seconds")
 
-def get_player_data(path):
-    data = pd.read_csv(path, encoding="utf8", delimiter=';')
-    data['player_name'] = data['player_name'].str.replace(r'[\x00-\x1F\x7F-\x9F]', '', regex=True)
+
+def get_player_data_from_csv_folder(folder_path):
+    """
+    Iterate over all CSV files in the specified folder and combine the data
+    """
+    folder_path = Path(folder_path)
+    if not folder_path.exists():
+        raise FileNotFoundError(f"Folder {folder_path} does not exist")
+
+    # Get all CSV files in the folder
+    csv_files = list(folder_path.glob("*.csv"))
+
+    if not csv_files:
+        raise FileNotFoundError(f"No CSV files found in {folder_path}")
+
+    print(f"Found {len(csv_files)} CSV files to process:")
+    for file in csv_files:
+        print(f"  - {file.name}")
+
+    all_data = []
+
+    for file_path in csv_files:
+        print(f"\nProcessing: {file_path.name}")
+        try:
+            # Try to read the CSV file with same settings as original function
+            data = pd.read_csv(
+                file_path,
+                encoding="utf8",
+                delimiter=',',
+                dtype=str  # pandas nullable integer type
+            )
+
+            # Clean player_name from control characters if the column exists
+            if 'player_name' in data.columns:
+                data['player_name'] = data['player_name'].str.replace(
+                    r'[\x00-\x1F\x7F-\x9F]', '', regex=True
+                )
+
+            print(f"  Loaded {len(data)} rows from {file_path.name}")
+            all_data.append(data)
+
+        except Exception as e:
+            print(f"  Error reading {file_path.name}: {str(e)}")
+            continue
+
+    if not all_data:
+        raise ValueError("No data could be loaded from any CSV files")
+
+    # Combine all dataframes
+    combined_data = pd.concat(all_data, ignore_index=True)
+    print(f"\nCombined data: {len(combined_data)} total rows from {len(all_data)} files")
+
+    return combined_data
+
+
+def get_player_data_from_csv(path):
+    """
+    Original function for CSV files (kept for backward compatibility)
+    """
+    # Force player_id as int, others will be auto-detected
+    data = pd.read_csv(
+        path,
+        encoding="utf8",
+        delimiter=';',
+        dtype={'player_id': 'Int64'}  # pandas nullable integer type
+    )
+    # Clean player_name from control characters
+    data['player_name'] = data['player_name'].str.replace(
+        r'[\x00-\x1F\x7F-\x9F]', '', regex=True
+    )
     return data
+
 
 def get_my_data(path):
     data = pd.read_csv(path, encoding="utf8", delimiter=';', decimal=',')
     return data
 
+
 def get_nof_actions(data):
     return len(data)
+
 
 def get_nof_games(data):
     return len(data['match_id'].unique())
 
+
 def get_passing_data(data):
     # Count total and successful passes
-    passes_data = data[data['end_type_id'] == 1]
+    passes_data = data[data['end_type_id'] == '1.0']
     nof_passes = len(passes_data)
     successful_passes = len(passes_data[passes_data['pass_outcome'] == 'successful'])
     # Calculate accuracy
     if nof_passes > 0:
         pass_accuracy = (successful_passes / nof_passes) * 100
+        passes_forward = len(passes_data[passes_data['pass_direction'] == 'forward']) / nof_passes * 100
+        passes_backward = len(passes_data[passes_data['pass_direction'] == 'backward']) / nof_passes * 100
+        passes_left = len(passes_data[passes_data['pass_direction'] == 'sideway_left']) / nof_passes * 100
+        passes_right = len(passes_data[passes_data['pass_direction'] == 'sideway_right']) / nof_passes * 100
     else:
         pass_accuracy = 0.0
+        passes_forward = 0.0
+        passes_backward = 0.0
+        passes_left = 0.0
+        passes_right = 0.0
 
     # Only successful pass are included in this column
-    #pass_direction_value = passes_data['pass_angle'].mean()
-    passes_forward = len(passes_data[passes_data['pass_direction'] == 'forward'])/nof_passes*100
-    passes_backward = len(passes_data[passes_data['pass_direction'] == 'backward'])/nof_passes*100
-    passes_left = len(passes_data[passes_data['pass_direction'] == 'sideway_left'])/nof_passes*100
-    passes_right = len(passes_data[passes_data['pass_direction'] == 'sideway_right'])/nof_passes*100
-    pass_range_value = passes_data['pass_distance'].mean() / 100
+    # pass_direction_value = passes_data['pass_angle'].mean()
+    pass_range_value = passes_data['pass_distance'].astype(float).dropna().astype(int).mean()
 
     # Calculate dangerous accuracy
-    dangerous_passes_data = passes_data[passes_data['player_targeted_dangerous'] == 'WAHR']
+    dangerous_passes_data = passes_data[passes_data['player_targeted_dangerous'] == 'True']
     nof_dangerous_passes = len(dangerous_passes_data)
     successful_dangerous_passes = len(dangerous_passes_data[dangerous_passes_data['pass_outcome'] == 'successful'])
     if nof_dangerous_passes > 0:
@@ -71,7 +149,7 @@ def get_passing_data(data):
         dangerous_pass_accuracy = 0.0
 
     # Calculate difficult accuracy
-    difficult_passes_data = passes_data[passes_data['player_targeted_difficult_pass_target'] == 'WAHR']
+    difficult_passes_data = passes_data[passes_data['player_targeted_difficult_pass_target'] == 'True']
     nof_difficult_passes = len(difficult_passes_data)
     successful_difficult_passes = len(difficult_passes_data[difficult_passes_data['pass_outcome'] == 'successful'])
     if nof_difficult_passes > 0:
@@ -80,69 +158,81 @@ def get_passing_data(data):
         difficult_pass_accuracy = 0.0
 
     # successful linebreak passes
-    nof_succesful_first_linebreakpasses = len(passes_data[(passes_data['first_line_break'] == 'WAHR')])
-    nof_succesful_secondlast_linebreakpasses = len(passes_data[(passes_data['second_last_line_break'] == 'WAHR')])
-    nof_succesful_last_linebreakpasses = len(passes_data[(passes_data['last_line_break'] == 'WAHR')])
+    nof_succesful_first_linebreakpasses = len(passes_data[(passes_data['first_line_break'] == 'True')])
+    nof_succesful_secondlast_linebreakpasses = len(passes_data[(passes_data['second_last_line_break'] == 'True')])
+    nof_succesful_last_linebreakpasses = len(passes_data[(passes_data['last_line_break'] == 'True')])
 
     return nof_passes, pass_accuracy, passes_forward, passes_backward, passes_right, passes_left, pass_range_value, nof_dangerous_passes, dangerous_pass_accuracy, nof_difficult_passes, difficult_pass_accuracy, nof_succesful_first_linebreakpasses, nof_succesful_secondlast_linebreakpasses, nof_succesful_last_linebreakpasses
 
+
 def get_possession_data(data):
     # calculate the avg possession time
-    posstime_data = data[data['event_type_id'] == 8]
+    posstime_data = data[data['event_type_id'] == '8']
     nof_poss = len(posstime_data)
-    sum_duration = posstime_data['duration'].sum()
+    sum_duration = posstime_data['duration'].astype(float).dropna().sum()
     if nof_poss > 0:
         avg_poss = sum_duration / nof_poss
     else:
         avg_poss = 0
 
-    nof_carrys = len(posstime_data[posstime_data['carry'] == 'WAHR'])
+    nof_carrys = len(posstime_data[posstime_data['carry'] == 'True'])
 
     return avg_poss, nof_carrys
 
+
 def get_nof_chances_created(data):
     # Without filtering after possession, for example off_ball_runs would also count
-    possession_data = data[data['event_type_id'] == 8]
-    return len(possession_data[possession_data['lead_to_shot'] == 'WAHR'])
+    possession_data = data[data['event_type_id'] == '8']
+    return len(possession_data[possession_data['lead_to_shot'] == 'True'])
+
 
 def get_nof_goal_created(data):
     # Without filtering after possession, for example off_ball_runs would also count
-    possession_data = data[data['event_type_id'] == 8]
-    return len(possession_data[possession_data['lead_to_goal'] == 'WAHR'])
+    possession_data = data[data['event_type_id'] == '8']
+    return len(possession_data[possession_data['lead_to_goal'] == 'True'])
+
 
 def get_nof_being_pass_option(data):
-    return len(data[data['event_type_id'] == 7])
+    return len(data[data['event_type_id'] == '7'])
+
 
 def get_nof_off_ball_runs(data):
-    return len(data[data['event_type_id'] == 1])
+    return len(data[data['event_type_id'] == '1'])
+
 
 def get_nof_shots(data):
-    return len(data[data['end_type_id'] == 2])
+    return len(data[data['end_type_id'] == '2.0'])
+
 
 def get_nof_goals(data):
-    return len(data[(data['end_type_id'] == 2) & (data['lead_to_goal'] == 'WAHR')])
+    return len(data[(data['end_type_id'] == '2.0') & (data['lead_to_goal'] == 'True')])
+
 
 def get_max_avg_speed(data):
-    return  data["speed_avg"].max()/100
+    return data["speed_avg"].astype(float).dropna().astype(int).max()
+
 
 def get_nof_interceptions(data):
-    return len(data[data['start_type_id'] == 2]), len(data[data['start_type_id'] == 6]), len(data[data['start_type_id'] == 10]), len(data[data['start_type_id'] == 12])
+    return len(data[data['start_type_id'] == '2.0']), len(data[data['start_type_id'] == '6.0']), len(
+        data[data['start_type_id'] == '10.0']), len(data[data['start_type_id'] == '12.0'])
+
 
 def get_nof_clearences(data):
-    return len(data[data['end_type_id'] == 3])
+    return len(data[data['end_type_id'] == '3.0'])
+
 
 def get_nof_recoverys(data):
-    return len(data[data['start_type_id'] == 4])
+    return len(data[data['start_type_id'] == '4.0'])
 
 
 def create_mydata(data):
-    players = data['player_id'].unique()
+    players = data['player_id'].astype(float).astype(int).unique()
     counter = 1
     max_counter = len(players)
     mydata = []
     for player in players:
         print(f"Analysing {player} ({counter}/{max_counter})")
-        player_data = data[data['player_id'] == player]
+        player_data = data[data['player_id'].astype(float).astype(int) == player]
         player_name = player_data['player_name'].iloc[0]
         player_position = player_data['player_position'].iloc[0]
         nof_games = get_nof_games(player_data)
@@ -157,7 +247,8 @@ def create_mydata(data):
         nof_shots = get_nof_shots(player_data)
         nof_goals = get_nof_goals(player_data)
         max_avg_speed = get_max_avg_speed(player_data)
-        nof_pass_interceptions, nof_freekick_interceptions, nof_goalkick_interceptions, nof_corner_interceptions = get_nof_interceptions(player_data)
+        nof_pass_interceptions, nof_freekick_interceptions, nof_goalkick_interceptions, nof_corner_interceptions = get_nof_interceptions(
+            player_data)
         nof_clearences = get_nof_clearences(player_data)
         nof_recoverys = get_nof_recoverys(player_data)
 
@@ -223,12 +314,12 @@ def create_mydata(data):
                             "number_of_shots_per_game",
                             "number_of_goals_per_game", ]
     off_ball_parameters = ["number_of_being_passing_option_per_game",
-                           "number_of_recoverys_per_game",]
+                           "number_of_recoverys_per_game", ]
     defensive_parameters = ["number_of_pass_interceptions_per_game",
                             "number_of_freekick_interceptions_per_game",
                             "number_of_goalkick_interceptions_per_game",
                             "number_of_corner_interceptions_per_game",
-                            "number_of_clearences_per_game",]
+                            "number_of_clearences_per_game", ]
     physical_parameters = ["number_of_carrys_per_game",
                            "number_of_off_ball_runs_per_game",
                            "maximum_average_speed_kmh"]
@@ -294,13 +385,29 @@ def calc_similarity_score(data, weights, flg_default):
                   encoding="utf-8",
                   )
 
+
 def main():
     timer = Timer()
 
-    # get data
-    timer.start("Data Loading")
-    data = get_player_data('data/2013352_dynamic_events_exp.csv')
-    timer.stop("Data Loading")
+    # Create data folder if it doesn't exist
+    os.makedirs("data", exist_ok=True)
+
+    # Define the subfolder path for CSV files
+    csv_folder = "data/game_files"  # Change this path as needed
+
+    # Check if we should use CSV files from folder or single CSV
+    if os.path.exists(csv_folder):
+        print(f"CSV folder found: {csv_folder}")
+        timer.start("Data Loading from CSV files")
+        data = get_player_data_from_csv_folder(csv_folder)
+        timer.stop("Data Loading from CSV files")
+    elif os.path.exists('data/merged.csv'):
+        print("Using existing CSV file: data/merged.csv")
+        timer.start("Data Loading from CSV")
+        data = get_player_data_from_csv('data/merged.csv')
+        timer.stop("Data Loading from CSV")
+    else:
+        raise FileNotFoundError("Neither CSV folder 'data/game_files' nor CSV file 'data/merged.csv' found")
 
     # create myData
     timer.start("Create myData")
@@ -312,9 +419,12 @@ def main():
     mydata = get_my_data('data/mydata.csv')
     filtered_data = mydata.iloc[:, 3:]
     filtered_data = filtered_data.iloc[:, :-5]
-    weights = np.ones(filtered_data.shape[1],)
+    weights = np.ones(filtered_data.shape[1], )
     calc_similarity_score(filtered_data, weights, True)
     timer.stop("Calculate Similarity Score")
+
+    timer.get_summary()
+
 
 if __name__ == '__main__':
     main()

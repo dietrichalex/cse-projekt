@@ -1,6 +1,5 @@
-import customtkinter as ctk
-from tkinter import ttk
 import tkinter as tk
+from tkinter import ttk
 from PIL import Image, ImageTk
 import os
 import io
@@ -24,10 +23,6 @@ import mplcursors
 
 from create_myData import calc_similarity_score
 
-# Set appearance mode and color theme
-ctk.set_appearance_mode("light")  # "dark", "light", or "system"
-ctk.set_default_color_theme("blue")  # We'll override colors manually
-
 # === Konfiguration: Dateipfade ===
 mydata_path = "data/mydata.csv"
 sim_score_matrix_path = "data/similarity_score_matrix.csv"
@@ -47,7 +42,7 @@ current_weights = None
 # === Color Scheme ===
 WHITE = "#FFFFFF"
 LIGHT_GRAY = "#F8F9FA"
-ALTERNATE_GRAY = "#E9ECEF"  # More distinct alternating color
+ALTERNATE_GRAY = "#E9ECEF"
 DARK_GRAY = "#6C757D"
 RED_ACCENT = "#DC3545"
 GREEN_ACCENT = "#198754"
@@ -96,7 +91,7 @@ def load_svg_as_icon(svg_path, size=(64, 64)):
         return None
 
 
-def load_svg_as_background(svg_path, size=(400, 400), alpha=1):
+def load_svg_as_background(svg_path, size=(400, 400), alpha=1.0):
     """Convert SVG to background image with transparency"""
     print(f"Attempting to load background from: {svg_path}")
 
@@ -178,51 +173,59 @@ def try_load_alternative_icon():
 
 
 def clear_all_charts():
-    """Clear all charts and show placeholder messages with consistent sizing"""
     global radar_canvas, bar_canvas
 
+    # Close matplotlib figures before clearing
+    if radar_canvas is not None:
+        plt.close('all')
+    if bar_canvas is not None:
+        plt.close('all')
+
     # Clear radar chart
-    radar_frame = tabview.tab("Radar Chart")
     for widget in radar_frame.winfo_children():
         widget.destroy()
 
-    # Create a frame with fixed size for consistent layout
-    content_frame = ctk.CTkFrame(radar_frame, fg_color="transparent")
-    content_frame.pack(fill=tk.BOTH, expand=True)
-    content_frame.pack_propagate(False)  # Prevent frame from shrinking
-
-    radar_placeholder = ctk.CTkLabel(content_frame, text="Select two players to view radar chart comparison",
-                                     text_color=DARK_GRAY, font=("Arial", 14))
+    radar_placeholder = tk.Label(radar_frame, text="Select two players to view radar chart comparison",
+                                 fg=DARK_GRAY, font=("Arial", 14), bg=WHITE)
     radar_placeholder.pack(expand=True)
 
+    if hasattr(root, 'background_logo') and root.background_logo:
+        radar_logo = tk.Label(radar_frame, image=root.background_logo, bg=WHITE, bd=0)
+        radar_logo.place(relx=0.5, rely=0.5, anchor='center')  # CENTER
+        radar_logo.lower()
+        radar_placeholder.lift()
+
     # Clear bar chart
-    bar_frame = tabview.tab("Bar Chart")
     for widget in bar_frame.winfo_children():
         widget.destroy()
 
-    content_frame = ctk.CTkFrame(bar_frame, fg_color="transparent")
-    content_frame.pack(fill=tk.BOTH, expand=True)
-    content_frame.pack_propagate(False)  # Prevent frame from shrinking
-
-    bar_placeholder = ctk.CTkLabel(content_frame, text="Select two players to view bar chart comparison",
-                                   text_color=DARK_GRAY, font=("Arial", 14))
+    bar_placeholder = tk.Label(bar_frame, text="Select two players to view bar chart comparison",
+                               fg=DARK_GRAY, font=("Arial", 14), bg=WHITE)
     bar_placeholder.pack(expand=True)
 
+    if hasattr(root, 'background_logo') and root.background_logo:
+        bar_logo = tk.Label(bar_frame, image=root.background_logo, bg=WHITE, bd=0)
+        bar_logo.place(relx=0.5, rely=0.5, anchor='center')
+        bar_logo.lower()
+        bar_placeholder.lift()
+
     # Clear statistics
-    stats_frame = tabview.tab("Statistics")
     for widget in stats_frame.winfo_children():
         widget.destroy()
 
-    content_frame = ctk.CTkFrame(stats_frame, fg_color="transparent")
-    content_frame.pack(fill=tk.BOTH, expand=True)
-    content_frame.pack_propagate(False)  # Prevent frame from shrinking
-
-    stats_placeholder = ctk.CTkLabel(content_frame, text="Select two players to view statistical comparison",
-                                     text_color=DARK_GRAY, font=("Arial", 14))
+    stats_placeholder = tk.Label(stats_frame, text="Select two players to view statistical comparison",
+                                 fg=DARK_GRAY, font=("Arial", 14), bg=WHITE)
     stats_placeholder.pack(expand=True)
+
+    if hasattr(root, 'background_logo') and root.background_logo:
+        stats_logo = tk.Label(stats_frame, image=root.background_logo, bg=WHITE, bd=0)
+        stats_logo.place(relx=0.5, rely=0.5, anchor='center')
+        stats_logo.lower()
+        stats_placeholder.lift()
 
     radar_canvas = None
     bar_canvas = None
+
 
 
 def clear_matrix_view():
@@ -321,12 +324,12 @@ def on_row_select_matrix_tree(event):
         # Only update charts if we have both players selected
         if not matched_rows_tree_select.empty and not matched_rows_matrix_tree_select.empty:
             # Update the currently selected tab
-            current_tab = tabview.get()
-            if current_tab == "Radar Chart":
+            current_tab = notebook.index(notebook.select())
+            if current_tab == 0:  # Radar Chart
                 draw_radar_chart()
-            elif current_tab == "Bar Chart":
+            elif current_tab == 1:  # Bar Chart
                 draw_bar_chart()
-            elif current_tab == "Statistics":
+            elif current_tab == 2:  # Statistics
                 update_statistics()
     except Exception as e:
         print("Fehler bei Auswahl:", e)
@@ -338,19 +341,16 @@ def draw_radar_chart():
     if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
         return
 
-    # Get the radar chart frame
-    radar_frame = tabview.tab("Radar Chart")
-
-    # Clear ALL existing widgets in the frame (including placeholders)
+    # Clear existing content and close any existing figure
     for widget in radar_frame.winfo_children():
         widget.destroy()
 
-    radar_canvas = None  # Reset canvas reference
+    # Close any existing matplotlib figure to free memory
+    if radar_canvas is not None:
+        radar_canvas.get_tk_widget().destroy()
+        plt.close('all')  # Close all figures to prevent memory leak
 
-    # Create fixed-size content frame
-    content_frame = ctk.CTkFrame(radar_frame, fg_color="transparent")
-    content_frame.pack(fill=tk.BOTH, expand=True)
-    content_frame.pack_propagate(False)  # Prevent frame from shrinking
+    radar_canvas = None  # Reset canvas reference
 
     # Angenommen: df ist dein DataFrame
     labels = matched_rows_tree_select.columns[-5:].tolist()
@@ -387,7 +387,7 @@ def draw_radar_chart():
     ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
 
     # In Tkinter anzeigen
-    radar_canvas = FigureCanvasTkAgg(fig, master=content_frame)
+    radar_canvas = FigureCanvasTkAgg(fig, master=radar_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
@@ -403,19 +403,16 @@ def draw_bar_chart():
     if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
         return
 
-    # Get the bar chart frame
-    bar_frame = tabview.tab("Bar Chart")
-
-    # Clear ALL existing widgets in the frame (including placeholders)
+    # Clear existing content and close any existing figure
     for widget in bar_frame.winfo_children():
         widget.destroy()
 
-    bar_canvas = None  # Reset canvas reference
+    # Close any existing matplotlib figure to free memory
+    if bar_canvas is not None:
+        bar_canvas.get_tk_widget().destroy()
+        plt.close('all')  # Close all figures to prevent memory leak
 
-    # Create fixed-size content frame
-    content_frame = ctk.CTkFrame(bar_frame, fg_color="transparent")
-    content_frame.pack(fill=tk.BOTH, expand=True)
-    content_frame.pack_propagate(False)  # Prevent frame from shrinking
+    bar_canvas = None  # Reset canvas reference
 
     # Get the last 5 columns (stats)
     labels = matched_rows_tree_select.columns[-5:].tolist()
@@ -462,60 +459,59 @@ def draw_bar_chart():
     plt.tight_layout()
 
     # Display in Tkinter
-    bar_canvas = FigureCanvasTkAgg(fig, master=content_frame)
+    bar_canvas = FigureCanvasTkAgg(fig, master=bar_frame)
     bar_canvas.draw()
     bar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
 
 def update_statistics():
-    # Get the statistics frame
-    stats_frame = tabview.tab("Statistics")
-
     # Clear existing content
     for widget in stats_frame.winfo_children():
         widget.destroy()
 
     if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
-        # Create fixed-size content frame
-        content_frame = ctk.CTkFrame(stats_frame, fg_color="transparent")
-        content_frame.pack(fill=tk.BOTH, expand=True)
-        content_frame.pack_propagate(False)  # Prevent frame from shrinking
-
-        no_data_label = ctk.CTkLabel(content_frame, text="Select two players to compare statistics",
-                                     text_color=DARK_GRAY, font=("Arial", 14))
+        no_data_label = tk.Label(stats_frame, text="Select two players to compare statistics",
+                                 fg=DARK_GRAY, font=("Arial", 14), bg=WHITE)
         no_data_label.pack(expand=True)
         return
 
     # Create scrollable frame for statistics
-    stats_scroll_frame = ctk.CTkScrollableFrame(stats_frame, fg_color=WHITE)
-    stats_scroll_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+    canvas = tk.Canvas(stats_frame, bg=WHITE)
+    scrollbar = tk.Scrollbar(stats_frame, orient="vertical", command=canvas.yview)
+    scrollable_frame = tk.Frame(canvas, bg=WHITE)
+
+    scrollable_frame.bind(
+        "<Configure>",
+        lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+    )
+
+    canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+    canvas.configure(yscrollcommand=scrollbar.set)
+
+    canvas.pack(side="left", fill="both", expand=True)
+    scrollbar.pack(side="right", fill="y")
 
     # Player names
     player1_name = matched_rows_tree_select['player_name'].iloc[0]
     player2_name = matched_rows_matrix_tree_select['player_name'].iloc[0]
 
     # Title
-    title_label = ctk.CTkLabel(stats_scroll_frame, text=f"Statistical Comparison",
-                               text_color=DARK_GRAY, font=("Arial", 16, "bold"))
+    title_label = tk.Label(scrollable_frame, text="Statistical Comparison",
+                           fg=DARK_GRAY, font=("Arial", 16, "bold"))
     title_label.pack(pady=(0, 20))
 
-    # Player names header
-    names_frame = ctk.CTkFrame(stats_scroll_frame, fg_color=LIGHT_GRAY)
-    names_frame.pack(fill=tk.X, pady=(0, 10))
+    # Header frame
+    header_frame = tk.Frame(scrollable_frame, bg=LIGHT_GRAY)
+    header_frame.pack(fill=tk.X, pady=(0, 10))
 
-    ctk.CTkLabel(names_frame, text="Statistic", text_color=DARK_GRAY, font=("Arial", 12, "bold")).grid(row=0, column=0,
-                                                                                                       padx=10, pady=5,
-                                                                                                       sticky="w")
-    ctk.CTkLabel(names_frame, text=player1_name, text_color=RED_ACCENT, font=("Arial", 12, "bold")).grid(row=0,
-                                                                                                         column=1,
-                                                                                                         padx=10,
-                                                                                                         pady=5)
-    ctk.CTkLabel(names_frame, text=player2_name, text_color=GREEN_ACCENT, font=("Arial", 12, "bold")).grid(row=0,
-                                                                                                           column=2,
-                                                                                                           padx=10,
-                                                                                                           pady=5)
-    ctk.CTkLabel(names_frame, text="Difference", text_color=DARK_GRAY, font=("Arial", 12, "bold")).grid(row=0, column=3,
-                                                                                                        padx=10, pady=5)
+    tk.Label(header_frame, text="Statistic", fg=DARK_GRAY, font=("Arial", 12, "bold"), bg=LIGHT_GRAY).grid(
+        row=0, column=0, padx=10, pady=5, sticky="w")
+    tk.Label(header_frame, text=player1_name, fg=RED_ACCENT, font=("Arial", 12, "bold"), bg=LIGHT_GRAY).grid(
+        row=0, column=1, padx=10, pady=5)
+    tk.Label(header_frame, text=player2_name, fg=GREEN_ACCENT, font=("Arial", 12, "bold"), bg=LIGHT_GRAY).grid(
+        row=0, column=2, padx=10, pady=5)
+    tk.Label(header_frame, text="Difference", fg=DARK_GRAY, font=("Arial", 12, "bold"), bg=LIGHT_GRAY).grid(
+        row=0, column=3, padx=10, pady=5)
 
     # Get last 5 columns (stats)
     stats_columns = matched_rows_tree_select.columns[-5:].tolist()
@@ -527,59 +523,34 @@ def update_statistics():
 
         # Alternate row colors
         row_color = WHITE if i % 2 == 0 else ALTERNATE_GRAY
-        row_frame = ctk.CTkFrame(stats_scroll_frame, fg_color=row_color)
+        row_frame = tk.Frame(scrollable_frame, bg=row_color)
         row_frame.pack(fill=tk.X, pady=1)
 
-        ctk.CTkLabel(row_frame, text=stat, text_color=DARK_GRAY, font=("Arial", 11)).grid(row=0, column=0, padx=10,
-                                                                                          pady=5, sticky="w")
-        ctk.CTkLabel(row_frame, text=f"{value1:.2f}", text_color=RED_ACCENT, font=("Arial", 11)).grid(row=0, column=1,
-                                                                                                      padx=10, pady=5)
-        ctk.CTkLabel(row_frame, text=f"{value2:.2f}", text_color=GREEN_ACCENT, font=("Arial", 11)).grid(row=0, column=2,
-                                                                                                        padx=10, pady=5)
+        tk.Label(row_frame, text=stat, fg=DARK_GRAY, font=("Arial", 11), bg=row_color).grid(
+            row=0, column=0, padx=10, pady=5, sticky="w")
+        tk.Label(row_frame, text=f"{value1:.2f}", fg=RED_ACCENT, font=("Arial", 11), bg=row_color).grid(
+            row=0, column=1, padx=10, pady=5)
+        tk.Label(row_frame, text=f"{value2:.2f}", fg=GREEN_ACCENT, font=("Arial", 11), bg=row_color).grid(
+            row=0, column=2, padx=10, pady=5)
 
         # Color code the difference
         diff_color = GREEN_ACCENT if difference > 0 else RED_ACCENT if difference < 0 else DARK_GRAY
         diff_text = f"+{difference:.2f}" if difference > 0 else f"{difference:.2f}"
-        ctk.CTkLabel(row_frame, text=diff_text, text_color=diff_color, font=("Arial", 11)).grid(row=0, column=3,
-                                                                                                padx=10, pady=5)
+        tk.Label(row_frame, text=diff_text, fg=diff_color, font=("Arial", 11), bg=row_color).grid(
+            row=0, column=3, padx=10, pady=5)
 
 
-def on_tab_change():
-    """Handle tab change events and update button colors"""
-    current_tab = tabview.get()
-
-    # Update tab button colors to show selected tab in red
-    try:
-        # Get the segmented button widget (this is internal to CTkTabview)
-        segmented_button = None
-        for child in tabview.winfo_children():
-            if hasattr(child, '_buttons'):  # This is the segmented button
-                segmented_button = child
-                break
-
-        if segmented_button:
-            # Reset all button colors to default
-            for button in segmented_button._buttons:
-                button.configure(fg_color=LIGHT_GRAY, hover_color=LIGHT_GRAY)
-
-            # Set selected button to red
-            current_index = tabview._tab_names.index(current_tab)
-            if current_index < len(segmented_button._buttons):
-                segmented_button._buttons[current_index].configure(
-                    fg_color=RED_ACCENT,
-                    hover_color="#B02A30"
-                )
-    except Exception as e:
-        print(f"Error updating tab colors: {e}")
-
+def on_tab_change(event):
+    """Handle tab change events"""
     if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
         return
 
-    if current_tab == "Radar Chart":
+    current_tab = notebook.index(notebook.select())
+    if current_tab == 0:  # Radar Chart
         draw_radar_chart()
-    elif current_tab == "Bar Chart":
+    elif current_tab == 1:  # Bar Chart
         draw_bar_chart()
-    elif current_tab == "Statistics":
+    elif current_tab == 2:  # Statistics
         update_statistics()
 
 
@@ -606,10 +577,10 @@ def reset_all_selections():
 
 
 # === GUI ===
-root = ctk.CTk()
+root = tk.Tk()
 root.title("Similarity Score - FC Augsburg")
 root.geometry("1200x700")
-root.configure(fg_color=WHITE)
+root.configure(bg=WHITE)
 
 # Print current working directory for debugging
 print(f"Current working directory: {os.getcwd()}")
@@ -650,60 +621,41 @@ except Exception as e:
 if not icon_loaded:
     print("Warning: No icon could be loaded")
 
-# Load background logo for full window
-background_loaded = False
+# Load logo for use in placeholder background
 try:
-    background_logo = load_svg_as_background(logo_path, size=(500, 500),
-                                             alpha=0.08)  # Made larger and slightly more visible
-    if background_logo is not None:
-        root.background_logo = background_logo
-
-        # Create background label that covers the entire window
-        bg_label = tk.Label(main_container, image=background_logo, bg=WHITE, bd=0, highlightthickness=0)
-        bg_label.place(relx=0.5, rely=0.5, anchor='center')
-        bg_label.lower()  # Send to back
-
-        print("Background logo loaded and placed successfully")
-        background_loaded = True
-    else:
-        print("Background logo loading failed")
-        root.background_logo = None
-
+    root.background_logo = load_svg_as_background(logo_path, size=(400, 400), alpha=0.5)
+    print("Logo for placeholders loaded successfully")
 except Exception as e:
-    print(f"Error loading background: {e}")
+    print("Could not load logo for placeholders:", e)
     root.background_logo = None
 
-if not background_loaded:
-    print("Warning: No background logo could be loaded")
-
-# === Fenster in 2 Zeilen aufteilen (je 50%) ===
+# === Configure grid weights ===
 main_container.grid_rowconfigure(0, weight=1)  # obere Hälfte
 main_container.grid_rowconfigure(1, weight=1)  # untere Hälfte
 main_container.grid_columnconfigure(0, weight=1)
 
 # === Obere Hälfte mit Tabelle ===
-top_half = ctk.CTkFrame(main_container, fg_color="transparent", border_width=2, border_color=LIGHT_GRAY)
-top_half.grid(row=0, column=0, sticky="nsew")
+top_half = tk.Frame(main_container, relief=tk.FLAT, bd=0, highlightthickness=0)
+top_half.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
 
-top_frame = ctk.CTkFrame(top_half, fg_color=LIGHT_GRAY)
+top_frame = tk.Frame(top_half, bg=LIGHT_GRAY)
 top_frame.pack(fill=tk.X, padx=10, pady=5)
-label = ctk.CTkLabel(top_frame, text="Player Data:", text_color=DARK_GRAY, font=("Arial", 14, "bold"))
+
+label = tk.Label(top_frame, text="Player Data:", fg=DARK_GRAY, font=("Arial", 14, "bold"), bg=LIGHT_GRAY)
 label.pack(side=tk.LEFT)
 
 filter_var = tk.StringVar()
 
 # Filter label on the left side
-filter_label = ctk.CTkLabel(top_frame, text="Filter:", text_color=DARK_GRAY, font=("Arial", 12, "bold"))
+filter_label = tk.Label(top_frame, text="Filter:", fg=DARK_GRAY, font=("Arial", 12, "bold"), bg=LIGHT_GRAY)
 filter_label.pack(side=tk.LEFT, padx=(20, 5))
 
-filter_entry = ctk.CTkEntry(top_frame, textvariable=filter_var, width=300,
-                            fg_color=WHITE, text_color="black", border_color=DARK_GRAY, border_width=2,
-                            placeholder_text="Search in all columns...")
+filter_entry = tk.Entry(top_frame, textvariable=filter_var, width=30, bg=WHITE, fg="black", bd=2, relief=tk.SOLID)
 filter_entry.pack(side=tk.LEFT, padx=(0, 5))
 
-# Updated reset button to reset all selections
-reset_button = ctk.CTkButton(top_frame, text="Reset", command=reset_all_selections, width=80,
-                             fg_color=RED_ACCENT, hover_color="#B02A30", text_color=WHITE)
+# Reset button
+reset_button = tk.Button(top_frame, text="Reset", command=reset_all_selections, width=10,
+                         bg=RED_ACCENT, fg=WHITE, activebackground="#B02A30", bd=0)
 reset_button.pack(side=tk.LEFT, padx=(5, 0))
 
 
@@ -718,14 +670,15 @@ def on_filter_change(*args):
 
 filter_var.trace_add("write", on_filter_change)
 
-table_frame = ctk.CTkFrame(top_half, fg_color=WHITE)
+# Table frame
+table_frame = tk.Frame(top_half, bg=WHITE)
 table_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=5)
 
-# Using tkinter Scrollbar and Treeview since CustomTkinter doesn't have direct equivalents
+# Scrollbars for table
 vsb = tk.Scrollbar(table_frame, orient="vertical")
 hsb = tk.Scrollbar(table_frame, orient="horizontal")
 
-# Configure treeview style for white theme
+# Configure treeview style
 style = ttk.Style()
 style.theme_use('clam')
 style.configure("Treeview", background=WHITE, foreground=DARK_GRAY, fieldbackground=WHITE)
@@ -745,43 +698,40 @@ table_frame.grid_columnconfigure(0, weight=1)
 tree.bind("<<TreeviewSelect>>", on_row_select)
 
 # === Untere Hälfte in zwei Spalten aufteilen ===
-bottom_half = ctk.CTkFrame(main_container, fg_color="transparent")
-bottom_half.grid(row=1, column=0, sticky="nsew")
+bottom_half = tk.Frame(main_container, highlightthickness=0)
+bottom_half.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
 bottom_half.grid_rowconfigure(0, weight=1)
 bottom_half.grid_columnconfigure(0, weight=1)
 bottom_half.grid_columnconfigure(1, weight=5)
 
-# Linke Seite
-left_panel = ctk.CTkFrame(bottom_half, fg_color=WHITE, border_width=2, border_color=LIGHT_GRAY, bg_color="transparent")
-left_panel.grid(row=0, column=0, sticky="nsew", padx=(10, 5), pady=10)
+# === Linke Seite ===
+left_panel = tk.Frame(bottom_half, relief=tk.FLAT, bd=0, highlightthickness=1, highlightcolor=LIGHT_GRAY,
+                      highlightbackground=LIGHT_GRAY)
+left_panel.grid(row=0, column=0, sticky="nsew", padx=(0, 5))
 
-left_label = ctk.CTkLabel(left_panel, text="Similarity Score of selected player",
-                          text_color=DARK_GRAY, font=("Arial", 12, "bold"))
+left_label = tk.Label(left_panel, text="Similarity Score of selected player",
+                      fg=DARK_GRAY, font=("Arial", 12, "bold"))
 left_label.grid(row=0, column=0, sticky="nw", padx=10, pady=10)
 
+# Matrix filter
 matrix_filter_var = tk.StringVar()
 
-matrix_filter_frame = ctk.CTkFrame(left_panel, fg_color=LIGHT_GRAY)
+matrix_filter_frame = tk.Frame(left_panel, bg=LIGHT_GRAY)
 matrix_filter_frame.grid(row=1, column=0, sticky="ew", padx=10, pady=(0, 10))
 
-# Configure grid weights for proper layout
-matrix_filter_frame.grid_columnconfigure(0, weight=0)  # Filter label - no expansion
-matrix_filter_frame.grid_columnconfigure(1, weight=1)  # Entry field - expands
-matrix_filter_frame.grid_columnconfigure(2, weight=0)  # Reset button - no expansion
+matrix_filter_frame.grid_columnconfigure(1, weight=1)
 
 # Filter label for matrix
-matrix_filter_label = ctk.CTkLabel(matrix_filter_frame, text="Filter:", text_color=DARK_GRAY,
-                                   font=("Arial", 11, "bold"))
+matrix_filter_label = tk.Label(matrix_filter_frame, text="Filter:", fg=DARK_GRAY,
+                               font=("Arial", 11, "bold"), bg=LIGHT_GRAY)
 matrix_filter_label.grid(row=0, column=0, sticky="w", padx=(5, 5))
 
-matrix_filter_entry = ctk.CTkEntry(matrix_filter_frame, textvariable=matrix_filter_var, width=150,
-                                   fg_color=WHITE, text_color="black", border_color=DARK_GRAY, border_width=2,
-                                   placeholder_text="Search similarity...")
+matrix_filter_entry = tk.Entry(matrix_filter_frame, textvariable=matrix_filter_var, width=20,
+                               bg=WHITE, fg="black", bd=2, relief=tk.SOLID)
 matrix_filter_entry.grid(row=0, column=1, sticky="ew", padx=(0, 5))
 
-matrix_reset_button = ctk.CTkButton(matrix_filter_frame, text="Reset", command=lambda: matrix_filter_var.set(""),
-                                    width=80,
-                                    fg_color=RED_ACCENT, hover_color="#B02A30", text_color=WHITE)
+matrix_reset_button = tk.Button(matrix_filter_frame, text="Reset", command=lambda: matrix_filter_var.set(""),
+                                width=8, bg=RED_ACCENT, fg=WHITE, activebackground="#B02A30", bd=0)
 matrix_reset_button.grid(row=0, column=2, sticky="e", padx=(5, 5))
 
 
@@ -806,7 +756,8 @@ def on_matrix_filter_change(*args):
 
 matrix_filter_var.trace_add("write", on_matrix_filter_change)
 
-matrix_frame = ctk.CTkFrame(left_panel, fg_color=WHITE)
+# Matrix tree view
+matrix_frame = tk.Frame(left_panel, bg=WHITE)
 matrix_frame.grid(row=2, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
 left_panel.grid_rowconfigure(0, weight=0)  # Label
@@ -852,10 +803,10 @@ def open_weight_popup():
     else:
         weight_array = np.ones((num_entries,))
 
-    popup = ctk.CTkToplevel(root)
+    popup = tk.Toplevel(root)
     popup.title("Change Weights")
     popup.geometry("600x700")
-    popup.configure(fg_color=WHITE)
+    popup.configure(bg=WHITE)
 
     # Fix window focus and visibility issues
     popup.transient(root)  # Make popup a transient window
@@ -865,13 +816,13 @@ def open_weight_popup():
     popup.attributes('-topmost', True)  # Keep popup on top temporarily
     popup.after(100, lambda: popup.attributes('-topmost', False))  # Remove topmost after 100ms
 
-    container = ctk.CTkFrame(popup, fg_color=WHITE)
+    container = tk.Frame(popup, bg=WHITE)
     container.pack(fill="both", expand=True)
 
-    # Using tkinter Canvas for scrollable frame since CTk doesn't have direct equivalent
+    # Using tkinter Canvas for scrollable frame
     canvas = tk.Canvas(container, bg=WHITE, highlightthickness=0)
     scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
-    scrollable_frame = ctk.CTkFrame(canvas, fg_color=WHITE)
+    scrollable_frame = tk.Frame(canvas, bg=WHITE)
 
     scrollable_frame.bind(
         "<Configure>",
@@ -914,117 +865,88 @@ def open_weight_popup():
     for i in range(num_entries):
         # Alternate row colors: white for even rows, darker gray for odd rows
         row_color = WHITE if i % 2 == 0 else ALTERNATE_GRAY
-        row = ctk.CTkFrame(scrollable_frame, fg_color=row_color)
+        row = tk.Frame(scrollable_frame, bg=row_color)
         row.pack(fill="x", padx=10, pady=2)
-        label = ctk.CTkLabel(row, text=f"{labels[i]}:", width=300, anchor="w", text_color=DARK_GRAY)
+
+        label = tk.Label(row, text=f"{labels[i]}:", width=30, anchor="w", fg=DARK_GRAY, bg=row_color)
         label.pack(side="left")
-        entry = ctk.CTkEntry(row, fg_color=WHITE, text_color="black", border_color=DARK_GRAY, border_width=2)
+
+        entry = tk.Entry(row, bg=WHITE, fg="black", bd=2, relief=tk.SOLID)
         entry.insert(0, str(weight_array[i]))
         entry.pack(side="left", fill="x", expand=True, padx=(10, 0))
         entries.append(entry)
 
-    error_label = ctk.CTkLabel(scrollable_frame, text="", text_color=RED_ACCENT)
+    error_label = tk.Label(scrollable_frame, text="", fg=RED_ACCENT, bg=WHITE)
     error_label.pack(pady=(10, 0))
 
-    button_frame = ctk.CTkFrame(scrollable_frame, fg_color=WHITE)
+    button_frame = tk.Frame(scrollable_frame, bg=WHITE)
     button_frame.pack(pady=10)
 
-    save_button = ctk.CTkButton(button_frame, text="Save", command=save_weights,
-                                fg_color=GREEN_ACCENT, hover_color="#146C43", text_color=WHITE)
+    save_button = tk.Button(button_frame, text="Save", command=save_weights,
+                            bg=GREEN_ACCENT, fg=WHITE, activebackground="#146C43", bd=0, padx=20)
     save_button.pack(side="left", padx=5)
 
-    reset_button = ctk.CTkButton(button_frame, text="Reset", command=reset_weights,
-                                 fg_color=RED_ACCENT, hover_color="#B02A30", text_color=WHITE)
+    reset_button = tk.Button(button_frame, text="Reset", command=reset_weights,
+                             bg=RED_ACCENT, fg=WHITE, activebackground="#B02A30", bd=0, padx=20)
     reset_button.pack(side="left", padx=5)
 
 
 # Button under similarity score
-weight_button = ctk.CTkButton(left_panel, text="change weights", command=open_weight_popup,
-                              fg_color=GREEN_ACCENT, hover_color="#146C43", text_color=WHITE)
+weight_button = tk.Button(left_panel, text="change weights", command=open_weight_popup,
+                          bg=GREEN_ACCENT, fg=WHITE, activebackground="#146C43", bd=0)
 weight_button.grid(row=3, column=0, sticky="ew", padx=10, pady=(0, 10))
 
 # === Rechte Seite mit Tabs ===
-right_panel = ctk.CTkFrame(bottom_half, fg_color=WHITE, border_width=2, border_color=LIGHT_GRAY, bg_color="transparent")
-right_panel.grid(row=0, column=1, sticky="nsew", padx=(5, 10), pady=10)
+right_panel = tk.Frame(bottom_half, relief=tk.FLAT, bd=0, highlightthickness=1, highlightcolor=LIGHT_GRAY,
+                       highlightbackground=LIGHT_GRAY)
+right_panel.grid(row=0, column=1, sticky="nsew", padx=(5, 0))
 
-# Create tabbed view with fixed minimum size
-tabview = ctk.CTkTabview(right_panel, fg_color=WHITE, text_color=DARK_GRAY,
-                         segmented_button_fg_color=LIGHT_GRAY,
-                         segmented_button_selected_color=RED_ACCENT,  # Make selected tab red
-                         segmented_button_selected_hover_color="#B02A30")
-tabview.pack(fill="both", expand=True, padx=10, pady=10)
+# Create notebook (tabbed view)
+notebook = ttk.Notebook(right_panel)
+notebook.pack(fill="both", expand=True, padx=10, pady=10)
 
-# Add tabs
-tabview.add("Radar Chart")
-tabview.add("Bar Chart")
-tabview.add("Statistics")
+# Create tab frames with transparent appearance
+radar_frame = tk.Frame(notebook)
+bar_frame = tk.Frame(notebook)
+stats_frame = tk.Frame(notebook)
 
-# Set command for tab changes
-tabview.configure(command=on_tab_change)
+# Configure the frames to be transparent
+radar_frame.configure(highlightthickness=0, bd=0)
+bar_frame.configure(highlightthickness=0, bd=0)
+stats_frame.configure(highlightthickness=0, bd=0)
 
-# Get references to the tab frames and set minimum sizes
-radar_tab = tabview.tab("Radar Chart")
-bar_tab = tabview.tab("Bar Chart")
-stats_tab = tabview.tab("Statistics")
+# Add tabs to notebook
+notebook.add(radar_frame, text="Radar Chart")
+notebook.add(bar_frame, text="Bar Chart")
+notebook.add(stats_frame, text="Statistics")
 
-# Set minimum sizes for consistent layout
-radar_tab.pack_propagate(False)
-bar_tab.pack_propagate(False)
-stats_tab.pack_propagate(False)
+# Bind tab change event
+notebook.bind("<<NotebookTabChanged>>", on_tab_change)
 
-# Add initial placeholder labels (removed individual background logos since we have global background)
-radar_content_frame = ctk.CTkFrame(radar_tab, fg_color="transparent")
-radar_content_frame.pack(fill=tk.BOTH, expand=True)
-radar_content_frame.pack_propagate(False)
-
-radar_placeholder = ctk.CTkLabel(radar_content_frame, text="Select two players to view radar chart comparison",
-                                 text_color=DARK_GRAY, font=("Arial", 14))
+# Add initial placeholder labels
+radar_placeholder = tk.Label(radar_frame, text="Select two players to view radar chart comparison",
+                             fg=DARK_GRAY, font=("Arial", 14), highlightthickness=0, bd=0)
 radar_placeholder.pack(expand=True)
 
-bar_content_frame = ctk.CTkFrame(bar_tab, fg_color="transparent")
-bar_content_frame.pack(fill=tk.BOTH, expand=True)
-bar_content_frame.pack_propagate(False)
-
-bar_placeholder = ctk.CTkLabel(bar_content_frame, text="Select two players to view bar chart comparison",
-                               text_color=DARK_GRAY, font=("Arial", 14))
+bar_placeholder = tk.Label(bar_frame, text="Select two players to view bar chart comparison",
+                           fg=DARK_GRAY, font=("Arial", 14), highlightthickness=0, bd=0)
 bar_placeholder.pack(expand=True)
 
-stats_content_frame = ctk.CTkFrame(stats_tab, fg_color="transparent")
-stats_content_frame.pack(fill=tk.BOTH, expand=True)
-stats_content_frame.pack_propagate(False)
-
-stats_placeholder = ctk.CTkLabel(stats_content_frame, text="Select two players to view statistical comparison",
-                                 text_color=DARK_GRAY, font=("Arial", 14))
+stats_placeholder = tk.Label(stats_frame, text="Select two players to view statistical comparison",
+                             fg=DARK_GRAY, font=("Arial", 14), highlightthickness=0, bd=0)
 stats_placeholder.pack(expand=True)
-radar_bg_label = tk.Label(radar_content_frame, image=root.background_logo, bg=WHITE)
-radar_bg_label.place(relx=0.5, rely=0.5, anchor='center')
-radar_placeholder.lift()  # Bring text to front
 
-bar_content_frame = ctk.CTkFrame(bar_tab, fg_color="transparent")
-bar_content_frame.pack(fill=tk.BOTH, expand=True)
-bar_content_frame.pack_propagate(False)
-
-bar_placeholder = ctk.CTkLabel(bar_content_frame, text="Select two players to view bar chart comparison",
-                               text_color=DARK_GRAY, font=("Arial", 14))
-bar_placeholder.pack(expand=True)
-
-# Add background logo if available
+# Add background logos to tab frames if available
 if hasattr(root, 'background_logo') and root.background_logo:
-    bar_bg_label = tk.Label(bar_content_frame, image=root.background_logo, bg=WHITE)
+    radar_bg_label = tk.Label(radar_frame, image=root.background_logo, bg=WHITE)
+    radar_bg_label.place(relx=0.5, rely=0.5, anchor='center')
+    radar_placeholder.lift()  # Bring text to front
+
+    bar_bg_label = tk.Label(bar_frame, image=root.background_logo, bg=WHITE)
     bar_bg_label.place(relx=0.5, rely=0.5, anchor='center')
     bar_placeholder.lift()  # Bring text to front
 
-stats_content_frame = ctk.CTkFrame(stats_tab, fg_color="transparent")
-stats_content_frame.pack(fill=tk.BOTH, expand=True)
-stats_content_frame.pack_propagate(False)
-
-stats_placeholder = ctk.CTkLabel(stats_content_frame, text="Select two players to view statistical comparison",
-                                 text_color=DARK_GRAY, font=("Arial", 14))
-stats_placeholder.pack(expand=True)
-
-# Add background logo if available
-if hasattr(root, 'background_logo') and root.background_logo:
-    stats_bg_label = tk.Label(stats_content_frame, image=root.background_logo, bg=WHITE)
+    stats_bg_label = tk.Label(stats_frame, image=root.background_logo, bg=WHITE)
     stats_bg_label.place(relx=0.5, rely=0.5, anchor='center')
     stats_placeholder.lift()  # Bring text to front
 
@@ -1033,9 +955,6 @@ try:
     mydata = pd.read_csv(mydata_path, encoding="utf8", delimiter=';', decimal=',')
     sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',', header=None)
     update_table(mydata)
-
-    # Set initial tab selection color after loading
-    root.after(100, on_tab_change)  # Delay to ensure GUI is fully loaded
 except Exception as e:
     print("Fehler beim Laden der CSV-Dateien:", e)
 
