@@ -345,21 +345,56 @@ def create_mydata(data):
               )
 
 
-def calc_similarity_score(data, weights, flg_default):
+def calc_similarity_score(data, weights, flg_default, method='absolute'):
+    """
+    Calculates a similarity matrix using the specified method.
+
+    Parameters:
+    - method: 'absolute' (original logic), 'cosine', or 'pearson'
+    """
     scaled_data = data / data.max()
     n = scaled_data.shape[0]
     out = np.zeros((n, n))
-    for i in range(len(scaled_data)):
-        row_i_array = scaled_data.iloc[i].to_numpy()
-        for j in range(i, len(scaled_data)):
-            sim_score = 0
-            row_j_array = scaled_data.iloc[j].to_numpy()
-            print(f"Calculating Similarity-Score of {i} to {j}")
-            for k in range(len(row_i_array)):
-                sim_score += weights[k] * abs(row_i_array[k] - row_j_array[k])
-            sim_score = sim_score / np.sum(weights)
-            out[i, j] = 1 - sim_score
-            out[j, i] = 1 - sim_score
+    sum_w = np.sum(weights)
+
+    # Convert data to numpy array once to avoid slow pandas row lookups in the loop
+    data_array = scaled_data.to_numpy()
+
+    print(f"Calculating Similarity-Score matrix using '{method}' method...")
+
+    for i in range(n):
+        row_i = data_array[i]
+        for j in range(i, n):
+            row_j = data_array[j]
+
+            if method == 'absolute':
+                # Original weighted absolute difference
+                diff = np.abs(row_i - row_j)
+                sim_score = 1 - (np.sum(weights * diff) / sum_w)
+
+            elif method == 'cosine':
+                # Weighted Cosine Similarity
+                num = np.sum(weights * row_i * row_j)
+                den = np.sqrt(np.sum(weights * row_i ** 2)) * np.sqrt(np.sum(weights * row_j ** 2))
+                sim_score = num / den if den != 0 else 0
+
+            elif method == 'pearson':
+                # Weighted Pearson Correlation
+                mean_i = np.sum(weights * row_i) / sum_w
+                mean_j = np.sum(weights * row_j) / sum_w
+
+                diff_i = row_i - mean_i
+                diff_j = row_j - mean_j
+
+                num = np.sum(weights * diff_i * diff_j)
+                den = np.sqrt(np.sum(weights * diff_i ** 2)) * np.sqrt(np.sum(weights * diff_j ** 2))
+                sim_score = num / den if den != 0 else 0
+
+            else:
+                raise ValueError(f"Unknown similarity method: '{method}'. Choose 'absolute', 'cosine', or 'pearson'.")
+
+            out[i, j] = sim_score
+            out[j, i] = sim_score
 
     df = pd.DataFrame(out)
 
@@ -370,20 +405,19 @@ def calc_similarity_score(data, weights, flg_default):
     float_cols = df.select_dtypes(include='float').columns
     df[float_cols] = df[float_cols].map(lambda x: f"{x:.3f}".replace('.', ','))
 
-    if flg_default:
-        df.to_csv("data/similarity_score_matrix.csv",
-                  index=False,
-                  header=False,
-                  sep=";",
-                  encoding="utf-8",
-                  )
-    else:
-        df.to_csv("data/similarity_score_matrix_weights.csv",
-                  index=False,
-                  header=False,
-                  sep=";",
-                  encoding="utf-8",
-                  )
+    # Save to CSV based on default flag
+    filename = "data/similarity_score_matrix.csv" if flg_default else "data/similarity_score_matrix_weights.csv"
+
+    # Optional: You might want to append the method name to the file to keep them distinct
+    # filename = f"data/similarity_score_matrix_{method}.csv"
+
+    df.to_csv(filename,
+              index=False,
+              header=False,
+              sep=";",
+              encoding="utf-8"
+              )
+    print(f"Matrix saved to {filename}")
 
 
 def main():
@@ -420,7 +454,11 @@ def main():
     filtered_data = mydata.iloc[:, 3:]
     filtered_data = filtered_data.iloc[:, :-5]
     weights = np.ones(filtered_data.shape[1], )
-    calc_similarity_score(filtered_data, weights, True)
+
+    # You can now easily switch the method here:
+    # Try method='cosine' or method='pearson'
+    calc_similarity_score(filtered_data, weights, flg_default=True, method='pearson')
+
     timer.stop("Calculate Similarity Score")
 
     timer.get_summary()

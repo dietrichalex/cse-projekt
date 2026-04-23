@@ -341,59 +341,56 @@ def draw_radar_chart():
     if matched_rows_tree_select.empty or matched_rows_matrix_tree_select.empty:
         return
 
-    # Clear existing content and close any existing figure
     for widget in radar_frame.winfo_children():
         widget.destroy()
 
-    # Close any existing matplotlib figure to free memory
     if radar_canvas is not None:
         radar_canvas.get_tk_widget().destroy()
-        plt.close('all')  # Close all figures to prevent memory leak
+        plt.close('all')
 
-    radar_canvas = None  # Reset canvas reference
+    radar_canvas = None
 
-    # Angenommen: df ist dein DataFrame
-    labels = matched_rows_tree_select.columns[-5:].tolist()
+    custom_order = ['posession_parameters', 'passing_parameters', 'physical_parameters', 'defensive_parameters', 'off_ball_parameters']
+    labels = custom_order
     num_vars = len(labels)
+    # Calculate angles
     angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
     angles += angles[:1]
 
-    # Werte für Spieler 1
-    values1 = matched_rows_tree_select.iloc[:, -5:].values.flatten().tolist()
+    # 2. Extract values based on the manual order
+    values1 = matched_rows_tree_select[custom_order].values.flatten().tolist()
     values1 += values1[:1]
 
-    # Werte für Spieler 2
-    values2 = matched_rows_matrix_tree_select.iloc[:, -5:].values.flatten().tolist()
+    values2 = matched_rows_matrix_tree_select[custom_order].values.flatten().tolist()
     values2 += values2[:1]
 
-    # Plot erstellen with white background and red/green colors
+    # Plotting code
     fig, ax = plt.subplots(figsize=(4, 4), subplot_kw=dict(polar=True))
-    fig.patch.set_facecolor('white')
-    ax.set_facecolor('white')
 
+    # Start first param at 12 o'clock
+    ax.set_theta_offset(np.pi / 2)
+    ax.set_theta_direction(-1)  # Clockwise
+
+    # Draw lines
     ax.plot(angles, values1, color=RED_ACCENT, linewidth=2, label=matched_rows_tree_select['player_name'].iloc[0])
-    line1, = ax.plot(angles, values1, color=RED_ACCENT, linewidth=2)
     ax.fill(angles, values1, color=RED_ACCENT, alpha=0.2)
 
     ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2,
             label=matched_rows_matrix_tree_select['player_name'].iloc[0])
-    line2, = ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2)
     ax.fill(angles, values2, color=GREEN_ACCENT, alpha=0.2)
 
-    cursor = mplcursors.cursor([line1, line2], hover=True)
-
+    # Styling
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(labels)
-    ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1))
+    ax.set_xticklabels(labels, fontsize=8)
+    ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize='small')
 
-    # In Tkinter anzeigen
     radar_canvas = FigureCanvasTkAgg(fig, master=radar_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
     @cursor.connect("add")
     def on_add(sel):
-        radius = sel.target[1]  # [0]=angle, [1]=radius
+        radius = sel.target[1]
         sel.annotation.set_text(f"{radius:.2f}")
 
 
@@ -848,7 +845,7 @@ def open_weight_popup():
             global current_weights
             current_weights = weight_array  # Gewichte merken
 
-            calc_similarity_score(filtered_data, new_weights, True)
+            calc_similarity_score(filtered_data, new_weights, True, "absolute")
             global sim_score_matrix
             sim_score_matrix = pd.read_csv(sim_score_matrix_path, encoding="utf8", delimiter=';', decimal=',',
                                            header=None)
