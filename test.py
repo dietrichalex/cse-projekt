@@ -345,53 +345,58 @@ def draw_radar_chart():
         widget.destroy()
 
     if radar_canvas is not None:
-        radar_canvas.get_tk_widget().destroy()
         plt.close('all')
 
-    radar_canvas = None
-
-    custom_order = ['posession_parameters', 'passing_parameters', 'physical_parameters', 'defensive_parameters', 'off_ball_parameters']
+    custom_order = ['posession_parameters', 'passing_parameters', 'physical_parameters', 'defensive_parameters',
+                    'off_ball_parameters']
     labels = custom_order
     num_vars = len(labels)
-    # Calculate angles
+
     angles = np.linspace(0, 2 * np.pi, num_vars, endpoint=False).tolist()
     angles += angles[:1]
 
-    # 2. Extract values based on the manual order
     values1 = matched_rows_tree_select[custom_order].values.flatten().tolist()
     values1 += values1[:1]
 
     values2 = matched_rows_matrix_tree_select[custom_order].values.flatten().tolist()
     values2 += values2[:1]
 
-    # Plotting code
     fig, ax = plt.subplots(figsize=(4, 4), subplot_kw=dict(polar=True))
-
-    # Start first param at 12 o'clock
+    ax.set_ylim(0, 1)
+    ax.set_yticks([0.2, 0.4, 0.6, 0.8, 1.0])
     ax.set_theta_offset(np.pi / 2)
-    ax.set_theta_direction(-1)  # Clockwise
+    ax.set_theta_direction(-1)
 
-    # Draw lines
-    ax.plot(angles, values1, color=RED_ACCENT, linewidth=2, label=matched_rows_tree_select['player_name'].iloc[0])
+    # Store the line objects in a list to make them "cursor-able"
+    line1, = ax.plot(angles, values1, color=RED_ACCENT, linewidth=2,
+                     label=matched_rows_tree_select['player_name'].iloc[0])
     ax.fill(angles, values1, color=RED_ACCENT, alpha=0.2)
 
-    ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2,
-            label=matched_rows_matrix_tree_select['player_name'].iloc[0])
+    line2, = ax.plot(angles, values2, color=GREEN_ACCENT, linewidth=2,
+                     label=matched_rows_matrix_tree_select['player_name'].iloc[0])
     ax.fill(angles, values2, color=GREEN_ACCENT, alpha=0.2)
 
-    # Styling
     ax.set_xticks(angles[:-1])
     ax.set_xticklabels(labels, fontsize=8)
     ax.legend(loc='upper right', bbox_to_anchor=(1.3, 1.1), fontsize='small')
 
+    # --- ACTIVATE HOVER HERE ---
+    # We pass the lines [line1, line2] to mplcursors
+    cursor_obj = mplcursors.cursor([line1, line2], hover=True)
+
+    @cursor_obj.connect("add")
+    def _(sel):
+        # index allows us to map the point back to the parameter name
+        idx = int(sel.index) % num_vars
+        param_name = labels[idx]
+        val = sel.target[1]
+        player = sel.artist.get_label()
+        sel.annotation.set_text(f"{player}\n{param_name}: {val:.2f}")
+        sel.annotation.get_bbox_patch().set(fc="white", alpha=0.9)
+
     radar_canvas = FigureCanvasTkAgg(fig, master=radar_frame)
     radar_canvas.draw()
     radar_canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
-
-    @cursor.connect("add")
-    def on_add(sel):
-        radius = sel.target[1]
-        sel.annotation.set_text(f"{radius:.2f}")
 
 
 def draw_bar_chart():
