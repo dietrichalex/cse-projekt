@@ -8,25 +8,57 @@ from transformers import (
 )
 import numpy as np
 import os
+import sys
+from peft import get_peft_model, LoraConfig, TaskType
+from transformers.trainer_utils import get_last_checkpoint
+
+print("MY EXACT PYTHON PATH:", sys.executable)
+print(torch.__version__)
+print("CUDA available:", torch.cuda.is_available())
 
 os.environ["WANDB_MODE"] = "offline"
 
 # Configuration
 MODEL_NAME = "meta-llama/Llama-3.2-1B"
 OUTPUT_DIR = "./llama-fine-tuned"
-MAX_SEQ_LENGTH = 512
-BATCH_SIZE = 1
+MAX_SEQ_LENGTH = 256
+BATCH_SIZE = 8
 EPOCHS = 3
 LEARNING_RATE = 5e-5
 LOGGING_DIR = "./logs"
 
 print("Loading model and tokenizer from Hugging Face...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+
+# 1. Load the BASE model in 16-bit to save massive amounts of VRAM
 model = AutoModelForSequenceClassification.from_pretrained(
     MODEL_NAME,
     num_labels=1,
-    problem_type="regression"
+    problem_type="regression",
+    torch_dtype=torch.float16,
+    device_map="auto"
 )
+
+# 2. Configure LoRA
+peft_config = LoraConfig(
+    task_type=TaskType.SEQ_CLS, # Sequence Classification (handles regression)
+    r=8,
+    lora_alpha=16,
+    lora_dropout=0.1,
+    target_modules=["q_proj", "v_proj"]
+)
+
+# 3. Wrap the base model with the LoRA adapters
+model = get_peft_model(model, peft_config)
+
+# 4. CRITICAL FIX: Cast ONLY the tiny LoRA adapters to 32-bit so the optimizer doesn't crash
+for param in model.parameters():
+    if param.requires_grad:
+        param.data = param.data.to(torch.float32)
+
+# Print out how many parameters you are actually training now (should be < 1%)
+model.print_trainable_parameters()
+
 
 print("Loading and preprocessing dataset...")
 dataset = pd.read_csv('data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
@@ -55,8 +87,9 @@ train_texts, val_texts, train_rating, val_rating = train_test_split(
 )
 
 if tokenizer.pad_token is None:
-    tokenizer.add_special_tokens({'pad_token': tokenizer.eos_token})
-    model.resize_token_embeddings(len(tokenizer))
+    tokenizer.pad_token = tokenizer.eos_token
+model.config.pad_token_id = tokenizer.pad_token_id
+model.config.use_cache = False
 
 
 def tokenize_texts(texts):
@@ -130,6 +163,7 @@ training_args = TrainingArguments(
     eval_strategy="epoch",
     learning_rate=LEARNING_RATE,
     per_device_train_batch_size=BATCH_SIZE,
+    gradient_accumulation_steps=4,
     per_device_eval_batch_size=BATCH_SIZE,
     num_train_epochs=EPOCHS,
     save_strategy="epoch",
@@ -137,7 +171,8 @@ training_args = TrainingArguments(
     logging_dir=LOGGING_DIR,
     load_best_model_at_end=True,
     report_to=[],
-    remove_unused_columns=False
+    fp16=True,
+    remove_unused_columns=False,
 )
 
 print("Initializing Trainer...")
@@ -150,7 +185,19 @@ trainer = Trainer(
 )
 
 print("Training model...")
-trainer.train()
+
+# Check if the output directory exists and has checkpoints
+last_checkpoint = None
+if os.path.isdir(OUTPUT_DIR):
+    last_checkpoint = get_last_checkpoint(OUTPUT_DIR)
+
+# Tell the trainer to resume if a checkpoint is found
+if last_checkpoint is not None:
+    print(f"Found checkpoint at {last_checkpoint}. Resuming training...")
+    trainer.train(resume_from_checkpoint=last_checkpoint)
+else:
+    print("No existing checkpoints found. Starting training from scratch...")
+    trainer.train()
 
 print("Evaluating model...")
 results = trainer.evaluate()
