@@ -35,7 +35,7 @@ model = AutoModelForSequenceClassification.from_pretrained(
     MODEL_NAME,
     num_labels=1,
     problem_type="regression",
-    torch_dtype=torch.float16,
+    torch_dtype=torch.bfloat16,
     device_map="auto"
 )
 
@@ -54,7 +54,7 @@ model = get_peft_model(model, peft_config)
 # 4. CRITICAL FIX: Cast ONLY the tiny LoRA adapters to 32-bit so the optimizer doesn't crash
 for param in model.parameters():
     if param.requires_grad:
-        param.data = param.data.to(torch.float32)
+        param.data = param.data.to(torch.bfloat16)
 
 # Print out how many parameters you are actually training now (should be < 1%)
 model.print_trainable_parameters()
@@ -171,7 +171,9 @@ training_args = TrainingArguments(
     logging_dir=LOGGING_DIR,
     load_best_model_at_end=True,
     report_to=[],
-    fp16=True,
+    fp16=False,
+    bf16=True,
+    max_grad_norm=1.0,
     remove_unused_columns=False,
 )
 

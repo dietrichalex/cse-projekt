@@ -2,7 +2,10 @@
 .idea/**
 data/*.csv
 data/*.xlsx
-
+**/*.gguf
+/plots
+**/*.png
+/merged_model
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
