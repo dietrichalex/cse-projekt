@@ -24,13 +24,18 @@ OUTPUT_DIR = "./llama-fine-tuned"
 MAX_SEQ_LENGTH = 256
 BATCH_SIZE = 8
 EPOCHS = 3
-LEARNING_RATE = 5e-5
+LEARNING_RATE = 2e-5
 LOGGING_DIR = "./logs"
 
 print("Loading model and tokenizer from Hugging Face...")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-# 1. Load the BASE model in 16-bit to save massive amounts of VRAM
+# 1. CRITICAL: Set padding side to right so pooling grabs the correct final token
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.pad_token_id = tokenizer.eos_token_id
+tokenizer.padding_side = "right"
+
+# Load the BASE model
 model = AutoModelForSequenceClassification.from_pretrained(
     MODEL_NAME,
     num_labels=1,
@@ -39,30 +44,48 @@ model = AutoModelForSequenceClassification.from_pretrained(
     device_map="auto"
 )
 
+# Pass the pad_token_id to the model explicitly
+model.config.pad_token_id = tokenizer.pad_token_id
+model.config.use_cache = False
+
 # 2. Configure LoRA
 peft_config = LoraConfig(
-    task_type=TaskType.SEQ_CLS, # Sequence Classification (handles regression)
+    task_type=TaskType.SEQ_CLS,
     r=8,
     lora_alpha=16,
     lora_dropout=0.1,
-    target_modules=["q_proj", "v_proj"]
+    target_modules=["q_proj", "v_proj"],
+    modules_to_save=["score"]  # <-- CRITICAL: Explicitly mark the regression head as trainable
 )
 
-# 3. Wrap the base model with the LoRA adapters
+# Wrap the base model with the LoRA adapters
 model = get_peft_model(model, peft_config)
 
-# 4. CRITICAL FIX: Cast ONLY the tiny LoRA adapters to 32-bit so the optimizer doesn't crash
-for param in model.parameters():
+# 3. CRITICAL FIXES: Cast parameters and Zero-Initialize the score head
+for name, param in model.named_parameters():
     if param.requires_grad:
-        param.data = param.data.to(torch.bfloat16)
+        # Cast LoRA adapters and the score head to float32 for optimizer stability
+        param.data = param.data.to(torch.float32)
 
-# Print out how many parameters you are actually training now (should be < 1%)
+        # Zero out the regression head to prevent massive initial 7,000,000+ loss
+        if "score" in name:
+            param.data.zero_()
+
+# Print out how many parameters you are actually training now
 model.print_trainable_parameters()
 
 
 print("Loading and preprocessing dataset...")
 dataset = pd.read_csv('data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
 dataset.columns = dataset.columns.str.replace('Column1.', '', regex=False)
+
+# 1. CRITICAL DATA CLEANING: Fix European decimals and force numeric types
+if dataset["Rating"].dtype == object:
+    # If ratings have commas instead of decimals (e.g. "8,5"), fix them
+    dataset["Rating"] = dataset["Rating"].astype(str).str.replace(',', '.')
+
+# Force the column to be numeric. Any weird text or missing data becomes a safe pd.NA / np.nan
+dataset["Rating"] = pd.to_numeric(dataset["Rating"], errors="coerce")
 
 
 # Clean and preprocess texts
@@ -71,17 +94,30 @@ def clean_text(text):
         return ""
     return str(text).strip()
 
-
 texts = [clean_text(text) for text in dataset["Comment"].tolist()]
 rating = dataset["Rating"].tolist()
 
-# Remove empty texts and corresponding ratings
-valid_data = [(t, r) for t, r in zip(texts, rating) if t]  # Filter out empty strings
+# 2. CRITICAL FIX: Filter out BOTH empty texts AND missing ratings
+# pd.notna(r) guarantees no NaNs sneak into our training batches
+valid_data = [(t, r) for t, r in zip(texts, rating) if t and pd.notna(r)]
 texts, rating = zip(*valid_data) if valid_data else ([], [])
 
 if not texts:
     raise ValueError("No valid text data found after cleaning")
 
+# 3. Safe Scaling
+import numpy as np
+rating_array = np.array(rating)
+min_rating = rating_array.min()
+max_rating = rating_array.max()
+
+# Squeeze values between 0.0 and 1.0
+if max_rating > min_rating:
+    rating = ((rating_array - min_rating) / (max_rating - min_rating)).tolist()
+else:
+    rating = rating_array.tolist()
+
+# Split
 train_texts, val_texts, train_rating, val_rating = train_test_split(
     texts, rating, test_size=0.2, random_state=42
 )
@@ -139,7 +175,11 @@ class RegressionDataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         item = {key: torch.tensor(val[idx], dtype=torch.long) for key, val in self.encodings.items()}
-        item['labels'] = torch.tensor(self.targets[idx], dtype=torch.float)
+
+        # CRITICAL FIX: The brackets [ ] around self.targets[idx] force it into a 2D shape,
+        # preventing the catastrophic PyTorch broadcasting bug.
+        item['labels'] = torch.tensor([self.targets[idx]], dtype=torch.float)
+
         return item
 
 
@@ -167,13 +207,19 @@ training_args = TrainingArguments(
     per_device_eval_batch_size=BATCH_SIZE,
     num_train_epochs=EPOCHS,
     save_strategy="epoch",
+
+# --- NEW SAFEGUARDS HERE ---
+    logging_steps=10,        # Watch the loss closely from the very beginning
+    warmup_steps=200,        # Slowly ease the learning rate in over 200 steps
+    max_grad_norm=0.5,       # Stricter gradient clipping to stop sudden explosions
+    # ---------------------------
+
     save_total_limit=2,
     logging_dir=LOGGING_DIR,
     load_best_model_at_end=True,
     report_to=[],
     fp16=False,
     bf16=True,
-    max_grad_norm=1.0,
     remove_unused_columns=False,
 )
 
