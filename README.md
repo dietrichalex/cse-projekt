@@ -38,3 +38,11 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem"
 + install cuda 11.8
 + install torch
 `pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118`
+
+## convert fine tuned model to .gguf file (to use in lm-studio)
+1. run merge_model.py in /helpers
+2. build llama.cpp submodule (with make or cmake)
+3. run ``` python convert_hf_to_gguf.py ../merged_model --outfile ../custom-model.gguf --outtype f16``` (whilst in llama.cpp folder)
+4. to quantize the model run ```.\build\bin\Release\llama-quantize.exe ../custom-model.gguf ../custom-model-Q4_K_M.gguf Q4_K_M ```
+5. then create custom folder structure ```user/.cache/lm-studio/models/PUBLISHER/CUSTOM-MODEL/CUSTOM_MODEL.gguf```
+6. run in lm-studio
