@@ -23,7 +23,7 @@ torch.cuda.empty_cache()
 
 # Configuration
 MODEL_NAME = "meta-llama/Llama-3.2-1B"
-OUTPUT_DIR = "./llama-fine-tuned"
+OUTPUT_DIR = "../llama-fine-tuned"
 MAX_SEQ_LENGTH = 256
 BATCH_SIZE = 4
 GRADIENT_ACCUMULATION_STEPS = 4
@@ -66,7 +66,7 @@ print("\nTrainable parameters:")
 model.print_trainable_parameters()
 
 print("Loading and preprocessing dataset...")
-dataset = pd.read_csv('data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
+dataset = pd.read_csv('../data/Scouting_Reports_FCA.csv', encoding="utf8", delimiter=';')
 dataset.columns = dataset.columns.str.replace('Column1.', '', regex=False)
 
 

@@ -101,7 +101,7 @@ def send_prompt(current_prompt: str):
 def main():
     data = get_data()
     data = filter_data(data)
-    send_prompt(data.iloc[0]['Comment'])
+    send_prompt(data.iloc[1]['Comment'])
 
 
 if __name__ == '__main__':
