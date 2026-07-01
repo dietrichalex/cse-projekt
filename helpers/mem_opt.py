@@ -59,7 +59,6 @@ base_model = AutoModelForSequenceClassification.from_pretrained(
     device_map="auto"
 )
 
-# Prepare the model for k-bit training
 model = prepare_model_for_kbit_training(base_model)
 model = get_peft_model(model, lora_config)
 print("\nTrainable parameters:")
@@ -177,7 +176,6 @@ training_args = TrainingArguments(
     weight_decay=0.01,
 )
 
-# Optional: Set torch's multiprocessing start method
 import torch.multiprocessing
 
 torch.multiprocessing.set_start_method('spawn', force=True)

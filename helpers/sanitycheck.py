@@ -5,7 +5,7 @@ model_path = "../merged_model"
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="cpu")
 
-inputs = tokenizer("Hello, who are you?", return_tensors="pt")
+inputs = tokenizer("Hello", return_tensors="pt")
 outputs = model.generate(**inputs, max_new_tokens=10)
 
 print("\n--- NATIVE OUTPUT ---")

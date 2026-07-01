@@ -15,13 +15,12 @@ if "lm_head.weight" not in tensors:
     print("lm_head.weight is missing. Duplicating model.embed_tokens.weight...")
     tensors["lm_head.weight"] = tensors["model.embed_tokens.weight"].clone()
 
-    # Write to a completely new file so Windows doesn't block us
     print("Saving modified tensors to a temporary file...")
     save_file(tensors, temp_file_path)
 
     print("Releasing memory map locks...")
-    del tensors  # Destroy the variable holding the memory map
-    gc.collect()  # Force Python to run garbage collection and release the file handle
+    del tensors
+    gc.collect()
 
     print("Swapping files...")
     os.remove(tensor_file_path)
